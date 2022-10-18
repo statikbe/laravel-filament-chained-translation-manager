@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Statikbe\FilamentTranslationManager\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class FilamentTranslationManagerCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel-filament-chained-translation-manager';
 
     public $description = 'My command';
 
