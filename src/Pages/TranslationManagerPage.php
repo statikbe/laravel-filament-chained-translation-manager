@@ -7,6 +7,7 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Pages\Page;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Statikbe\FilamentTranslationManager\FilamentTranslationManager;
 use Statikbe\LaravelChainedTranslator\ChainedTranslationManager;
@@ -17,12 +18,23 @@ class TranslationManagerPage extends Page
 
     protected static ?string $navigationIcon = 'heroicon-o-translate';
     private ChainedTranslationManager $chainedTranslationManager;
+
     /**
-     * @var mixed[]
+     * @var array<string>
      */
     public array $groups;
+    /**
+     * @var array<string>
+     */
     public array $locales;
+    /**
+     * @var array<{ 'title': string, 'type': string, 'group': string, 'key': string, 'translations': array<string, string> }>
+     */
     public array $translations;
+    /**
+     * @var Collection<{ 'title': string, 'type': string, 'group': string, 'key': string, 'translations': array<string, string> }>
+     */
+    public Collection $filteredTranslations;
 
     //filters
     public string $searchTerm = '';
@@ -41,7 +53,7 @@ class TranslationManagerPage extends Page
             'except' => '',
         ],
         'onlyShowMissingTranslations' => [
-            'except' => 0,
+            'except' => true,
         ],
         'selectedGroups',
         'selectedLanguages',
@@ -75,6 +87,7 @@ class TranslationManagerPage extends Page
         $this->locales = $this->getLocalesData();
 
         $this->translations = $this->getTranslations();
+        $this->filterTranslations();
     }
 
     /**
@@ -95,7 +108,7 @@ class TranslationManagerPage extends Page
             }
         }
 
-        return array_slice(array_values($data),0, 20);
+        return array_values($data);
     }
 
 
@@ -126,25 +139,72 @@ class TranslationManagerPage extends Page
         return [
             TextInput::make('searchTerm')
                 ->disableLabel()
-                ->placeholder(trans('filament-translation-manager::messages.search_term_placeholder')),
+                ->placeholder(trans('filament-translation-manager::messages.search_term_placeholder'))
+                ->prefixIcon('heroicon-o-search'),
             Checkbox::make('onlyShowMissingTranslations')
-                ->label('filament-translation-manager::messages.only_show_missing_translations_lbl')
+                ->label(trans('filament-translation-manager::messages.only_show_missing_translations_lbl'))
                 ->default(false),
             Select::make('selectedGroups')
                 ->disableLabel()
                 ->placeholder(trans('filament-translation-manager::messages.selected_groups_placeholder'))
                 ->multiple()
-                ->options($this->groups),
+                ->options(array_combine($this->groups, $this->groups)),
             Select::make('selectedLanguages')
                 ->disableLabel()
                 ->placeholder(trans('filament-translation-manager::messages.selected_languages_placeholder'))
                 ->multiple()
-                ->options($this->locales),
+                ->options(array_combine($this->locales, $this->locales)),
         ];
     }
 
     public function filterTranslations(): void
     {
-        //TODO
+        $filteredTranslations = collect($this->translations);
+        if($this->searchTerm){
+            $filteredTranslations = $filteredTranslations->filter(function($translationItem, $key){
+                foreach($translationItem['translations'] as $translation){
+                    if(Str::contains($translation, $this->searchTerm, true)){
+                        return true;
+                    }
+                }
+                return false;
+            });
+        }
+
+        if($this->onlyShowMissingTranslations){
+            $filteredTranslations = $filteredTranslations->filter(function($translationItem, $key){
+                //TODO check for selected locales:
+                foreach($translationItem['translations'] as $locale => $translation){
+                    if(empty($translation) || trim($translation) === ''){
+                        return true;
+                    }
+                }
+                return false;
+            });
+        }
+
+        if(!empty($this->selectedGroups)){
+            $filteredTranslations = $filteredTranslations->filter(function($translationItem, $key){
+                return in_array($translationItem['group'], $this->selectedGroups);
+            });
+        }
+
+        $filteredTranslations = $this->paginateTranslations($filteredTranslations);
+
+        $this->filteredTranslations = $filteredTranslations;
+    }
+
+    private function paginateTranslations(Collection $translations): Collection {
+        $translations = $translations->sortBy([
+            ['group', 'asc'],
+            ['key', 'asc'],
+        ]);
+
+        $offset = 0;
+        if($this->pageCounter > 1){
+            $offset = ($this->pageCounter - 1) * self::PAGE_LIMIT;
+        }
+
+        return $translations->slice($offset, self::PAGE_LIMIT);
     }
 }
