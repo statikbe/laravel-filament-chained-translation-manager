@@ -3,21 +3,18 @@
 namespace Statikbe\FilamentTranslationManager\Pages;
 
 use Filament\Facades\Filament;
-use Filament\Forms\Components\Card;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\ViewField;
+use Filament\Forms\Components\TextInput;
 use Filament\Pages\Page;
-use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Statikbe\FilamentTranslationManager\FilamentTranslationManager;
 use Statikbe\LaravelChainedTranslator\ChainedTranslationManager;
 
-class TranslationManager extends Page
+class TranslationManagerPage extends Page
 {
+    const PAGE_LIMIT = 20;
+
     protected static ?string $navigationIcon = 'heroicon-o-translate';
     private ChainedTranslationManager $chainedTranslationManager;
     /**
@@ -27,19 +24,41 @@ class TranslationManager extends Page
     public array $locales;
     public array $translations;
 
-    protected static function getNavigationGroup(): ?string
-    {
-        return config('filament-translation-manager.navigation-group', 'settings');
-    }
+    //filters
+    public string $searchTerm = '';
+    public bool $onlyShowMissingTranslations = false;
+    public array $selectedGroups = [];
+    public array $selectedLanguages = [];
+    public int $pageCounter = 1;
 
-    protected static ?string $navigationGroup = 'settings';
+    protected $queryString = [
+        'pageCounter' => [
+            'except' => 1,
+            'as' => 'page',
+        ],
+        'searchTerm' => [
+            'as' => 'search',
+            'except' => '',
+        ],
+        'onlyShowMissingTranslations' => [
+            'except' => 0,
+        ],
+        'selectedGroups',
+        'selectedLanguages',
+    ];
 
     protected static string $view = 'filament-translation-manager::pages.translation-manager';
 
     protected static bool $shouldRegisterNavigation = true;
 
-    protected function getTitle(): string {
-        return trans('Translations');
+    protected static function getNavigationGroup(): ?string
+    {
+        return config('filament-translation-manager.navigation-group', 'settings');
+    }
+
+    protected function getTitle(): string
+    {
+        return trans('filament-translation-manager::messages.title');
     }
 
     public function mount(ChainedTranslationManager $chainedTranslationManager): void
@@ -56,7 +75,6 @@ class TranslationManager extends Page
         $this->locales = $this->getLocalesData();
 
         $this->translations = $this->getTranslations();
-
     }
 
     /**
@@ -100,7 +118,6 @@ class TranslationManager extends Page
             $dataKey = $group.'.'.$key;
             if (!array_key_exists($dataKey, $data)) {
                 $data[$dataKey] = [
-                    'id' => Str::random(20),
                     'title' => $group.' - '. $key,
                     'type' => 'group',
                     'group' => $group,
@@ -112,5 +129,32 @@ class TranslationManager extends Page
         }
 
         return $data;
+    }
+
+    public function getFormSchema(): array
+    {
+        return [
+            TextInput::make('searchTerm')
+                ->disableLabel()
+                ->placeholder(trans('filament-translation-manager::messages.search_term_placeholder')),
+            Checkbox::make('onlyShowMissingTranslations')
+                ->label('filament-translation-manager::messages.only_show_missing_translations_lbl')
+                ->default(false),
+            Select::make('selectedGroups')
+                ->disableLabel()
+                ->placeholder(trans('filament-translation-manager::messages.selected_groups_placeholder'))
+                ->multiple()
+                ->options($this->groups),
+            Select::make('selectedLanguages')
+                ->disableLabel()
+                ->placeholder(trans('filament-translation-manager::messages.selected_languages_placeholder'))
+                ->multiple()
+                ->options($this->locales),
+        ];
+    }
+
+    public function filterTranslations(): void
+    {
+        //TODO
     }
 }

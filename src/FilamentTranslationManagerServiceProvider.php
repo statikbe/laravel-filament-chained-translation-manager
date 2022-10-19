@@ -5,12 +5,12 @@ namespace Statikbe\FilamentTranslationManager;
 use Spatie\LaravelPackageTools\Package;
 use Filament\PluginServiceProvider;
 use Statikbe\FilamentTranslationManager\Commands\FilamentTranslationManagerCommand;
-use Statikbe\FilamentTranslationManager\Pages\TranslationManager;
+use Statikbe\FilamentTranslationManager\Pages\TranslationManagerPage;
 
 class FilamentTranslationManagerServiceProvider extends PluginServiceProvider
 {
     protected array $pages = [
-        TranslationManager::class,
+        TranslationManagerPage::class,
     ];
 
     public function configurePackage(Package $package): void
@@ -23,6 +23,7 @@ class FilamentTranslationManagerServiceProvider extends PluginServiceProvider
         $package
             ->name('filament-translation-manager')
             ->hasViews()
+            ->hasTranslations()
             ->hasConfigFile()
         ;
     }
