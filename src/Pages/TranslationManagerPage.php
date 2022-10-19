@@ -47,7 +47,7 @@ class TranslationManagerPage extends Page
         'selectedLanguages',
     ];
 
-    protected static string $view = 'filament-translation-manager::pages.translation-manager';
+    protected static string $view = 'filament-translation-manager::pages.translation-manager-page';
 
     protected static bool $shouldRegisterNavigation = true;
 
