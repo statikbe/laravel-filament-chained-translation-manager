@@ -22,7 +22,7 @@ class TranslationEditForm extends Component
     {
         $chainedTranslationManager = app(ChainedTranslationManager::class);
 
-        if ($this->translations[$locale] === $this->initialTranslations[$locale]){
+        if (($this->translations[$locale] ?? null) === ($this->initialTranslations[$locale] ?? null)){
             return;
         }
 

@@ -83,25 +83,15 @@ class TranslationManagerPage extends Page
      */
     protected function getLocalesData(): array
     {
-        $locales = FilamentTranslationManager::getLocales();
-        $localesData = [];
-
-        foreach($locales as $locale){
-            $localesData[] = [
-                'locale' => $locale,
-                'language' => trans($locale),
-            ];
-        }
-
-        return $localesData;
+        return FilamentTranslationManager::getLocales();
     }
 
     private function getTranslations(): array
     {
         $data = [];
-        foreach ($this->locales as $language) {
+        foreach ($this->locales as $locale) {
             foreach ($this->groups as $group) {
-                $this->addTranslationsToData($data, $language, $group);
+                $this->addTranslationsToData($data, $locale, $group);
             }
         }
 
@@ -109,9 +99,9 @@ class TranslationManagerPage extends Page
     }
 
 
-    private function addTranslationsToData(array &$data, array $language, string $group): array
+    private function addTranslationsToData(array &$data, string $locale, string $group): array
     {
-        $translations = $this->chainedTranslationManager->getTranslationsForGroup($language['locale'], $group);
+        $translations = $this->chainedTranslationManager->getTranslationsForGroup($locale, $group);
 
         //transform to data structure necessary for frontend
         foreach ($translations as $key => $translation) {
@@ -125,7 +115,7 @@ class TranslationManagerPage extends Page
                     'translations' => [],
                 ];
             }
-            $data[$dataKey]['translations'][$language['locale']] = $translation;
+            $data[$dataKey]['translations'][$locale] = $translation;
         }
 
         return $data;

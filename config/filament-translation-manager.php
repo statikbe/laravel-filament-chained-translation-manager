@@ -18,7 +18,8 @@ return [
 
     'supported_locales' => [
         'en',
-        'nl'
+        'nl',
+        'fr'
     ],
 
     'ignore_groups' => [
