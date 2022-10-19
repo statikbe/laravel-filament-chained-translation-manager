@@ -2,9 +2,11 @@
 
 namespace Statikbe\FilamentTranslationManager;
 
+use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Filament\PluginServiceProvider;
 use Statikbe\FilamentTranslationManager\Commands\FilamentTranslationManagerCommand;
+use Statikbe\FilamentTranslationManager\Http\Livewire\TranslationEditForm;
 use Statikbe\FilamentTranslationManager\Pages\TranslationManager;
 
 class FilamentTranslationManagerServiceProvider extends PluginServiceProvider
@@ -35,5 +37,7 @@ class FilamentTranslationManagerServiceProvider extends PluginServiceProvider
         );
 
         FilamentTranslationManager::setLocales($supportedLocales);
+
+        Livewire::component('translation-edit-form', TranslationEditForm::class);
     }
 }

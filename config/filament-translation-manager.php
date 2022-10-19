@@ -20,4 +20,8 @@ return [
         'en',
         'nl'
     ],
+
+    'ignore_groups' => [
+        'single'
+    ],
 ];
