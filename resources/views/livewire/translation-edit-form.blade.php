@@ -11,7 +11,9 @@
                         $dispatch('close-forms');
                         this.editing = true;
                         $nextTick(() => {
-                            $refs.input.focus();
+                            setTimeout(() => {
+                                $refs.input.focus();
+                            }, 50); //Adding a small delay makes this way more consistent
                         });
                     },
                     closeWithSave(){
@@ -43,7 +45,7 @@
                     >
                         {{ $locale }}:
                     </label>
-                    <x-filament::link x-show="!editing" @click="openForm" class="w-full">
+                    <x-filament::link x-show="!editing" @click="openForm" class="w-full cursor-pointer">
                         <div class="w-full p-2">
                             {{ $translations[$locale] ?? null }}
                         </div>
