@@ -2,7 +2,6 @@
 
 namespace Statikbe\FilamentTranslationManager\Pages;
 
-use Filament\Facades\Filament;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -42,6 +41,8 @@ class TranslationManagerPage extends Page
     public array $selectedGroups = [];
     public array $selectedLanguages = [];
     public int $pageCounter = 1;
+    public int $pagedTranslations = 0;
+    public int $totalFilteredTranslations = 0;
 
     protected $queryString = [
         'pageCounter' => [
@@ -88,6 +89,7 @@ class TranslationManagerPage extends Page
 
         $this->translations = $this->getTranslations();
         $this->filterTranslations();
+        $this->selectedLanguages = $this->locales;
     }
 
     /**
@@ -204,6 +206,9 @@ class TranslationManagerPage extends Page
         if($this->pageCounter > 1){
             $offset = ($this->pageCounter - 1) * self::PAGE_LIMIT;
         }
+
+        $this->pagedTranslations = $offset + self::PAGE_LIMIT;
+        $this->totalFilteredTranslations = count($translations);
 
         return $translations->slice($offset, self::PAGE_LIMIT);
     }
