@@ -12,4 +12,6 @@ return [
     'previous_page' => 'Previous',
     'next_page' => 'Next',
     'missing_translation' => 'Translation not filled in',
+    'filter_action' => 'Filter',
+    'filter_results' => 'Filtered out :filtered of :total translations.',
 ];
