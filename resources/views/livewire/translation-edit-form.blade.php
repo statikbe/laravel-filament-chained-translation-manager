@@ -1,6 +1,6 @@
 <div>
     <x-filament::card>
-        <p class="">{{ $this->group . ' - '. $this->translationKey }}</p>
+        <p class="">{{ $group . ' - '. $translationKey }}</p>
         <div class="text-base grid">
             @foreach($locales as $locale)
                 <div
@@ -11,9 +11,7 @@
                         $dispatch('close-forms');
                         this.editing = true;
                         $nextTick(() => {
-                            setTimeout(() => {
-                                $refs.input.focus();
-                            }, 50); //For some reason it wont work if we set it too fast
+                            $refs.input.focus();
                         });
                     },
                     closeWithSave(){
@@ -38,7 +36,7 @@
                 >
                     <label
                         x-ref="label"
-                        for="translations.{{ $locale }}"
+                        for="{{$this->group}}.{{$this->translationKey}}.translations.{{ $locale }}"
                         class="w-16"
                         x-bind:tabindex="!editing && '0'"
                         @focus="openForm"
@@ -58,7 +56,7 @@
                             <input
                                 x-ref="input"
                                 type="text"
-                                id="translations.{{ $locale }}"
+                                id="{{$this->group}}.{{$this->translationKey}}.translations.{{ $locale }}"
                                 class="{{
                                 'block w-full transition duration-75 rounded-lg shadow-sm focus:border-primary-500 focus:ring-1 focus:ring-inset focus:ring-primary-500 disabled:opacity-70 border-gray-300' .
                                 (config('forms.dark_mode') ? 'dark:bg-gray-700 dark:text-white dark:focus:border-primary-500' : null)
