@@ -1,25 +1,33 @@
 <?php
 
-// config for Statikbe/FilamentTranslationManager
 return [
-    'navigation-group' => 'settings',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Application Supported Locale Configuration
-    |--------------------------------------------------------------------------
-    |
-    | The application locale determines the possible locales that can be used.
-    | You are free to fill this array with any of the locales which will be
-    | supported by the application.
-    |
-    |
-    */
+    'enabled' => true,
 
     'supported_locales' => [
         'en',
         'nl',
         'fr'
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Access
+    |--------------------------------------------------------------------------
+    |
+    | Limited = false (default)
+    |   Anyone can use the translation manager.
+    |
+    | Limited = true
+    |   The page will use the provided gate to see if the user has access.
+    |   - Default Laravel: you can define the gate in a service provider
+            (https://laravel.com/docs/9.x/authorization)
+    |   - Spatie permissions: fill gate with a permission you want to check against
+    |
+    |
+    */
+    'access' => [
+        'limited' => false,
+        //'gate' => 'view-filament-translation-manager',
     ],
 
     'ignore_groups' => [
