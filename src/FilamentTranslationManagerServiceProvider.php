@@ -10,10 +10,6 @@ use Statikbe\FilamentTranslationManager\Pages\TranslationManagerPage;
 
 class FilamentTranslationManagerServiceProvider extends PluginServiceProvider
 {
-    protected array $pages = [
-        'translation-manager-page' => TranslationManagerPage::class,
-    ];
-
     public function configurePackage(Package $package): void
     {
         /*
@@ -42,5 +38,16 @@ class FilamentTranslationManagerServiceProvider extends PluginServiceProvider
 
         Livewire::component(TranslationManagerPage::class::getName(), TranslationManagerPage::class);
         Livewire::component('translation-edit-form', TranslationEditForm::class);
+    }
+
+    protected function getPages(): array
+    {
+        $pages = [];
+
+        if (config('filament-translation-manager.enabled')) {
+            $pages['translation-manager-page'] =TranslationManagerPage::class;
+        }
+
+        return $pages;
     }
 }

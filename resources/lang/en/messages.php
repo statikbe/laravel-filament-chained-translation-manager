@@ -2,6 +2,7 @@
 
 return [
     'title' => 'Translation manager',
+    'navigation-group' => 'Settings',
     'search_term_placeholder' => 'Search translation',
     'selected_groups_placeholder' => 'Select group',
     'selected_languages_placeholder' => 'Select language',

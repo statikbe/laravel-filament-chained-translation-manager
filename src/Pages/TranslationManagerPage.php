@@ -7,6 +7,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Pages\Page;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Statikbe\FilamentTranslationManager\FilamentTranslationManager;
 use Statikbe\LaravelChainedTranslator\ChainedTranslationManager;
@@ -62,11 +63,23 @@ class TranslationManagerPage extends Page
 
     protected static string $view = 'filament-translation-manager::pages.translation-manager-page';
 
-    protected static bool $shouldRegisterNavigation = true;
+    protected static function shouldRegisterNavigation(): bool
+    {
+        if (config('filament-translation-manager.access.limited')){
+            return Gate::allows(config('filament-translation-manager.access.gate'));
+        }
+
+        return true;
+    }
 
     protected static function getNavigationGroup(): ?string
     {
-        return config('filament-translation-manager.navigation-group', 'settings');
+        return trans('filament-translation-manager::messages.navigation-group');
+    }
+
+    protected static function getNavigationLabel(): string
+    {
+        return trans('filament-translation-manager::messages.title');
     }
 
     protected function getTitle(): string
@@ -76,6 +89,10 @@ class TranslationManagerPage extends Page
 
     public function mount(ChainedTranslationManager $chainedTranslationManager): void
     {
+        if (config('filament-translation-manager.access.limited')){
+            Gate::authorize(config('filament-translation-manager.access.gate'));
+        }
+
         $this->chainedTranslationManager = $chainedTranslationManager;
         $this->loadInitialData();
     }
