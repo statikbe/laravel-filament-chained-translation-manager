@@ -17,14 +17,13 @@
         @endif
     @endforelse
 
-    @dump($pageCounter)
+    <div id="pagination">
     @if($pageCounter > 1)
-        <div>@lang('filament-translation-manager::messages.previous_page')</div>
+        <button wire:click="previousPage">@lang('filament-translation-manager::messages.previous_page')</button>
     @endif
-    @dump($totalFilteredTranslations)
 
     @if($totalFilteredTranslations > $pagedTranslations)
-        <div>@lang('filament-translation-manager::messages.next_page')</div>
+        <button wire:click="nextPage">@lang('filament-translation-manager::messages.next_page')</button>
     @endif
-
+    </div>
 </x-filament::page>

@@ -212,4 +212,18 @@ class TranslationManagerPage extends Page
 
         return $translations->slice($offset, self::PAGE_LIMIT);
     }
+
+    public function previousPage(){
+        if($this->pageCounter > 1) {
+            $this->pageCounter -= 1;
+            $this->filterTranslations();
+        }
+    }
+
+    public function nextPage(){
+        if($this->pageCounter * self::PAGE_LIMIT <= $this->totalFilteredTranslations) {
+            $this->pageCounter += 1;
+            $this->filterTranslations();
+        }
+    }
 }
