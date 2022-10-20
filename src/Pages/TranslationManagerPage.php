@@ -31,7 +31,7 @@ class TranslationManagerPage extends Page
     public array $locales;
 
     /**
-     * @var Collection<{ 'title': string, 'type': string, 'group': string, 'key': string, 'translations': array<string, string> }>
+     * @var Collection{ 'title': string, 'type': string, 'group': string, 'key': string, 'translations': array<string, string> }
      */
     public Collection $filteredTranslations;
 
