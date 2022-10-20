@@ -14,4 +14,5 @@ return [
     'missing_translation' => 'Translation not filled in',
     'filter_action' => 'Filter',
     'filter_results' => 'Filtered out :filtered of :total translations.',
+    'filter_results_missing_translations' => ':missing are missing translations (:percent%).'
 ];

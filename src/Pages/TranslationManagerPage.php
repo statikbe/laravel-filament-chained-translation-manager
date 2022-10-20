@@ -44,6 +44,7 @@ class TranslationManagerPage extends Page
     public int $pagedTranslations = 0;
     public int $totalFilteredTranslations = 0;
     public int $totalTranslations = 0;
+    public int $totalMissingFilteredTranslations = 0;
 
     protected $queryString = [
         'pageCounter' => [
@@ -97,7 +98,7 @@ class TranslationManagerPage extends Page
         $this->loadInitialData();
     }
 
-    private function loadInitialData()
+    private function loadInitialData(): void
     {
         $groups = $this->getChainedTranslationManager()->getTranslationGroups();
         $this->groups = collect($groups)->diff(config('filament-translation-manager.ignore_groups',[]))->values()->toArray();
@@ -220,6 +221,8 @@ class TranslationManagerPage extends Page
             });
         }
 
+        $this->totalMissingFilteredTranslations = $this->countMissingTranslations($filteredTranslations);
+
         $filteredTranslations = $this->paginateTranslations($filteredTranslations);
 
         $this->filteredTranslations = $filteredTranslations;
@@ -242,7 +245,7 @@ class TranslationManagerPage extends Page
         return $translations->slice($offset, self::PAGE_LIMIT);
     }
 
-    private function getChainedTranslationManager()
+    private function getChainedTranslationManager(): ChainedTranslationManager
     {
         if (!isset($this->chainedTranslationManager)){
             $this->chainedTranslationManager = app(ChainedTranslationManager::class);
@@ -251,22 +254,44 @@ class TranslationManagerPage extends Page
         return $this->chainedTranslationManager;
     }
 
-    public function submitFilters(){
+    public function submitFilters(): void {
         $this->pageCounter = 1;
         $this->filterTranslations();
     }
 
-    public function previousPage(){
+    public function previousPage(): void {
         if($this->pageCounter > 1) {
             $this->pageCounter -= 1;
             $this->filterTranslations();
         }
     }
 
-    public function nextPage(){
+    public function nextPage(): void {
         if($this->pageCounter * self::PAGE_LIMIT <= $this->totalFilteredTranslations) {
             $this->pageCounter += 1;
             $this->filterTranslations();
         }
+    }
+
+    private function countMissingTranslations(Collection $translations): int {
+        $selectedLocales = !empty($this->selectedLocales) ? $this->selectedLocales : $this->locales;
+        return $translations->reduce(function($carry, $translationItem) use ($selectedLocales) {
+            $missing = false;
+            //check if all selected locales are available in the translation item, by intersecting the locales of the
+            // translation item and the selected locales and seeing if the size matches with the selected locales.
+            if(count(array_intersect($selectedLocales, array_keys($translationItem['translations']))) !== count($selectedLocales)){
+                $missing = true;
+            }
+            else {
+                foreach($translationItem['translations'] as $locale => $translation) {
+                    if(in_array($locale, $selectedLocales)) {
+                        if(empty($translation) || trim($translation) === '') {
+                            $missing = true;
+                        }
+                    }
+                }
+            }
+            return $carry + ($missing ? 1 : 0);
+        }, 0);
     }
 }

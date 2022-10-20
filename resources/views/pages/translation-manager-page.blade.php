@@ -20,6 +20,8 @@
 
     <div>
         @lang('filament-translation-manager::messages.filter_results', ['filtered' => $totalFilteredTranslations, 'total' => $totalTranslations])
+        @lang('filament-translation-manager::messages.filter_results_missing_translations', ['missing' => $totalMissingFilteredTranslations,
+            'percent' => number_format(($totalMissingFilteredTranslations / $totalFilteredTranslations) * 100, 0)])
     </div>
 
     @forelse($filteredTranslations as $translation)
