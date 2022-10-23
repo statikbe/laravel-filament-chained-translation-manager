@@ -158,6 +158,33 @@ public function boot()
 }
 ```
 
+### Access
+
+You can limit the access to the Translation Manager, by configuring the `access` variable. 
+If you set the `limited` key to `true`, you can set a Laravel Gate class or a permission name of the [Spatie Permissions package](https://github.com/spatie/laravel-permission).
+
+```php 
+/*
+|--------------------------------------------------------------------------
+| Access
+|--------------------------------------------------------------------------
+|
+| Limited = false (default)
+|   Anyone can use the translation manager.
+|
+| Limited = true
+|   The page will use the provided gate to see if the user has access.
+|   - Default Laravel: you can define the gate in a service provider (https://laravel.com/docs/9.x/authorization)
+|   - Spatie permissions: set the 'gate' variable to a permission name you want to check against, see the example below.
+|
+|
+*/
+'access' => [
+    'limited' => false,
+    //'gate' => 'view-filament-translation-manager',
+],
+```
+
 ### Ignoring groups
 
 You may also ignore certain groups of translations to be shown in the Nova UI. Create an array with keys that you want to ignore:
