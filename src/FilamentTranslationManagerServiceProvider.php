@@ -2,9 +2,9 @@
 
 namespace Statikbe\FilamentTranslationManager;
 
+use Filament\PluginServiceProvider;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
-use Filament\PluginServiceProvider;
 use Statikbe\FilamentTranslationManager\Http\Livewire\TranslationEditForm;
 use Statikbe\FilamentTranslationManager\Pages\TranslationManagerPage;
 
@@ -21,17 +21,16 @@ class FilamentTranslationManagerServiceProvider extends PluginServiceProvider
             ->name('filament-translation-manager')
             ->hasViews()
             ->hasTranslations()
-            ->hasConfigFile()
-        ;
+            ->hasConfigFile();
     }
 
     public function packageBooted(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/filament-translation-manager.php', 'filament-translation-manager');
+        $this->mergeConfigFrom(__DIR__.'/../config/filament-translation-manager.php', 'filament-translation-manager');
 
         $supportedLocales = config(
             'filament-translation-manager.supported_locales',
-            config('app.supported_locales',['en'])
+            config('app.supported_locales', ['en'])
         );
 
         FilamentTranslationManager::setLocales($supportedLocales);
@@ -45,7 +44,7 @@ class FilamentTranslationManagerServiceProvider extends PluginServiceProvider
         $pages = [];
 
         if (config('filament-translation-manager.enabled')) {
-            $pages['translation-manager-page'] =TranslationManagerPage::class;
+            $pages['translation-manager-page'] = TranslationManagerPage::class;
         }
 
         return $pages;

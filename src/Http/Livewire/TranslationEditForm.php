@@ -9,12 +9,17 @@ use Statikbe\LaravelChainedTranslator\ChainedTranslationManager;
 class TranslationEditForm extends Component
 {
     public string $group;
+
     public string $translationKey; //"key" is reserved for wire:key
+
     public array $translations;
+
     public array $initialTranslations;
+
     public array $locales;
 
-    public function mount(){
+    public function mount()
+    {
         $this->initialTranslations = $this->translations;
     }
 
@@ -22,7 +27,7 @@ class TranslationEditForm extends Component
     {
         $chainedTranslationManager = app(ChainedTranslationManager::class);
 
-        if (($this->translations[$locale] ?? null) === ($this->initialTranslations[$locale] ?? null)){
+        if (($this->translations[$locale] ?? null) === ($this->initialTranslations[$locale] ?? null)) {
             return;
         }
 

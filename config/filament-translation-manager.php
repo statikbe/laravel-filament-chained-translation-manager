@@ -3,10 +3,20 @@
 return [
     'enabled' => true,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Application Supported Locale Configuration
+    |--------------------------------------------------------------------------
+    |
+    | The application locale determines the possible locales that can be used.
+    | You are free to fill this array with any of the locales which will be
+    | supported by the application.
+    |
+    */
     'supported_locales' => [
         'en',
         'nl',
-        'fr'
+        'fr',
     ],
 
     /*
@@ -21,7 +31,7 @@ return [
     |   The page will use the provided gate to see if the user has access.
     |   - Default Laravel: you can define the gate in a service provider
             (https://laravel.com/docs/9.x/authorization)
-    |   - Spatie permissions: fill gate with a permission you want to check against
+    |   - Spatie permissions: set the 'gate' variable to a permission name you want to check against, see the example below.
     |
     |
     */
@@ -30,7 +40,15 @@ return [
         //'gate' => 'view-filament-translation-manager',
     ],
 
+    /*
+     |--------------------------------------------------------------------------
+     | Ignore Groups
+     |--------------------------------------------------------------------------
+     |
+     | You can list the translation groups that you do not want users to translate.
+     | Note: the JSON files are grouped in 'single'.
+     */
     'ignore_groups' => [
-        'single'
+        'single',
     ],
 ];

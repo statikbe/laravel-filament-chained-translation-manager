@@ -18,6 +18,7 @@ class TranslationManagerPage extends Page
     const PAGE_LIMIT = 20;
 
     protected static ?string $navigationIcon = 'heroicon-o-translate';
+
     private ChainedTranslationManager $chainedTranslationManager;
 
     /**
@@ -37,13 +38,21 @@ class TranslationManagerPage extends Page
 
     //filters
     public string $searchTerm = '';
+
     public bool $onlyShowMissingTranslations = false;
+
     public array $selectedGroups = [];
+
     public array $selectedLocales = [];
+
     public int $pageCounter = 1;
+
     public int $pagedTranslations = 0;
+
     public int $totalFilteredTranslations = 0;
+
     public int $totalTranslations = 0;
+
     public int $totalMissingFilteredTranslations = 0;
 
     protected $queryString = [
@@ -67,7 +76,7 @@ class TranslationManagerPage extends Page
 
     protected static function shouldRegisterNavigation(): bool
     {
-        if (config('filament-translation-manager.access.limited')){
+        if (config('filament-translation-manager.access.limited')) {
             return Gate::allows(config('filament-translation-manager.access.gate'));
         }
 
@@ -91,7 +100,7 @@ class TranslationManagerPage extends Page
 
     public function mount(): void
     {
-        if (config('filament-translation-manager.access.limited')){
+        if (config('filament-translation-manager.access.limited')) {
             Gate::authorize(config('filament-translation-manager.access.gate'));
         }
 
@@ -101,7 +110,7 @@ class TranslationManagerPage extends Page
     private function loadInitialData(): void
     {
         $groups = $this->getChainedTranslationManager()->getTranslationGroups();
-        $this->groups = collect($groups)->diff(config('filament-translation-manager.ignore_groups',[]))->values()->toArray();
+        $this->groups = collect($groups)->diff(config('filament-translation-manager.ignore_groups', []))->values()->toArray();
 
         $this->locales = $this->getLocalesData();
         $this->selectedLocales = $this->locales;
@@ -111,6 +120,7 @@ class TranslationManagerPage extends Page
 
     /**
      * Returns a list of the configured, supported locales (key: locale) with their names (key: language).
+     *
      * @return array
      */
     protected function getLocalesData(): array
@@ -131,7 +141,6 @@ class TranslationManagerPage extends Page
         return array_values($data);
     }
 
-
     private function addTranslationsToData(array &$data, string $locale, string $group): array
     {
         $translations = $this->getChainedTranslationManager()->getTranslationsForGroup($locale, $group);
@@ -139,9 +148,9 @@ class TranslationManagerPage extends Page
         //transform to data structure necessary for frontend
         foreach ($translations as $key => $translation) {
             $dataKey = $group.'.'.$key;
-            if (!array_key_exists($dataKey, $data)) {
+            if (! array_key_exists($dataKey, $data)) {
                 $data[$dataKey] = [
-                    'title' => $group.' - '. $key,
+                    'title' => $group.' - '.$key,
                     'type' => 'group',
                     'group' => $group,
                     'translation-key' => $key,
@@ -190,33 +199,35 @@ class TranslationManagerPage extends Page
         $filteredTranslations = collect($this->getTranslations());
         $this->totalTranslations = $filteredTranslations->count();
 
-        if($this->searchTerm){
-            $filteredTranslations = $filteredTranslations->filter(function($translationItem, $key){
-                foreach($translationItem['translations'] as $translation){
-                    if(Str::contains($translation, $this->searchTerm, true)){
+        if ($this->searchTerm) {
+            $filteredTranslations = $filteredTranslations->filter(function ($translationItem, $key) {
+                foreach ($translationItem['translations'] as $translation) {
+                    if (Str::contains($translation, $this->searchTerm, true)) {
                         return true;
                     }
                 }
+
                 return false;
             });
         }
 
-        if($this->onlyShowMissingTranslations){
-            $selectedLocales = !empty($this->selectedLocales) ? $this->selectedLocales : $this->locales;
-            $filteredTranslations = $filteredTranslations->filter(function($translationItem, $key) use ($selectedLocales) {
-                foreach($translationItem['translations'] as $locale => $translation){
-                    if(in_array($locale, $selectedLocales)) {
-                        if(empty($translation) || trim($translation) === '') {
+        if ($this->onlyShowMissingTranslations) {
+            $selectedLocales = ! empty($this->selectedLocales) ? $this->selectedLocales : $this->locales;
+            $filteredTranslations = $filteredTranslations->filter(function ($translationItem, $key) use ($selectedLocales) {
+                foreach ($translationItem['translations'] as $locale => $translation) {
+                    if (in_array($locale, $selectedLocales)) {
+                        if (empty($translation) || trim($translation) === '') {
                             return true;
                         }
                     }
                 }
+
                 return false;
             });
         }
 
-        if(!empty($this->selectedGroups)){
-            $filteredTranslations = $filteredTranslations->filter(function($translationItem, $key){
+        if (! empty($this->selectedGroups)) {
+            $filteredTranslations = $filteredTranslations->filter(function ($translationItem, $key) {
                 return in_array($translationItem['group'], $this->selectedGroups);
             });
         }
@@ -228,14 +239,15 @@ class TranslationManagerPage extends Page
         $this->filteredTranslations = $filteredTranslations;
     }
 
-    private function paginateTranslations(Collection $translations): Collection {
+    private function paginateTranslations(Collection $translations): Collection
+    {
         $translations = $translations->sortBy([
             ['group', 'asc'],
             ['key', 'asc'],
         ]);
 
         $offset = 0;
-        if($this->pageCounter > 1){
+        if ($this->pageCounter > 1) {
             $offset = ($this->pageCounter - 1) * self::PAGE_LIMIT;
         }
 
@@ -247,50 +259,55 @@ class TranslationManagerPage extends Page
 
     private function getChainedTranslationManager(): ChainedTranslationManager
     {
-        if (!isset($this->chainedTranslationManager)){
+        if (! isset($this->chainedTranslationManager)) {
             $this->chainedTranslationManager = app(ChainedTranslationManager::class);
         }
 
         return $this->chainedTranslationManager;
     }
 
-    public function submitFilters(): void {
+    public function submitFilters(): void
+    {
         $this->pageCounter = 1;
         $this->filterTranslations();
     }
 
-    public function previousPage(): void {
-        if($this->pageCounter > 1) {
+    public function previousPage(): void
+    {
+        if ($this->pageCounter > 1) {
             $this->pageCounter -= 1;
             $this->filterTranslations();
         }
     }
 
-    public function nextPage(): void {
-        if($this->pageCounter * self::PAGE_LIMIT <= $this->totalFilteredTranslations) {
+    public function nextPage(): void
+    {
+        if ($this->pageCounter * self::PAGE_LIMIT <= $this->totalFilteredTranslations) {
             $this->pageCounter += 1;
             $this->filterTranslations();
         }
     }
 
-    private function countMissingTranslations(Collection $translations): int {
-        $selectedLocales = !empty($this->selectedLocales) ? $this->selectedLocales : $this->locales;
-        return $translations->reduce(function($carry, $translationItem) use ($selectedLocales) {
+    private function countMissingTranslations(Collection $translations): int
+    {
+        $selectedLocales = ! empty($this->selectedLocales) ? $this->selectedLocales : $this->locales;
+
+        return $translations->reduce(function ($carry, $translationItem) use ($selectedLocales) {
             $missing = false;
             //check if all selected locales are available in the translation item, by intersecting the locales of the
             // translation item and the selected locales and seeing if the size matches with the selected locales.
-            if(count(array_intersect($selectedLocales, array_keys($translationItem['translations']))) !== count($selectedLocales)){
+            if (count(array_intersect($selectedLocales, array_keys($translationItem['translations']))) !== count($selectedLocales)) {
                 $missing = true;
-            }
-            else {
-                foreach($translationItem['translations'] as $locale => $translation) {
-                    if(in_array($locale, $selectedLocales)) {
-                        if(empty($translation) || trim($translation) === '') {
+            } else {
+                foreach ($translationItem['translations'] as $locale => $translation) {
+                    if (in_array($locale, $selectedLocales)) {
+                        if (empty($translation) || trim($translation) === '') {
                             $missing = true;
                         }
                     }
                 }
             }
+
             return $carry + ($missing ? 1 : 0);
         }, 0);
     }

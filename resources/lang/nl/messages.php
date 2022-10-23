@@ -2,6 +2,6 @@
 
 return [
     'title' => 'Vertalingen',
-    'navigation-group' => 'Instellingen'
+    'navigation-group' => 'Instellingen',
 
 ];
