@@ -18,10 +18,12 @@
         </form>
     </div>
 
-    <div>
-        @lang('filament-translation-manager::messages.filter_results', ['filtered' => $totalFilteredTranslations, 'total' => $totalTranslations])
-        @lang('filament-translation-manager::messages.filter_results_missing_translations', ['missing' => $totalMissingFilteredTranslations,
-            'percent' => number_format(($totalMissingFilteredTranslations / $totalFilteredTranslations) * 100, 0)])
+    <div class="flex">
+        <span><x-dynamic-component :component="'heroicon-o-filter'" class="h-6 w-5 pt-1 mr-2"/></span>
+        <span>@lang('filament-translation-manager::messages.filter_results', ['filtered' => $totalFilteredTranslations, 'total' => $totalTranslations])</span>
+        <span><x-dynamic-component :component="'heroicon-o-exclamation-circle'" class="h-6 w-5 pt-1 mr-2 ml-2"/></span>
+        <span>@lang('filament-translation-manager::messages.filter_results_missing_translations', ['missing' => $totalMissingFilteredTranslations,
+            'percent' => number_format(($totalMissingFilteredTranslations / $totalFilteredTranslations) * 100, 0)])</span>
     </div>
 
     @forelse($filteredTranslations as $translation)
