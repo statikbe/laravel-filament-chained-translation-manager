@@ -106,7 +106,13 @@ return [
 Optionally, you can publish the views using
 
 ```bash
-php artisan vendor:publish --tag="laravel-filament-chained-translation-manager-views"
+php artisan vendor:publish --tag="filament-translation-manager-views"
+```
+
+Optionally, you can also publish the translations
+
+```bash
+php artisan vendor:publish --tag="filament-translation-manager-translations"
 ```
 
 ## Configuration
