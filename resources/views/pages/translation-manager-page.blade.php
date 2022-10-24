@@ -30,7 +30,7 @@
         <livewire:translation-edit-form
             wire:key="{{ $translation['title'] }}.{{ implode('-', $selectedLocales) }}"
             :group="$translation['group']"
-            :translation-key="$translation['translation-key']"
+            :translation_key="$translation['translation_key']"
             :translations="$translation['translations']"
             :locales="$selectedLocales"
         />
