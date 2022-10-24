@@ -18,6 +18,8 @@ class TranslationEditForm extends Component
 
     public array $locales;
 
+    const EVENT_TRANSLATIONS_SAVED = 'translationsSaved';
+
     public function mount()
     {
         $this->initialTranslations = $this->translations;
@@ -37,6 +39,8 @@ class TranslationEditForm extends Component
             $this->translationKey,
             $this->translations[$locale]
         );
+
+        $this->emit(self::EVENT_TRANSLATIONS_SAVED, $this->group, $this->translationKey, $this->translations, $this->initialTranslations);
 
         $this->initialTranslations = $this->translations;
 

@@ -11,6 +11,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Statikbe\FilamentTranslationManager\FilamentTranslationManager;
+use Statikbe\FilamentTranslationManager\Http\Livewire\TranslationEditForm;
 use Statikbe\LaravelChainedTranslator\ChainedTranslationManager;
 
 class TranslationManagerPage extends Page
@@ -32,7 +33,7 @@ class TranslationManagerPage extends Page
     public array $locales;
 
     /**
-     * @var Collection{ 'title': string, 'type': string, 'group': string, 'key': string, 'translations': array<string, string> }
+     * @var Collection{ 'title': string, 'type': string, 'group': string, 'translation_key': string, 'translations': array<string, string> }
      */
     public Collection $filteredTranslations;
 
@@ -71,6 +72,8 @@ class TranslationManagerPage extends Page
         'selectedGroups',
         'selectedLocales',
     ];
+
+    protected $listeners = [TranslationEditForm::EVENT_TRANSLATIONS_SAVED => 'translationsSaved'];
 
     protected static string $view = 'filament-translation-manager::pages.translation-manager-page';
 
@@ -153,7 +156,7 @@ class TranslationManagerPage extends Page
                     'title' => $group.' - '.$key,
                     'type' => 'group',
                     'group' => $group,
-                    'translation-key' => $key,
+                    'translation_key' => $key,
                     'translations' => [],
                 ];
             }
@@ -167,29 +170,38 @@ class TranslationManagerPage extends Page
     {
         return [
             Grid::make()
-                ->columns(12)
+                ->columns(2)
                 ->schema([
-                    TextInput::make('searchTerm')
-                        ->disableLabel()
-                        ->placeholder(trans('filament-translation-manager::messages.search_term_placeholder'))
-                        ->prefixIcon('heroicon-o-search')
-                        ->columnSpan(3),
-                    Checkbox::make('onlyShowMissingTranslations')
-                        ->label(trans('filament-translation-manager::messages.only_show_missing_translations_lbl'))
-                        ->default(false)
-                        ->columnSpan(3),
-                    Select::make('selectedGroups')
-                        ->disableLabel()
-                        ->placeholder(trans('filament-translation-manager::messages.selected_groups_placeholder'))
-                        ->multiple()
-                        ->options(array_combine($this->groups, $this->groups))
-                        ->columnSpan(3),
-                    Select::make('selectedLocales')
-                        ->disableLabel()
-                        ->placeholder(trans('filament-translation-manager::messages.selected_languages_placeholder'))
-                        ->multiple()
-                        ->options(array_combine($this->locales, $this->locales))
-                        ->columnSpan(3),
+                    Grid::make()
+                        ->columns(6)
+                        ->schema([
+                            TextInput::make('searchTerm')
+                                ->disableLabel()
+                                ->placeholder(trans('filament-translation-manager::messages.search_term_placeholder'))
+                                ->prefixIcon('heroicon-o-search')
+                                ->columnSpan(3),
+                            Grid::make()->schema([
+                                Checkbox::make('onlyShowMissingTranslations')
+                                    ->label(trans('filament-translation-manager::messages.only_show_missing_translations_lbl'))
+                                    ->default(false),
+                            ])->columnSpan(3)->columns(1)->extraAttributes(['class' => 'h-full flex items-center']),
+                        ]),
+                    Grid::make()
+                        ->columns(6)
+                        ->schema([
+                            Select::make('selectedLocales')
+                                ->disableLabel()
+                                ->placeholder(trans('filament-translation-manager::messages.selected_languages_placeholder'))
+                                ->multiple()
+                                ->options(array_combine($this->locales, $this->locales))
+                                ->columnSpan(3),
+                            Select::make('selectedGroups')
+                                ->disableLabel()
+                                ->placeholder(trans('filament-translation-manager::messages.selected_groups_placeholder'))
+                                ->multiple()
+                                ->options(array_combine($this->groups, $this->groups))
+                                ->columnSpan(3),
+                        ]),
                 ]),
         ];
     }
@@ -232,7 +244,7 @@ class TranslationManagerPage extends Page
             });
         }
 
-        $this->totalMissingFilteredTranslations = $this->countMissingTranslations($filteredTranslations);
+        $this->countMissingTranslations($filteredTranslations);
 
         $filteredTranslations = $this->paginateTranslations($filteredTranslations);
 
@@ -288,27 +300,57 @@ class TranslationManagerPage extends Page
         }
     }
 
-    private function countMissingTranslations(Collection $translations): int
+    private function countMissingTranslations($translations): int
     {
-        $selectedLocales = ! empty($this->selectedLocales) ? $this->selectedLocales : $this->locales;
+        $selectedLocales = $this->getFilteredLocales();
 
-        return $translations->reduce(function ($carry, $translationItem) use ($selectedLocales) {
+        $count = $translations->reduce(function ($carry, $translationItem) use ($selectedLocales) {
             $missing = false;
             //check if all selected locales are available in the translation item, by intersecting the locales of the
             // translation item and the selected locales and seeing if the size matches with the selected locales.
             if (count(array_intersect($selectedLocales, array_keys($translationItem['translations']))) !== count($selectedLocales)) {
                 $missing = true;
             } else {
-                foreach ($translationItem['translations'] as $locale => $translation) {
-                    if (in_array($locale, $selectedLocales)) {
-                        if (empty($translation) || trim($translation) === '') {
-                            $missing = true;
-                        }
-                    }
-                }
+                $missing = $this->checkIfTranslationMissing($translationItem['translations'], $selectedLocales);
             }
 
             return $carry + ($missing ? 1 : 0);
         }, 0);
+
+        $this->totalMissingFilteredTranslations = $count;
+
+        return $count;
+    }
+
+    public function translationsSaved(string $group, string $translationKey, array $newTranslation, ?array $initialTranslations = null): void
+    {
+        $oldMissing = $this->checkIfTranslationMissing($initialTranslations, $this->getFilteredLocales());
+        $newMissing = $this->checkIfTranslationMissing($newTranslation, $this->getFilteredLocales());
+
+        if ($oldMissing && ! $newMissing) {
+            $this->totalMissingFilteredTranslations--;
+        } elseif (! $oldMissing && $newMissing) {
+            $this->totalMissingFilteredTranslations++;
+        }
+    }
+
+    private function checkIfTranslationMissing(array $translations, array $filteredLocales)
+    {
+        $missing = false;
+
+        foreach ($translations as $locale => $translation) {
+            if (in_array($locale, $filteredLocales)) {
+                if (empty($translation) || trim($translation) === '') {
+                    $missing = true;
+                }
+            }
+        }
+
+        return $missing;
+    }
+
+    private function getFilteredLocales()
+    {
+        return ! empty($this->selectedLocales) ? $this->selectedLocales : $this->locales;
     }
 }
