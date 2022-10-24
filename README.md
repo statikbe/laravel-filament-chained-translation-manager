@@ -43,7 +43,7 @@ composer require statikbe/laravel-filament-chained-translation-manager
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-filament-chained-translation-manager-config"
+php artisan vendor:publish --tag="filament-translation-manager-config"
 ```
 
 This is the contents of the published config file:
