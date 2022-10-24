@@ -224,17 +224,9 @@ class TranslationManagerPage extends Page
         }
 
         if ($this->onlyShowMissingTranslations) {
-            $selectedLocales = ! empty($this->selectedLocales) ? $this->selectedLocales : $this->locales;
+            $selectedLocales = $this->getFilteredLocales();
             $filteredTranslations = $filteredTranslations->filter(function ($translationItem, $key) use ($selectedLocales) {
-                foreach ($translationItem['translations'] as $locale => $translation) {
-                    if (in_array($locale, $selectedLocales)) {
-                        if (empty($translation) || trim($translation) === '') {
-                            return true;
-                        }
-                    }
-                }
-
-                return false;
+                return $this->checkIfTranslationMissing($translationItem['translations'], $selectedLocales);
             });
         }
 
@@ -305,14 +297,7 @@ class TranslationManagerPage extends Page
         $selectedLocales = $this->getFilteredLocales();
 
         $count = $translations->reduce(function ($carry, $translationItem) use ($selectedLocales) {
-            $missing = false;
-            //check if all selected locales are available in the translation item, by intersecting the locales of the
-            // translation item and the selected locales and seeing if the size matches with the selected locales.
-            if (count(array_intersect($selectedLocales, array_keys($translationItem['translations']))) !== count($selectedLocales)) {
-                $missing = true;
-            } else {
-                $missing = $this->checkIfTranslationMissing($translationItem['translations'], $selectedLocales);
-            }
+            $missing = $this->checkIfTranslationMissing($translationItem['translations'], $selectedLocales);
 
             return $carry + ($missing ? 1 : 0);
         }, 0);
@@ -336,17 +321,21 @@ class TranslationManagerPage extends Page
 
     private function checkIfTranslationMissing(array $translations, array $filteredLocales)
     {
-        $missing = false;
+        // check if all selected locales are available in the translation item, by intersecting the locales of the
+        // translation item and the selected locales and seeing if the size matches with the selected locales.
+        if (count(array_intersect($filteredLocales, array_keys($translations))) !== count($filteredLocales)) {
+            return true;
+        }
 
         foreach ($translations as $locale => $translation) {
             if (in_array($locale, $filteredLocales)) {
                 if (empty($translation) || trim($translation) === '') {
-                    $missing = true;
+                    return true;
                 }
             }
         }
 
-        return $missing;
+        return false;
     }
 
     private function getFilteredLocales()
