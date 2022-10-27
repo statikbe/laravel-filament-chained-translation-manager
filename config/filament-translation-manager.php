@@ -46,9 +46,9 @@ return [
      |--------------------------------------------------------------------------
      |
      | You can list the translation groups that you do not want users to translate.
-     | Note: the JSON files are grouped in 'single'.
+     | Note: the JSON files are grouped in 'json-file' by default. (see config/laravel-chained-translator.php)
      */
     'ignore_groups' => [
-        'single',
+//        'auth',
     ],
 ];

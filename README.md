@@ -58,14 +58,14 @@ return [
     |--------------------------------------------------------------------------
     |
     | The application locale determines the possible locales that can be used.
-    | You are free to fill this array with any of the locales which will be 
+    | You are free to fill this array with any of the locales which will be
     | supported by the application.
     |
     */
     'supported_locales' => [
         'en',
         'nl',
-        'fr'
+        'fr',
     ],
 
     /*
@@ -88,19 +88,20 @@ return [
         'limited' => false,
         //'gate' => 'view-filament-translation-manager',
     ],
-    
+
     /*
-    |--------------------------------------------------------------------------
-    | Ignore groups
-    |--------------------------------------------------------------------------
-    |
-    | You can list the translation groups that you do not want users to translate.
-    | Note: the JSON files are grouped in 'single'.
+     |--------------------------------------------------------------------------
+     | Ignore Groups
+     |--------------------------------------------------------------------------
+     |
+     | You can list the translation groups that you do not want users to translate.
+     | Note: the JSON files are grouped in 'json-file' by default. (see config/laravel-chained-translator.php)
      */
     'ignore_groups' => [
-        'single'
+//        'auth',
     ],
 ];
+
 ```
 
 Optionally, you can publish the views using
@@ -201,10 +202,10 @@ You may also ignore certain groups of translations to be shown in the Nova UI. C
  |--------------------------------------------------------------------------
  |
  | You can list the translation groups that you do not want users to translate.
- | Note: the JSON files are grouped in 'single'.
+ | Note: the JSON files are grouped in 'json-file' by default. (see config/laravel-chained-translator.php)
  */
 'ignore_groups' => [
-    'auth', 'single'
+    'auth',
 ],
 ```
 
