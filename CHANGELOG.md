@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
+### v0.0.4 - 2022-10-27
+
+- Added an example image
+- Search filter now looks at translation key and group
+
 ### v0.0.3 - 2022-10-27
 
 - Update to newest chained-translation-manager
