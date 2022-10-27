@@ -32,6 +32,9 @@ There is also a [Laravel Nova version](https://github.com/statikbe/laravel-nova-
 This tool does not provide features to add new translation keys, because our target users are translators and 
 content managers and we want to avoid that they add unnecessary translation keys.
 
+![example of the translation manager](images/example1.png)
+
+
 ## Installation
 
 You can install the package via composer:
