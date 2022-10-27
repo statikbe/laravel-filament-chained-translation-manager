@@ -213,7 +213,7 @@ class TranslationManagerPage extends Page
 
         if ($this->searchTerm) {
             $filteredTranslations = $filteredTranslations->filter(function ($translationItem, $key) {
-                if (Str::contains($translationItem['title'],  $this->searchTerm, true)) {
+                if (Str::contains($translationItem['title'], $this->searchTerm, true)) {
                     return true;
                 }
 
