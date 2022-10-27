@@ -19,6 +19,13 @@ All notable changes to `laravel-filament-chained-translation-manager` will be do
 
 - Initial version.
 
+## v0.0.4 - 2022-10-27
+
+- Added an example image
+- Search on group and translation keys
+
+**Full Changelog**: https://github.com/statikbe/laravel-filament-chained-translation-manager/compare/0.0.3...0.0.4
+
 ## v0.0.3 - 2022-10-27
 
 - Update to newest chained-translation-manager
