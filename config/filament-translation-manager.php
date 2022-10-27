@@ -49,6 +49,6 @@ return [
      | Note: the JSON files are grouped in 'json-file' by default. (see config/laravel-chained-translator.php)
      */
     'ignore_groups' => [
-//        'auth',
+        //        'auth',
     ],
 ];
