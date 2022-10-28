@@ -323,7 +323,7 @@ class TranslationManagerPage extends Page
         }
     }
 
-    private function checkIfTranslationMissing(array $translations, array $filteredLocales)
+    private function checkIfTranslationMissing(array $translations, array $filteredLocales): bool
     {
         // check if all selected locales are available in the translation item, by intersecting the locales of the
         // translation item and the selected locales and seeing if the size matches with the selected locales.
@@ -342,7 +342,7 @@ class TranslationManagerPage extends Page
         return false;
     }
 
-    private function getFilteredLocales()
+    private function getFilteredLocales(): array
     {
         return ! empty($this->selectedLocales) ? $this->selectedLocales : $this->locales;
     }
