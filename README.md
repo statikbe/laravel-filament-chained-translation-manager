@@ -22,7 +22,7 @@ There is also a [Laravel Nova version](https://github.com/statikbe/laravel-nova-
 
 ## Features
 
-- Save translations of the current environment to separate translation files in a separte language directory to avoid version conflicts.
+- Save translations of the current environment to separate translation files in a separate language directory to avoid version conflicts.
 - Immediately save translations
 - Search for translations and translation keys
 - Filter translations for specific groups and languages
