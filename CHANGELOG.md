@@ -19,6 +19,10 @@ All notable changes to `laravel-filament-chained-translation-manager` will be do
 
 - Initial version.
 
+## v1.0.0 - 2022-11-14
+
+First release on the Filament Plugins store.
+
 ## v0.0.5 - 2022-11-13
 
 Fix dark mode bug, thanks @yob-yob!
