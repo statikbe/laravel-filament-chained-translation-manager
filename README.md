@@ -4,7 +4,7 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/statikbe/laravel-filament-chained-translation-manager/Fix%20PHP%20code%20style%20issues?label=code%20style)](https://github.com/statikbe/laravel-filament-chained-translation-manager/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/statikbe/laravel-filament-chained-translation-manager.svg?style=flat-square)](https://packagist.org/packages/statikbe/laravel-filament-chained-translation-manager)
 
-The Laravel Nova Chained Translation Manager allows you to easily edit the translations of your current Laravel environment. 
+The Laravel Filament Chained Translation Manager allows you to easily edit the translations of your current Laravel environment. 
 This translation manager uses the [Laravel Chained Translator](https://github.com/statikbe/laravel-chained-translator),
 that enables you to override the default translations with translations for a specific environment, e.g. 
 a content manager can independently edit and override the translation files on the production environment from the translations provided by the developers.
