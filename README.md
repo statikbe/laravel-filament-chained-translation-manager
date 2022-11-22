@@ -1,4 +1,4 @@
-# A translation manager tool for Laravel Filament, that makes use of the Laravel Chained Translator.
+# Laravel Filament Chained Translation Manager
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/statikbe/laravel-filament-chained-translation-manager.svg?style=flat-square)](https://packagist.org/packages/statikbe/laravel-filament-chained-translation-manager)
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/statikbe/laravel-filament-chained-translation-manager/Fix%20PHP%20code%20style%20issues?label=code%20style)](https://github.com/statikbe/laravel-filament-chained-translation-manager/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
