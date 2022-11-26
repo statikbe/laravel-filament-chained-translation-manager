@@ -346,4 +346,9 @@ class TranslationManagerPage extends Page
     {
         return ! empty($this->selectedLocales) ? $this->selectedLocales : $this->locales;
     }
+
+    protected static function getNavigationSort(): ?int
+    {
+        return config('filament-translation-manager.navigation_sort');
+    }
 }

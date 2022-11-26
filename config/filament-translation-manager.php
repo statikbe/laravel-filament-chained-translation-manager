@@ -51,4 +51,6 @@ return [
     'ignore_groups' => [
         //        'auth',
     ],
+
+    'navigation_sort' => null,
 ];
