@@ -19,6 +19,11 @@ All notable changes to `laravel-filament-chained-translation-manager` will be do
 
 - Initial version.
 
+## v1.0.1 - 2022-11-27
+
+- Arabic translations
+- Filament menu ordering support
+
 ## v1.0.0 - 2022-11-14
 
 First release on the Filament Plugins store.
