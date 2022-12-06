@@ -54,7 +54,7 @@ return [
 
     /*
      |--------------------------------------------------------------------------
-     | Navigatio Sort
+     | Navigation Sort
      |--------------------------------------------------------------------------
      |
      | You can specify the order in which navigation items are listed.
