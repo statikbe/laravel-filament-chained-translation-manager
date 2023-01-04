@@ -73,5 +73,5 @@ return [
      */
     'widget' => [
         'sort' => 1,
-    ]
+    ],
 ];
