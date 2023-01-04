@@ -62,4 +62,16 @@ return [
      | (visit: https://filamentphp.com/docs/2.x/admin/resources/getting-started#sorting-navigation-items)
      */
     'navigation_sort' => null,
+
+    /*
+     |--------------------------------------------------------------------------
+     | Translation status widget
+     |--------------------------------------------------------------------------
+     |
+     | You can specify the widget settings:
+     | - the sort order to decide where it is shown on the dashboard.
+     */
+    'widget' => [
+        'sort' => 1,
+    ]
 ];

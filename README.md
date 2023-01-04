@@ -1,7 +1,9 @@
+<p align="center"><img src="documentation/img/banner-filament-chained-translation-manager.png" alt="Laravel Filament Chained Translation Manager"></p>
+
 # Laravel Filament Chained Translation Manager
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/statikbe/laravel-filament-chained-translation-manager.svg?style=flat-square)](https://packagist.org/packages/statikbe/laravel-filament-chained-translation-manager)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/statikbe/laravel-filament-chained-translation-manager/Fix%20PHP%20code%20style%20issues?label=code%20style)](https://github.com/statikbe/laravel-filament-chained-translation-manager/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/statikbe/laravel-filament-chained-translation-manager/.github/workflows/fix-php-code-style-issues.yml?branch=main)](https://github.com/statikbe/laravel-filament-chained-translation-manager/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/statikbe/laravel-filament-chained-translation-manager.svg?style=flat-square)](https://packagist.org/packages/statikbe/laravel-filament-chained-translation-manager)
 
 The Laravel Filament Chained Translation Manager allows you to easily edit the translations of your current Laravel environment. 
