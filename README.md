@@ -209,7 +209,7 @@ If you set the `limited` key to `true`, you can set a Laravel Gate class or a pe
 
 ### Ignoring groups
 
-You may also ignore certain groups of translations to be shown in the Nova UI. Create an array with keys that you want to ignore:
+You may also ignore certain groups of translations to be shown in the Filament. Create an array with keys that you want to ignore:
 
 ```php 
 /*
