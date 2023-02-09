@@ -66,7 +66,7 @@ class TranslationManagerPage extends Page
             'except' => '',
         ],
         'onlyShowMissingTranslations' => [
-            'except' => true,
+            'except' => false,
             'as' => 'showMissing',
         ],
         'selectedGroups',

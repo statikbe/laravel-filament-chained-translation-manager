@@ -69,9 +69,11 @@ return [
      |--------------------------------------------------------------------------
      |
      | You can specify the widget settings:
+     | - disable the widget
      | - the sort order to decide where it is shown on the dashboard.
      */
     'widget' => [
+        'enabled' => true,
         'sort' => 1,
     ],
 ];
