@@ -1,17 +1,12 @@
 <?php
 
-    namespace Statikbe\FilamentTranslationManager\Widgets;
+namespace Statikbe\FilamentTranslationManager\Widgets;
 
-    use App\Models\Merchant;
-    use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
-    use Filament\Tables\Columns\TextColumn;
-    use Filament\Widgets\TableWidget;
     use Filament\Widgets\Widget;
-    use Illuminate\Contracts\Support\Htmlable;
-    use Illuminate\Database\Eloquent\Builder;
     use Illuminate\Support\Facades\Gate;
 
-    class TranslationStatusWidget extends Widget {
+    class TranslationStatusWidget extends Widget
+    {
         protected static string $view = 'filament-translation-manager::widgets.translation-status';
 
         public static function getSort(): int
@@ -34,6 +29,4 @@
                 'missingTranslations' => 10,
             ];
         }
-
-
     }

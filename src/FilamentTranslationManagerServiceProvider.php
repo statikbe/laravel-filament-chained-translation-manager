@@ -52,11 +52,13 @@ class FilamentTranslationManagerServiceProvider extends PluginServiceProvider
         return $pages;
     }
 
-    protected function getWidgets(): array {
+    protected function getWidgets(): array
+    {
         $widgets = [];
-        if(config('filament-translation-manager.widget.enabled', false)){
+        if (config('filament-translation-manager.widget.enabled', false)) {
             $widgets[] = TranslationStatusWidget::class;
         }
+
         return $widgets;
     }
 }
