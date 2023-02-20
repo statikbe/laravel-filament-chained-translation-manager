@@ -236,7 +236,7 @@ class TranslationManagerPage extends Page
 
         if (! empty($this->selectedGroups)) {
             $filteredTranslations = $filteredTranslations->filter(function ($translationItem, $key) {
-                return in_array($translationItem['group'], $this->selectedGroups);
+                return in_array($translationItem['group'], $this->selectedGroups, true);
             });
         }
 
@@ -283,7 +283,7 @@ class TranslationManagerPage extends Page
     public function previousPage(): void
     {
         if ($this->pageCounter > 1) {
-            $this->pageCounter -= 1;
+            --$this->pageCounter;
             $this->filterTranslations();
         }
     }
@@ -291,7 +291,7 @@ class TranslationManagerPage extends Page
     public function nextPage(): void
     {
         if ($this->pageCounter * self::PAGE_LIMIT <= $this->totalFilteredTranslations) {
-            $this->pageCounter += 1;
+            ++$this->pageCounter;
             $this->filterTranslations();
         }
     }
@@ -332,7 +332,7 @@ class TranslationManagerPage extends Page
         }
 
         foreach ($translations as $locale => $translation) {
-            if (in_array($locale, $filteredLocales)) {
+            if (in_array($locale, $filteredLocales, true)) {
                 if (empty($translation) || trim($translation) === '') {
                     return true;
                 }

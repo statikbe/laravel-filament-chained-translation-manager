@@ -11,7 +11,7 @@ This translation manager uses the [Laravel Chained Translator](https://github.co
 that enables you to override the default translations with translations for a specific environment, e.g. 
 a content manager can independently edit and override the translation files on the production environment from the translations provided by the developers.
 
-Typically at some point during the development phase, a content manager wants to translate or finetune the translation 
+Typically, at some point during the development phase, a content manager wants to translate or finetune the translation 
 strings added by developers. This often results in merge and versioning issues, when developers and content managers are 
 working on the translation files at the same time.
 
@@ -32,7 +32,7 @@ There is also a [Laravel Nova version](https://github.com/statikbe/laravel-nova-
 - Shows statistics of how many fields are completely translated
 
 This tool does not provide features to add new translation keys, because our target users are translators and 
-content managers and we want to avoid that they add unnecessary translation keys.
+content managers, and we want to avoid that they add unnecessary translation keys.
 
 ![example of the translation manager](images/example1.png)
 
@@ -84,7 +84,7 @@ return [
     | Limited = true
     |   The page will use the provided gate to see if the user has access.
     |   - Default Laravel: you can define the gate in a service provider
-            (https://laravel.com/docs/9.x/authorization)
+            (https://laravel.com/docs/10.x/authorization)
     |   - Spatie permissions: set the 'gate' variable to a permission name you want to check against, see the example below.
     |
     |

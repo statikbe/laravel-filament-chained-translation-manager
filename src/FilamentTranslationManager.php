@@ -9,12 +9,12 @@ class FilamentTranslationManager
      *
      * @var array
      */
-    public static $locales;
+    public static array $locales;
 
     /**
      * @param  array  $locales
      */
-    public static function setLocales(array $locales)
+    public static function setLocales(array $locales): void
     {
         static::$locales = $locales;
     }
