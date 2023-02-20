@@ -123,8 +123,6 @@ class TranslationManagerPage extends Page
 
     /**
      * Returns a list of the configured, supported locales (key: locale) with their names (key: language).
-     *
-     * @return array
      */
     protected function getLocalesData(): array
     {
@@ -283,7 +281,7 @@ class TranslationManagerPage extends Page
     public function previousPage(): void
     {
         if ($this->pageCounter > 1) {
-            --$this->pageCounter;
+            $this->pageCounter--;
             $this->filterTranslations();
         }
     }
@@ -291,7 +289,7 @@ class TranslationManagerPage extends Page
     public function nextPage(): void
     {
         if ($this->pageCounter * self::PAGE_LIMIT <= $this->totalFilteredTranslations) {
-            ++$this->pageCounter;
+            $this->pageCounter++;
             $this->filterTranslations();
         }
     }
