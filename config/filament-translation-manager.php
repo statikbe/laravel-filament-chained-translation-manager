@@ -58,7 +58,7 @@ return [
      |--------------------------------------------------------------------------
      |
      | You can specify the order in which navigation items are listed.
-     | Accepts integer value according to filamnet documentation.
+     | Accepts integer value according to filament documentation.
      | (visit: https://filamentphp.com/docs/2.x/admin/resources/getting-started#sorting-navigation-items)
      */
     'navigation_sort' => null,
