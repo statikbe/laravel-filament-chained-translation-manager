@@ -74,7 +74,7 @@
                     </form>
                     <div class="flex items-center align-center">
                         <button @click="closeWithCancel">
-                            <x-heroicon-o-x class="w-5 h-5 text-danger-500"/>
+                            <x-heroicon-o-x-mark class="w-5 h-5 text-danger-500"/>
                         </button>
                     </div>
                 </div>

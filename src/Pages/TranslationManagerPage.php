@@ -18,7 +18,7 @@ class TranslationManagerPage extends Page
 {
     const PAGE_LIMIT = 20;
 
-    protected static ?string $navigationIcon = 'heroicon-o-translate';
+    protected static ?string $navigationIcon = 'heroicon-o-language';
 
     private ChainedTranslationManager $chainedTranslationManager;
 
@@ -176,7 +176,7 @@ class TranslationManagerPage extends Page
                             TextInput::make('searchTerm')
                                 ->disableLabel()
                                 ->placeholder(trans('filament-translation-manager::messages.search_term_placeholder'))
-                                ->prefixIcon('heroicon-o-search')
+                                ->prefixIcon('heroicon-o-magnifying-glass')
                                 ->columnSpan(3),
                             Grid::make()->schema([
                                 Checkbox::make('onlyShowMissingTranslations')

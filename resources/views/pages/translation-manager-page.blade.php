@@ -10,7 +10,7 @@
                 </div>
 
                 <x-filament::button type="submit"
-                                    icon="heroicon-o-filter"
+                                    icon="heroicon-o-funnel"
                                     class="flex-0 ml-4">
                     @lang('filament-translation-manager::messages.filter_action')
                 </x-filament::button>
@@ -19,7 +19,7 @@
     </div>
 
     <div class="flex">
-        <span><x-dynamic-component :component="'heroicon-o-filter'" class="h-6 w-5 pt-1 mr-2"/></span>
+        <span><x-dynamic-component :component="'heroicon-o-funnel'" class="h-6 w-5 pt-1 mr-2"/></span>
         <span>@lang('filament-translation-manager::messages.filter_results', ['filtered' => $totalFilteredTranslations, 'total' => $totalTranslations])</span>
         @if($totalFilteredTranslations > 0)
             <span><x-dynamic-component :component="'heroicon-o-exclamation-circle'" class="h-6 w-5 pt-1 mr-2 ml-2"/></span>
