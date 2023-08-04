@@ -43,7 +43,7 @@ class TranslationEditForm extends Component
             $this->translations[$locale]
         );
 
-        $this->emit(self::EVENT_TRANSLATIONS_SAVED, $this->group, $this->translationKey, $this->translations, $this->initialTranslations);
+        $this->dispatch(self::EVENT_TRANSLATIONS_SAVED, $this->group, $this->translationKey, $this->translations, $this->initialTranslations);
 
         $this->initialTranslations = $this->translations;
 
