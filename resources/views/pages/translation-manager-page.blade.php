@@ -1,7 +1,6 @@
 <x-filament::page>
     <div @class([
-            "p-4 space-y-2 bg-white rounded-xl shadow",
-            'dark:bg-gray-700' => config('filament.dark_mode'),
+            "p-4 space-y-2 bg-white rounded-xl shadow dark:bg-gray-700",
         ])>
         <form wire:submit.prevent="submitFilters">
             <div class="flex items-start">
