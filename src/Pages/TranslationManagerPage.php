@@ -77,7 +77,7 @@ class TranslationManagerPage extends Page
 
     protected static string $view = 'filament-translation-manager::pages.translation-manager-page';
 
-    protected static function shouldRegisterNavigation(): bool
+    public static function shouldRegisterNavigation(): bool
     {
         if (config('filament-translation-manager.access.limited')) {
             return Gate::allows(config('filament-translation-manager.access.gate'));
@@ -86,17 +86,17 @@ class TranslationManagerPage extends Page
         return true;
     }
 
-    protected static function getNavigationGroup(): ?string
+    public static function getNavigationGroup(): ?string
     {
         return trans('filament-translation-manager::messages.navigation-group');
     }
 
-    protected static function getNavigationLabel(): string
+    public static function getNavigationLabel(): string
     {
         return trans('filament-translation-manager::messages.title');
     }
 
-    protected function getTitle(): string
+    public function getTitle(): string
     {
         return trans('filament-translation-manager::messages.title');
     }
@@ -345,7 +345,7 @@ class TranslationManagerPage extends Page
         return ! empty($this->selectedLocales) ? $this->selectedLocales : $this->locales;
     }
 
-    protected static function getNavigationSort(): ?int
+    public static function getNavigationSort(): ?int
     {
         return config('filament-translation-manager.navigation_sort');
     }
