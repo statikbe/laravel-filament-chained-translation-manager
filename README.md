@@ -6,36 +6,35 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/statikbe/laravel-filament-chained-translation-manager/.github/workflows/fix-php-code-style-issues.yml?branch=main)](https://github.com/statikbe/laravel-filament-chained-translation-manager/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/statikbe/laravel-filament-chained-translation-manager.svg?style=flat-square)](https://packagist.org/packages/statikbe/laravel-filament-chained-translation-manager)
 
-The Laravel Filament Chained Translation Manager allows you to easily edit the translations of your current Laravel environment. 
+The Laravel Filament Chained Translation Manager allows you to easily edit the translations of your current Laravel environment.
 This translation manager uses the [Laravel Chained Translator](https://github.com/statikbe/laravel-chained-translator),
-that enables you to override the default translations with translations for a specific environment, e.g. 
+that enables you to override the default translations with translations for a specific environment, e.g.
 a content manager can independently edit and override the translation files on the production environment from the translations provided by the developers.
 
-Typically, at some point during the development phase, a content manager wants to translate or finetune the translation 
-strings added by developers. This often results in merge and versioning issues, when developers and content managers are 
+Typically, at some point during the development phase, a content manager wants to translate or finetune the translation
+strings added by developers. This often results in merge and versioning issues, when developers and content managers are
 working on the translation files at the same time.
 
-The Chained Translator package allows translations created by developers to exist separately from translations edited 
-by the content manager in separate lang directories. The library merges the translations of both language directories, 
-where the translations of the content manager (the custom translations) override those of the developer (the default translations). 
+The Chained Translator package allows translations created by developers to exist separately from translations edited
+by the content manager in separate lang directories. The library merges the translations of both language directories,
+where the translations of the content manager (the custom translations) override those of the developer (the default translations).
 Check the documentation of the [Laravel Chained Translator](https://github.com/statikbe/laravel-chained-translator) for more info.
 
 There is also a [Laravel Nova version](https://github.com/statikbe/laravel-nova-chained-translation-manager) of this package.
 
 ## Features
 
-- Save translations of the current environment to separate translation files in a separate language directory to avoid version conflicts.
-- Immediately save translations
-- Search for translations and translation keys
-- Filter translations for specific groups and languages
-- Only show keys with missing translations
-- Shows statistics of how many fields are completely translated
+-   Save translations of the current environment to separate translation files in a separate language directory to avoid version conflicts.
+-   Immediately save translations
+-   Search for translations and translation keys
+-   Filter translations for specific groups and languages
+-   Only show keys with missing translations
+-   Shows statistics of how many fields are completely translated
 
-This tool does not provide features to add new translation keys, because our target users are translators and 
+This tool does not provide features to add new translation keys, because our target users are translators and
 content managers, and we want to avoid that they add unnecessary translation keys.
 
 ![example of the translation manager](images/example1.png)
-
 
 ## Installation
 
@@ -43,6 +42,27 @@ You can install the package via composer:
 
 ```bash
 composer require statikbe/laravel-filament-chained-translation-manager
+```
+
+Using this package requires a Filament custom theme.
+If you do not have one already, you can follow the instructions
+[on the Filament documentation site](https://filamentphp.com/docs/3.x/panels/themes#creating-a-custom-theme)
+to create one.
+
+Creating a new theme simply publishes the styling for the default Filament panel, so this
+will not change anything if you are happy with how Filament is styled out of the box.
+
+After creating a custom theme, you will need to add the following path to the `content` array of the
+generated `tailwind.config.js` file for the Filament theme:
+
+```javascript
+"./vendor/statikbe/laravel-filament-chained-translation-manager/**/*.blade.php";
+```
+
+You will then need to run the Vite build script to compile the plugin styles into Filament's stylesheet:
+
+```bash
+npm run build
 ```
 
 You can publish the config file with:
@@ -105,7 +125,7 @@ return [
     'ignore_groups' => [
 //        'auth',
     ],
-    
+
     /*
      |--------------------------------------------------------------------------
      | Navigation Sort
@@ -134,8 +154,8 @@ php artisan vendor:publish --tag="filament-translation-manager-translations"
 
 ## Configuration
 
-You can configure the custom language directory name and extend or finetune the service provider of the 
-[Laravel Chained Translator](https://github.com/statikbe/laravel-chained-translator). Have a look at the configuration 
+You can configure the custom language directory name and extend or finetune the service provider of the
+[Laravel Chained Translator](https://github.com/statikbe/laravel-chained-translator). Have a look at the configuration
 options of the [Laravel Chained Translator library](https://github.com/statikbe/laravel-chained-translator).
 
 ### Supported locales
@@ -154,7 +174,7 @@ Then configure the `supported_locales` variable:
 |--------------------------------------------------------------------------
 |
 | The application locale determines the possible locales that can be used.
-| You are free to fill this array with any of the locales which will be 
+| You are free to fill this array with any of the locales which will be
 | supported by the application.
 |
 */
@@ -167,8 +187,8 @@ Then configure the `supported_locales` variable:
 
 #### Option 2
 
-If your application already has a config that declares your locales than you are able to set the supported locales 
-in any service provider. 
+If your application already has a config that declares your locales than you are able to set the supported locales
+in any service provider.
 Create a new one or use the `app/Providers/AppServiceProvider.php` and set the supported locales as an array in the boot function as follows:
 
 ```php
@@ -182,10 +202,10 @@ public function boot()
 
 ### Access
 
-You can limit the access to the Translation Manager, by configuring the `access` variable. 
+You can limit the access to the Translation Manager, by configuring the `access` variable.
 If you set the `limited` key to `true`, you can set a Laravel Gate class or a permission name of the [Spatie Permissions package](https://github.com/spatie/laravel-permission).
 
-```php 
+```php
 /*
 |--------------------------------------------------------------------------
 | Access
@@ -211,7 +231,7 @@ If you set the `limited` key to `true`, you can set a Laravel Gate class or a pe
 
 You may also ignore certain groups of translations to be shown in the Filament. Create an array with keys that you want to ignore:
 
-```php 
+```php
 /*
  |--------------------------------------------------------------------------
  | Ignore Groups
@@ -234,7 +254,7 @@ The Translation Manager is automatically added to the Filament menu.
 
 ### Merging translations
 
-You can combine the custom translations of the current environment with the default translation files, 
+You can combine the custom translations of the current environment with the default translation files,
 by running the command provided by the [Laravel Chained Translator library](https://github.com/statikbe/laravel-chained-translator).
 
 ## Changelog
@@ -252,9 +272,9 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [Kobe Christiaensen](https://github.com/Kobo-one)
-- [Sten Govaerts](https://github.com/sten)
-- [All Contributors](../../contributors)
+-   [Kobe Christiaensen](https://github.com/Kobo-one)
+-   [Sten Govaerts](https://github.com/sten)
+-   [All Contributors](../../contributors)
 
 ## License
 
