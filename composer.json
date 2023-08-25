@@ -22,7 +22,7 @@
     ],
     "require": {
         "php": "^8.1|^8.2",
-        "filament/filament": "^2.17",
+        "filament/filament": "^3.0",
         "illuminate/contracts": "^10.0",
         "spatie/laravel-package-tools": "^1.14.0",
         "statikbe/laravel-chained-translator": "^2.2"
