@@ -38,6 +38,10 @@ content managers, and we want to avoid that they add unnecessary translation key
 
 ## Installation
 
+**Filament v2 & v3 support**:
+If you want to use the translation manager with Filament v2, please use version v1. 
+For Filament v3 use version v3.
+
 You can install the package via composer:
 
 ```bash
