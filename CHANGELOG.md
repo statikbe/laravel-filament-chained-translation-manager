@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
+## 3.0.0 - 2023-08-25
+
+Support for Filament v3.
+
+Please, use v1 for Filament 2 support.
+
 ## 1.1.0 - 2023-02-20
 
 Updated to Laravel 10
