@@ -14,11 +14,13 @@ class FilamentTranslationPlugin implements Plugin
         return app(static::class);
     }
 
-    public function getId(): string {
+    public function getId(): string
+    {
         return 'filament-translation-plugin';
     }
 
-    public function register(Panel $panel): void {
+    public function register(Panel $panel): void
+    {
         $panel
             ->pages([
                 TranslationManagerPage::class,
@@ -28,7 +30,8 @@ class FilamentTranslationPlugin implements Plugin
             ]);
     }
 
-    public function boot(Panel $panel): void {
+    public function boot(Panel $panel): void
+    {
         //
     }
 }

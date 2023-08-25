@@ -309,7 +309,7 @@ class TranslationManagerPage extends Page
         return $count;
     }
 
-    public function translationsSaved(string $group, string $translationKey, array $newTranslation, ?array $initialTranslations = null): void
+    public function translationsSaved(string $group, string $translationKey, array $newTranslation, array $initialTranslations = null): void
     {
         $oldMissing = $this->checkIfTranslationMissing($initialTranslations, $this->getFilteredLocales());
         $newMissing = $this->checkIfTranslationMissing($newTranslation, $this->getFilteredLocales());
