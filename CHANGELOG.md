@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
+## v3.0.1 - 2023-09-14
+
+Renamed the plugin name the reflect it is the chained translation manager.
+Please, update your panel providers.
+
+Updated documentation for filament v3 installation in a panel provider.
+
 ## 3.0.0 - 2023-08-25
 
 Support for Filament v3.
