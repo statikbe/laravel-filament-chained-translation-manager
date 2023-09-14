@@ -7,7 +7,7 @@ use Filament\Panel;
 use Statikbe\FilamentTranslationManager\Pages\TranslationManagerPage;
 use Statikbe\FilamentTranslationManager\Widgets\TranslationStatusWidget;
 
-class FilamentTranslationPlugin implements Plugin
+class FilamentChainedTranslationManagerPlugin implements Plugin
 {
     public static function make(): static
     {
@@ -16,7 +16,7 @@ class FilamentTranslationPlugin implements Plugin
 
     public function getId(): string
     {
-        return 'filament-translation-plugin';
+        return 'filament-chained-translation-manager';
     }
 
     public function register(Panel $panel): void

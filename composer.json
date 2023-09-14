@@ -68,7 +68,7 @@
                 "Statikbe\\FilamentTranslationManager\\FilamentTranslationManagerServiceProvider"
             ],
             "aliases": {
-                "FilamentTranslationManager": "Statikbe\\FilamentTranslationManager\\Facades\\FilamentTranslationManager"
+                "FilamentTranslationManager": "Statikbe\\FilamentTranslationManager\\FilamentTranslationManager"
             }
         }
     },

@@ -156,6 +156,20 @@ Optionally, you can also publish the translations
 php artisan vendor:publish --tag="filament-translation-manager-translations"
 ```
 
+Finally, for Filament v3, add the plugin to your panel in your panel provider in the `panel()` function:
+
+```php 
+class AdminPanelProvider extends PanelProvider
+{
+    public function panel(Panel $panel): Panel
+    {
+        return $panel
+            // ...
+            ->plugin(FilamentChainedTranslationManagerPlugin::make());
+    }
+}
+```
+
 ## Configuration
 
 You can configure the custom language directory name and extend or finetune the service provider of the
