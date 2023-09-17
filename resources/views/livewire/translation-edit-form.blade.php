@@ -45,7 +45,7 @@
                 >
                     {{ $locale }}:
                 </label>
-                <x-filament::link x-show="!editing" @click="openForm" class="w-full cursor-pointer">
+                <x-filament::link x-show="!editing" @click.prevent="openForm" class="w-full cursor-pointer">
                     <div class="w-full p-2">
                         @if(isset($translations[$locale]) && !empty(trim($translations[$locale])))
                             {{ $translations[$locale] }}
