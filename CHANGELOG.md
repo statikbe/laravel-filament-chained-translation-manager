@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
+## v3.0.2 - 2023-09-18
+
+Fixes a bug with the opening and collapsing of the form to edit a translation
+
+Thanks @almontasser for the fix!
+
 ## v3.0.1 - 2023-09-14
 
 Renamed the plugin name the reflect it is the chained translation manager.
