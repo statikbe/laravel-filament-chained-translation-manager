@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
+## v3.0.4 - 2023-10-03
+
+Spanish translations, thanks to @buzkall
+
 ## v3.0.3 - 2023-10-03
 
 Fix widget removal setting.
