@@ -21,13 +21,13 @@ class FilamentChainedTranslationManagerPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
+        $widgets = config('filament-translation-manager.widget.enabled') ? [TranslationStatusWidget::class] : [];
+
         $panel
             ->pages([
                 TranslationManagerPage::class,
             ])
-            ->widgets([
-                TranslationStatusWidget::class,
-            ]);
+            ->widgets($widgets);
     }
 
     public function boot(Panel $panel): void
