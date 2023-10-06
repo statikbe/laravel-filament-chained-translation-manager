@@ -110,9 +110,9 @@ public function boot()
 }
 ```
 
-### Guard
+### Gate
 
-You can restrict access to the Translation Manager by configuring the guard variable.
+You can restrict access to the Translation Manager by configuring the Gate variable.
 
 ```php
 'gate' => 'view-filament-translation-manager',
