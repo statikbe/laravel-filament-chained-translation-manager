@@ -90,7 +90,7 @@ There are two ways to change the supported locales.
 Set up the supported locales using the configuration. By default, it will fallback to the locale and fallback locale. However, you can customize the configuration to include additional locales as follows:
 
 ```php
-'supported_locales' => [
+'locales' => [
     'en',
     'fr',
 ],
