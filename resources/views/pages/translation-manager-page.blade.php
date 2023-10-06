@@ -7,7 +7,6 @@
                 <div class="grow">
                     {{ $this->form }}
                 </div>
-
                 <x-filament::button type="submit"
                                     icon="heroicon-o-funnel"
                                     class="flex-0 ml-4">
@@ -16,7 +15,6 @@
             </div>
         </form>
     </div>
-
     <div class="flex">
         <span><x-dynamic-component :component="'heroicon-o-funnel'" class="h-6 w-5 pt-1 mr-2"/></span>
         <span>@lang('filament-translation-manager::messages.filter_results', ['filtered' => $totalFilteredTranslations, 'total' => $totalTranslations])</span>
@@ -26,7 +24,6 @@
                 'percent' => number_format(($totalMissingFilteredTranslations / $totalFilteredTranslations) * 100, 0)])</span>
         @endif
     </div>
-
     @forelse($filteredTranslations as $translation)
         <livewire:translation-edit-form
             wire:key="{{ $translation['title'] }}.{{ implode('-', $selectedLocales) }}"
@@ -42,7 +39,6 @@
             <div>@lang('filament-translation-manager::messages.error_no_translations_for_filters')</div>
         @endif
     @endforelse
-
     <div id="pagination" class="flex justify-end">
         @if($pageCounter > 1)
             <x-filament::icon-button

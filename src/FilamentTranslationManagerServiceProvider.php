@@ -29,7 +29,7 @@ class FilamentTranslationManagerServiceProvider extends PackageServiceProvider
         $supportedLocales = config('filament-translation-manager.locales');
 
         if (empty($supportedLocales)) {
-            $supportedLocales= [
+            $supportedLocales = [
                 config('app.locale'),
                 config('app.fallback_locale'),
             ];

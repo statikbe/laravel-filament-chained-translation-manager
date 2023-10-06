@@ -16,28 +16,21 @@ use Statikbe\LaravelChainedTranslator\ChainedTranslationManager;
 
 class TranslationManagerPage extends Page
 {
+    /**
+     * @const int
+     */
     const PAGE_LIMIT = 20;
 
     protected static ?string $navigationIcon = 'heroicon-o-language';
 
     private ChainedTranslationManager $chainedTranslationManager;
 
-    /**
-     * @var array<string>
-     */
     public array $groups;
 
-    /**
-     * @var array<string>
-     */
     public array $locales;
 
-    /**
-     * @var Collection{ 'title': string, 'type': string, 'group': string, 'translation_key': string, 'translations': array<string, string> }
-     */
     public Collection $filteredTranslations;
 
-    //filters
     public string $searchTerm = '';
 
     public bool $onlyShowMissingTranslations = false;
@@ -56,7 +49,7 @@ class TranslationManagerPage extends Page
 
     public int $totalMissingFilteredTranslations = 0;
 
-    protected $queryString = [
+    protected array $queryString = [
         'pageCounter' => [
             'except' => 1,
             'as' => 'page',
@@ -79,8 +72,8 @@ class TranslationManagerPage extends Page
 
     public static function shouldRegisterNavigation(): bool
     {
-        if (config('filament-translation-manager.access.limited')) {
-            return Gate::allows(config('filament-translation-manager.access.gate'));
+        if (config('filament-translation-manager.gate')) {
+            return Gate::allows(config('filament-translation-manager.gate'));
         }
 
         return true;
@@ -88,7 +81,7 @@ class TranslationManagerPage extends Page
 
     public static function getNavigationGroup(): ?string
     {
-        return trans('filament-translation-manager::messages.navigation-group');
+        return trans('filament-translation-manager::messages.navigation_group');
     }
 
     public static function getNavigationLabel(): string
@@ -103,8 +96,8 @@ class TranslationManagerPage extends Page
 
     public function mount(): void
     {
-        if (config('filament-translation-manager.access.limited')) {
-            Gate::authorize(config('filament-translation-manager.access.gate'));
+        if (config('filament-translation-manager.gate')) {
+            Gate::authorize(config('filament-translation-manager.gate'));
         }
 
         $this->loadInitialData();
@@ -121,9 +114,6 @@ class TranslationManagerPage extends Page
         $this->filterTranslations();
     }
 
-    /**
-     * Returns a list of the configured, supported locales (key: locale) with their names (key: language).
-     */
     protected function getLocalesData(): array
     {
         return FilamentTranslationManager::getLocales();
@@ -174,7 +164,7 @@ class TranslationManagerPage extends Page
                         ->columns(6)
                         ->schema([
                             TextInput::make('searchTerm')
-                                ->disableLabel()
+                                ->hiddenLabel()
                                 ->placeholder(trans('filament-translation-manager::messages.search_term_placeholder'))
                                 ->prefixIcon('heroicon-o-magnifying-glass')
                                 ->columnSpan(3),
@@ -188,13 +178,13 @@ class TranslationManagerPage extends Page
                         ->columns(6)
                         ->schema([
                             Select::make('selectedLocales')
-                                ->disableLabel()
+                                ->hiddenLabel()
                                 ->placeholder(trans('filament-translation-manager::messages.selected_languages_placeholder'))
                                 ->multiple()
                                 ->options(array_combine($this->locales, $this->locales))
                                 ->columnSpan(3),
                             Select::make('selectedGroups')
-                                ->disableLabel()
+                                ->hiddenLabel()
                                 ->placeholder(trans('filament-translation-manager::messages.selected_groups_placeholder'))
                                 ->multiple()
                                 ->options(array_combine($this->groups, $this->groups))
@@ -323,7 +313,7 @@ class TranslationManagerPage extends Page
 
     private function checkIfTranslationMissing(array $translations, array $filteredLocales): bool
     {
-        // check if all selected locales are available in the translation item, by intersecting the locales of the
+        // Check if all selected locales are available in the translation item, by intersecting the locales of the
         // translation item and the selected locales and seeing if the size matches with the selected locales.
         if (count(array_intersect($filteredLocales, array_keys($translations))) !== count($filteredLocales)) {
             return true;

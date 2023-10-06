@@ -6,42 +6,10 @@
                 'dark:text-gray-200' => config('filament.dark_mode'),
             ])>
                 <x-dynamic-component :component="'heroicon-o-language'" class="w-4 h-4" />
-
                 <span>Translation manager</span>
             </div>
-            <div class="filament-tables-icon-column filament-tables-icon-column-size-{$size}">
-                <x-dynamic-component :component="'heroicon-o-check-circle'" class="w-6 h-6 text-primary-600"/>
-
-            </div>
-
             <div class="text-sm flex space-x-2 rtl:space-x-reverse">
-                <a
-                    href="https://filamentphp.com/docs"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    @class([
-                        'text-gray-600 hover:text-primary-500 focus:outline-none focus:underline',
-                        'dark:text-gray-300 dark:hover:text-primary-500' => config('filament.dark_mode'),
-                    ])
-                >
-                    Missing translations: {{$missingTranslations}}
-                </a>
-
-                <span>
-                    &bull;
-                </span>
-
-                <a
-                    href="https://github.com/filamentphp/filament"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    @class([
-                        'text-gray-600 hover:text-primary-500 focus:outline-none focus:underline',
-                        'dark:text-gray-300 dark:hover:text-primary-500' => config('filament.dark_mode'),
-                    ])
-                >
-                    MANAGER
-                </a>
+                Missing translations: {{$missingTranslations}}
             </div>
         </div>
     </x-filament::card>

@@ -2,7 +2,7 @@
 
 return [
     'title' => 'Gestor de Traducciones',
-    'navigation-group' => 'Configuración',
+    'navigation_group' => 'Configuración',
     'search_term_placeholder' => 'Buscar traducción',
     'selected_groups_placeholder' => 'Seleccionar grupo',
     'selected_languages_placeholder' => 'Seleccionar idioma',

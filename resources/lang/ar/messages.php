@@ -2,7 +2,7 @@
 
 return [
     'title' => 'مدير الترجمة',
-    'navigation-group' => 'الاعدادات',
+    'navigation_group' => 'الاعدادات',
     'search_term_placeholder' => 'بحث عن ترجمة',
     'selected_groups_placeholder' => 'اختر مجموعة',
     'selected_languages_placeholder' => 'اختر لغة',
