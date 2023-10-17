@@ -72,8 +72,8 @@ class TranslationManagerPage extends Page
 
     public static function shouldRegisterNavigation(): bool
     {
-        if (config('filament-translation-manager.gate')) {
-            return Gate::allows(config('filament-translation-manager.gate'));
+        if (config('filament-translation-manager.gate', config('filament-translation-manager.access.gate'))) {
+            return Gate::allows(config('filament-translation-manager.gate', config('filament-translation-manager.access.gate')));
         }
 
         return true;
@@ -96,8 +96,8 @@ class TranslationManagerPage extends Page
 
     public function mount(): void
     {
-        if (config('filament-translation-manager.gate')) {
-            Gate::authorize(config('filament-translation-manager.gate'));
+        if (config('filament-translation-manager.gate', config('filament-translation-manager.access.gate'))) {
+            Gate::authorize(config('filament-translation-manager.gate', config('filament-translation-manager.access.gate')));
         }
 
         $this->loadInitialData();

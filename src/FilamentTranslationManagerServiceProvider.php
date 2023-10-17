@@ -26,7 +26,7 @@ class FilamentTranslationManagerServiceProvider extends PackageServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/filament-translation-manager.php', 'filament-translation-manager');
 
-        $supportedLocales = config('filament-translation-manager.locales');
+        $supportedLocales = config('filament-translation-manager.locales', config('filament-translation-manager.supported_locales'));
 
         if (empty($supportedLocales)) {
             $supportedLocales = [

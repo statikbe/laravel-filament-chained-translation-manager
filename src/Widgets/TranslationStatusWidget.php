@@ -16,8 +16,8 @@ class TranslationStatusWidget extends Widget
 
     public static function canView(): bool
     {
-        if (config('filament-translation-manager.gate')) {
-            return Gate::allows(config('filament-translation-manager.gate'));
+        if (config('filament-translation-manager.gate', config('filament-translation-manager.access.gate'))) {
+            return Gate::allows(config('filament-translation-manager.gate', config('filament-translation-manager.access.gate')));
         }
 
         return true;

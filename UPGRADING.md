@@ -4,7 +4,7 @@ Because there are sometimes breaking changes, an upgrade may not always be easy.
 
 ## From 3.0 to 3.1
 
-You can perform the upgrade by renaming certain variables used in the configuration file (located at config/filament-translation-manager.php):
+You can perform the upgrade by renaming the configuration variables (located in config/filament-translation-manager.php):
 
 - Change `supported_locales` to `locales`.
 - Move `access.gate` to `gate`.
