@@ -144,6 +144,10 @@ by running the command provided by the [Laravel Chained Translator](https://gith
 
 ![Example of Laravel Filament Chained Translation Manager](art/example.png)
 
+## Upgrading
+
+Please see [UPGRADING](UPGRADING.md) for details.
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
