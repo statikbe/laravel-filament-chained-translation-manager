@@ -2,7 +2,7 @@
 
 return [
     'title' => 'Gestor de Traducciones',
-    'navigation-group' => 'Configuración',
+    'navigation_group' => 'Configuración',
     'search_term_placeholder' => 'Buscar traducción',
     'selected_groups_placeholder' => 'Seleccionar grupo',
     'selected_languages_placeholder' => 'Seleccionar idioma',
@@ -15,4 +15,5 @@ return [
     'filter_action' => 'Filtrar',
     'filter_results' => 'Se filtraron :filtered de :total traducciones.',
     'filter_results_missing_translations' => ':missing tienen traducciones faltantes (:percent%).',
+    'saved_translation' => 'Traducción guardada',
 ];

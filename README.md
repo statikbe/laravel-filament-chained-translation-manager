@@ -1,10 +1,10 @@
-<p align="center"><img src="documentation/img/banner-filament-chained-translation-manager.png" alt="Laravel Filament Chained Translation Manager"></p>
+![Laravel Filament Chained Translation Manager](art/banner.png)
 
 # Laravel Filament Chained Translation Manager
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/statikbe/laravel-filament-chained-translation-manager.svg?style=flat-square)](https://packagist.org/packages/statikbe/laravel-filament-chained-translation-manager)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/statikbe/laravel-filament-chained-translation-manager/.github/workflows/fix-php-code-style-issues.yml?branch=main)](https://github.com/statikbe/laravel-filament-chained-translation-manager/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/statikbe/laravel-filament-chained-translation-manager.svg?style=flat-square)](https://packagist.org/packages/statikbe/laravel-filament-chained-translation-manager)
+![Packagist](https://img.shields.io/packagist/v/statikbe/laravel-filament-chained-translation-manager.svg?style=for-the-badge&logo=packagist)
+![Code Style Passing](https://img.shields.io/github/actions/workflow/status/statikbe/laravel-filament-chained-translation-manager/.github/workflows/fix-php-code-style-issues.yml?branch=main&style=for-the-badge&logo=github&label=code%20style)
+![Downloads](https://img.shields.io/packagist/dt/statikbe/laravel-filament-chained-translation-manager.svg?style=for-the-badge)
 
 The Laravel Filament Chained Translation Manager allows you to easily edit the translations of your current Laravel environment.
 This translation manager uses the [Laravel Chained Translator](https://github.com/statikbe/laravel-chained-translator),
@@ -20,154 +20,59 @@ by the content manager in separate lang directories. The library merges the tran
 where the translations of the content manager (the custom translations) override those of the developer (the default translations).
 Check the documentation of the [Laravel Chained Translator](https://github.com/statikbe/laravel-chained-translator) for more info.
 
-There is also a [Laravel Nova version](https://github.com/statikbe/laravel-nova-chained-translation-manager) of this package.
+There is also a [Laravel Nova Chained Translation Manager](https://github.com/statikbe/laravel-nova-chained-translation-manager) of this package.
 
 ## Features
 
 -   Save translations of the current environment to separate translation files in a separate language directory to avoid version conflicts.
--   Immediately save translations
--   Search for translations and translation keys
--   Filter translations for specific groups and languages
--   Only show keys with missing translations
--   Shows statistics of how many fields are completely translated
+-   Immediately save translations.
+-   Search for translations and translation keys.
+-   Filter translations for specific groups and languages.
+-   Only show keys with missing translations.
+-   Shows statistics of how many fields are completely translated.
 
 This tool does not provide features to add new translation keys, because our target users are translators and
 content managers, and we want to avoid that they add unnecessary translation keys.
 
-![example of the translation manager](images/example1.png)
-
 ## Installation
 
-**Filament v2 & v3 support**:
-If you want to use the translation manager with Filament v2, please use version v1. 
-For Filament v3 use version v3.
+> **Note**
+> For **Filament 2.x** use **[1.x](https://github.com/statikbe/laravel-filament-chained-translation-manager/tree/1.x)** branch
 
-You can install the package via composer:
+1. You can install the package via Composer:
 
 ```bash
 composer require statikbe/laravel-filament-chained-translation-manager
 ```
 
-Using this package requires a Filament custom theme.
-If you do not have one already, you can follow the instructions
-[on the Filament documentation site](https://filamentphp.com/docs/3.x/panels/themes#creating-a-custom-theme)
-to create one.
+2. Register the plugin for the Filament Panels you want:
 
-Creating a new theme simply publishes the styling for the default Filament panel, so this
-will not change anything if you are happy with how Filament is styled out of the box.
+```php 
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->plugins([
+            \Statikbe\FilamentTranslationManager\FilamentChainedTranslationManagerPlugin::make(),
+        ]);
+}
+```
 
-After creating a custom theme, you will need to add the following path to the `content` array of the
-generated `tailwind.config.js` file for the Filament theme:
+2. Using this package requires a Filament custom theme. If you do not have one already, you can follow the instructions [on the Filament documentation site](https://filamentphp.com/docs/3.x/panels/themes#creating-a-custom-theme) to create one. Creating a new theme simply publishes the styling for the default Filament panel, so this will not change anything if you are happy with how Filament is styled out of the box. After creating a custom theme, you will need to add the following path to the `content` array of the generated `tailwind.config.js` file for the Filament theme:
 
 ```javascript
 "./vendor/statikbe/laravel-filament-chained-translation-manager/**/*.blade.php";
 ```
 
-You will then need to run the Vite build script to compile the plugin styles into Filament's stylesheet:
+3. Now run the following command to compile the plugin styles into Filament's stylesheet:
 
 ```bash
 npm run build
 ```
 
-You can publish the config file with:
+4. Publish the `config` file then setup your configuration:
 
 ```bash
 php artisan vendor:publish --tag="filament-translation-manager-config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-    'enabled' => true,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Application Supported Locale Configuration
-    |--------------------------------------------------------------------------
-    |
-    | The application locale determines the possible locales that can be used.
-    | You are free to fill this array with any of the locales which will be
-    | supported by the application.
-    |
-    */
-    'supported_locales' => [
-        'en',
-        'nl',
-        'fr',
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Access
-    |--------------------------------------------------------------------------
-    |
-    | Limited = false (default)
-    |   Anyone can use the translation manager.
-    |
-    | Limited = true
-    |   The page will use the provided gate to see if the user has access.
-    |   - Default Laravel: you can define the gate in a service provider
-            (https://laravel.com/docs/10.x/authorization)
-    |   - Spatie permissions: set the 'gate' variable to a permission name you want to check against, see the example below.
-    |
-    |
-    */
-    'access' => [
-        'limited' => false,
-        //'gate' => 'view-filament-translation-manager',
-    ],
-
-    /*
-     |--------------------------------------------------------------------------
-     | Ignore Groups
-     |--------------------------------------------------------------------------
-     |
-     | You can list the translation groups that you do not want users to translate.
-     | Note: the JSON files are grouped in 'json-file' by default. (see config/laravel-chained-translator.php)
-     */
-    'ignore_groups' => [
-//        'auth',
-    ],
-
-    /*
-     |--------------------------------------------------------------------------
-     | Navigation Sort
-     |--------------------------------------------------------------------------
-     |
-     | You can specify the order in which navigation items are listed.
-     | Accepts integer value according to filamnet documentation.
-     | (visit: https://filamentphp.com/docs/2.x/admin/resources/getting-started#sorting-navigation-items)
-     */
-    'navigation_sort' => null,
-];
-
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="filament-translation-manager-views"
-```
-
-Optionally, you can also publish the translations
-
-```bash
-php artisan vendor:publish --tag="filament-translation-manager-translations"
-```
-
-Finally, for Filament v3, add the plugin to your panel in your panel provider in the `panel()` function:
-
-```php 
-class AdminPanelProvider extends PanelProvider
-{
-    public function panel(Panel $panel): Panel
-    {
-        return $panel
-            // ...
-            ->plugin(FilamentChainedTranslationManagerPlugin::make());
-    }
-}
 ```
 
 ## Configuration
@@ -182,31 +87,18 @@ There are two ways to change the supported locales.
 
 #### Option 1
 
-Publish the config file with the command below and configure it with your supported locales and editor preferences (see above).
-Then configure the `supported_locales` variable:
+Set up the supported locales using the configuration. By default, it will fallback to the locale and fallback locale. However, you can customize the configuration to include additional locales as follows:
 
 ```php
-/*
-|--------------------------------------------------------------------------
-| Application Supported Locale Configuration
-|--------------------------------------------------------------------------
-|
-| The application locale determines the possible locales that can be used.
-| You are free to fill this array with any of the locales which will be
-| supported by the application.
-|
-*/
-'supported_locales' => [
+'locales' => [
     'en',
-    'nl',
-    'fr'
+    'fr',
 ],
 ```
 
 #### Option 2
 
-If your application already has a config that declares your locales than you are able to set the supported locales
-in any service provider.
+If your application already has a config that declares your locales than you are able to set the supported locales in any service provider.
 Create a new one or use the `app/Providers/AppServiceProvider.php` and set the supported locales as an array in the boot function as follows:
 
 ```php
@@ -218,46 +110,19 @@ public function boot()
 }
 ```
 
-### Access
+### Gate
 
-You can limit the access to the Translation Manager, by configuring the `access` variable.
-If you set the `limited` key to `true`, you can set a Laravel Gate class or a permission name of the [Spatie Permissions package](https://github.com/spatie/laravel-permission).
+You can restrict access to the Translation Manager by configuring the Gate variable.
 
 ```php
-/*
-|--------------------------------------------------------------------------
-| Access
-|--------------------------------------------------------------------------
-|
-| Limited = false (default)
-|   Anyone can use the translation manager.
-|
-| Limited = true
-|   The page will use the provided gate to see if the user has access.
-|   - Default Laravel: you can define the gate in a service provider (https://laravel.com/docs/9.x/authorization)
-|   - Spatie permissions: set the 'gate' variable to a permission name you want to check against, see the example below.
-|
-|
-*/
-'access' => [
-    'limited' => false,
-    //'gate' => 'view-filament-translation-manager',
-],
+'gate' => 'view-filament-translation-manager',
 ```
 
 ### Ignoring groups
 
-You may also ignore certain groups of translations to be shown in the Filament. Create an array with keys that you want to ignore:
+You can choose to exclude specific groups of translations from appearing in Filament. Create an array with the keys that you wish to ignore:
 
 ```php
-/*
- |--------------------------------------------------------------------------
- | Ignore Groups
- |--------------------------------------------------------------------------
- |
- | You can list the translation groups that you do not want users to translate.
- | Note: the JSON files are grouped in 'json-file' by default. (see config/laravel-chained-translator.php)
- */
 'ignore_groups' => [
     'auth',
 ],
@@ -268,12 +133,20 @@ You may also ignore certain groups of translations to be shown in the Filament. 
 The library creates a new directory for the new translations, see [Laravel Chained Translator](https://github.com/statikbe/laravel-chained-translator).
 Check the configuration options of the [Laravel Chained Translator](https://github.com/statikbe/laravel-chained-translator) package to change this.
 
-The Translation Manager is automatically added to the Filament menu.
+Additionally, please note that the Translation Manager is automatically included in the Filament menu.
 
 ### Merging translations
 
 You can combine the custom translations of the current environment with the default translation files,
-by running the command provided by the [Laravel Chained Translator library](https://github.com/statikbe/laravel-chained-translator).
+by running the command provided by the [Laravel Chained Translator](https://github.com/statikbe/laravel-chained-translator).
+
+## Screenshots
+
+![Example of Laravel Filament Chained Translation Manager](art/example.png)
+
+## Upgrading
+
+Please see [UPGRADING](UPGRADING.md) for details.
 
 ## Changelog
 
@@ -281,8 +154,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## Contributing
 
-Please, submit bugs or feature requests via the [Github issues](https://github.com/statikbe/laravel-filament-chained-translation-manager/issues).
-Pull requests are welcomed! Thanks!
+Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
 ## Security Vulnerabilities
 

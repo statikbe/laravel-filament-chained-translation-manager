@@ -15,11 +15,6 @@ class FilamentTranslationManagerServiceProvider extends PackageServiceProvider
 
     public function configurePackage(Package $package): void
     {
-        /*
-         * This class is a Package Service Provider
-         *
-         * More info: https://github.com/spatie/laravel-package-tools
-         */
         $package
             ->name(static::$name)
             ->hasViews()
@@ -31,10 +26,14 @@ class FilamentTranslationManagerServiceProvider extends PackageServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/filament-translation-manager.php', 'filament-translation-manager');
 
-        $supportedLocales = config(
-            'filament-translation-manager.supported_locales',
-            config('app.supported_locales', ['en'])
-        );
+        $supportedLocales = config('filament-translation-manager.locales', config('filament-translation-manager.supported_locales'));
+
+        if (empty($supportedLocales)) {
+            $supportedLocales = [
+                config('app.locale'),
+                config('app.fallback_locale'),
+            ];
+        }
 
         FilamentTranslationManager::setLocales($supportedLocales);
 

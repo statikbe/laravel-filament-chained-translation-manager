@@ -2,7 +2,7 @@
 
 return [
     'title' => 'Translation manager',
-    'navigation-group' => 'Settings',
+    'navigation_group' => 'Settings',
     'search_term_placeholder' => 'Search translation',
     'selected_groups_placeholder' => 'Select group',
     'selected_languages_placeholder' => 'Select language',
@@ -15,4 +15,5 @@ return [
     'filter_action' => 'Filter',
     'filter_results' => 'Filtered out :filtered of :total translations.',
     'filter_results_missing_translations' => ':missing have missing translations (:percent%).',
+    'saved_translation' => 'Translation saved',
 ];

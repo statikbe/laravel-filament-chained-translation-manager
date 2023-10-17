@@ -3,8 +3,6 @@
 namespace Statikbe\FilamentTranslationManager\Http\Livewire;
 
 use Filament\Notifications\Notification;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use Statikbe\LaravelChainedTranslator\ChainedTranslationManager;
@@ -13,7 +11,7 @@ class TranslationEditForm extends Component
 {
     public string $group;
 
-    public string $translationKey; //"key" is reserved for wire:key
+    public string $translationKey;
 
     public array $translations;
 
@@ -21,6 +19,9 @@ class TranslationEditForm extends Component
 
     public array $locales;
 
+    /**
+     * @const string
+     */
     const EVENT_TRANSLATIONS_SAVED = 'translationsSaved';
 
     public function mount(): void
@@ -49,7 +50,7 @@ class TranslationEditForm extends Component
 
         Notification::make()
             ->success()
-            ->title('Translation saved')
+            ->title(trans('filament-translation-manager::messages.saved_translation'))
             ->send();
     }
 
@@ -58,7 +59,7 @@ class TranslationEditForm extends Component
         $this->translations = $this->initialTranslations;
     }
 
-    public function render(): Factory|View|Application
+    public function render(): View
     {
         return view('filament-translation-manager::livewire.translation-edit-form');
     }

@@ -2,7 +2,7 @@
 
 return [
     'title' => 'مدير الترجمة',
-    'navigation-group' => 'الاعدادات',
+    'navigation_group' => 'الاعدادات',
     'search_term_placeholder' => 'بحث عن ترجمة',
     'selected_groups_placeholder' => 'اختر مجموعة',
     'selected_languages_placeholder' => 'اختر لغة',
@@ -15,4 +15,5 @@ return [
     'filter_action' => 'تصفية',
     'filter_results' => 'تم تصفية :filtered من :total ترجمة.',
     'filter_results_missing_translations' => ':missing لا توجد لها ترجمة (:percent%).',
+    'saved_translation' => 'تم حفظ الترجمة',
 ];

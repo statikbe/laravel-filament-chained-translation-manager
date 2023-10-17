@@ -2,7 +2,7 @@
 
 return [
     'title' => 'Vertalingen',
-    'navigation-group' => 'Instellingen',
+    'navigation_group' => 'Instellingen',
     'search_term_placeholder' => 'Zoeken',
     'selected_groups_placeholder' => 'Selecteer groep',
     'selected_languages_placeholder' => 'Selecteer taal',
@@ -15,4 +15,5 @@ return [
     'filter_action' => 'Filter',
     'filter_results' => ':filtered gefilterd uit totaal :total vertalingen.',
     'filter_results_missing_translations' => ':missing hebben missende vertalingen (:percent%).',
+    'saved_translation' => 'Vertaling opgeslagen',
 ];

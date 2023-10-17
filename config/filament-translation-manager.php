@@ -1,7 +1,6 @@
 <?php
 
 return [
-    'enabled' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -12,33 +11,24 @@ return [
     | You are free to fill this array with any of the locales which will be
     | supported by the application.
     |
+    | Default: The available and fallback locale
+    |
     */
-    'supported_locales' => [
-        'en',
-        'nl',
-        'fr',
+    'locales' => [
+        // 'en',
     ],
 
     /*
     |--------------------------------------------------------------------------
-    | Access
+    | Gate
     |--------------------------------------------------------------------------
     |
-    | Limited = false (default)
-    |   Anyone can use the translation manager.
-    |
-    | Limited = true
-    |   The page will use the provided gate to see if the user has access.
-    |   - Default Laravel: you can define the gate in a service provider
-            (https://laravel.com/docs/9.x/authorization)
-    |   - Spatie permissions: set the 'gate' variable to a permission name you want to check against, see the example below.
-    |
+    | The page will use the provided gate to see if the user has access.
+    | Note: you can define the gate in a service provider
+    | (visit: https://laravel.com/docs/10.x/authorization)
     |
     */
-    'access' => [
-        'limited' => false,
-        //'gate' => 'view-filament-translation-manager',
-    ],
+    'gate' => null,
 
     /*
      |--------------------------------------------------------------------------
@@ -46,10 +36,12 @@ return [
      |--------------------------------------------------------------------------
      |
      | You can list the translation groups that you do not want users to translate.
-     | Note: the JSON files are grouped in 'json-file' by default. (see config/laravel-chained-translator.php)
+     | Note: the JSON files are grouped in 'json-file' by default.
+     | (see: config/laravel-chained-translator.php)
+     |
      */
     'ignore_groups' => [
-        //        'auth',
+        // 'auth',
     ],
 
     /*
@@ -58,22 +50,26 @@ return [
      |--------------------------------------------------------------------------
      |
      | You can specify the order in which navigation items are listed.
-     | Accepts integer value according to filament documentation.
-     | (visit: https://filamentphp.com/docs/2.x/admin/resources/getting-started#sorting-navigation-items)
+     | Accepts integer value according to Filament documentation.
+     | (visit: https://filamentphp.com/docs/3.x/panels/navigation#sorting-navigation-items)
+     |
      */
     'navigation_sort' => null,
 
     /*
      |--------------------------------------------------------------------------
-     | Translation status widget
+     | Widget
      |--------------------------------------------------------------------------
      |
      | You can specify the widget settings:
-     | - disable the widget
-     | - the sort order to decide where it is shown on the dashboard.
+     | - Enable the widget.
+     | - Define the gate to see if the user has access.
+     | - Specify the order in which the widget is listed.
+     |
      */
     'widget' => [
         'enabled' => true,
-        'sort' => 1,
+        'gate' => null,
+        'sort' => null,
     ],
 ];

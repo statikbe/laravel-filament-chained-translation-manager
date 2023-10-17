@@ -11,13 +11,13 @@ class TranslationStatusWidget extends Widget
 
     public static function getSort(): int
     {
-        return 200; //config('filament-translation-manager.widget.sort', static::$sort);
+        return config('filament-translation-manager.widget.sort', -1);
     }
 
     public static function canView(): bool
     {
-        if (config('filament-translation-manager.access.limited')) {
-            return Gate::allows(config('filament-translation-manager.access.gate'));
+        if (config('filament-translation-manager.gate', config('filament-translation-manager.access.gate'))) {
+            return Gate::allows(config('filament-translation-manager.gate', config('filament-translation-manager.access.gate')));
         }
 
         return true;
