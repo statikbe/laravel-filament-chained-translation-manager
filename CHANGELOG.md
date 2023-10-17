@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
+## v3.1.0 - 2023-10-17
+
+- Improve package structure for Filament v3
+- Cleanup configuration, note that you best upgrade the configuration file, see UPGRADING.md
+
+Thanks @jordinbrouwer!
+
 ## v3.0.4 - 2023-10-03
 
 Spanish translations, thanks to @buzkall
