@@ -15,4 +15,5 @@ return [
     'filter_action' => 'تصفية',
     'filter_results' => 'تم تصفية :filtered من :total ترجمة.',
     'filter_results_missing_translations' => ':missing لا توجد لها ترجمة (:percent%).',
+    'saved_translation' => 'تم حفظ الترجمة',
 ];
