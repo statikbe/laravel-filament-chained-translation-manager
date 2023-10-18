@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
+## v3.1.1 - 2023-10-18
+
+- fix gate widget config
+- fix documentation filament v2 installation
+
+Thanks to @jordinbrouwer!
+
 ## v3.1.0 - 2023-10-17
 
 - Improve package structure for Filament v3
