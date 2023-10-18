@@ -11,7 +11,7 @@ class TranslationStatusWidget extends Widget
 
     public static function getSort(): int
     {
-        return config('filament-translation-manager.widget.sort', -1);
+        return config('filament-translation-manager.widget.sort') ?? -1;
     }
 
     public static function canView(): bool
