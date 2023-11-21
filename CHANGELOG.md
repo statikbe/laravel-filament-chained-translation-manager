@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
+## v3.1.2 - 2023-11-21
+
+### What's Changed
+
+- use , instead of ; in README.md by @majdghithan in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/28
+- add French translations by @franz825 in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/30
+
+### New Contributors
+
+- @majdghithan made their first contribution in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/28
+- @franz825 made their first contribution in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/30
+
+**Full Changelog**: https://github.com/statikbe/laravel-filament-chained-translation-manager/compare/v3.1.1...v3.1.2
+
 ## v3.1.1 - 2023-10-18
 
 - fix gate widget config
