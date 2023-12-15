@@ -128,7 +128,7 @@ You can choose to exclude specific groups of translations from appearing in Fila
 ],
 ```
 
-### Icon
+### Navigation Icon
 
 You can customize the navigation icon by configuring the `navigation-icon` variable
 ```
