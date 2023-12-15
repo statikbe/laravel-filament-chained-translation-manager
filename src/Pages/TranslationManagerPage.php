@@ -21,7 +21,7 @@ class TranslationManagerPage extends Page
      */
     const PAGE_LIMIT = 20;
 
-    protected static ?string $navigationIcon;
+    protected static ?string $navigationIcon = null;
 
     private ChainedTranslationManager $chainedTranslationManager;
 
