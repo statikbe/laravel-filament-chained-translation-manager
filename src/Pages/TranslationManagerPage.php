@@ -21,8 +21,6 @@ class TranslationManagerPage extends Page
      */
     const PAGE_LIMIT = 20;
 
-    protected static ?string $navigationIcon = null;
-
     private ChainedTranslationManager $chainedTranslationManager;
 
     public array $groups;
@@ -89,6 +87,11 @@ class TranslationManagerPage extends Page
         return trans('filament-translation-manager::messages.title');
     }
 
+    public static function getNavigationIcon(): ?string
+    {
+        return config('filament-translation-manager.navigation_icon');
+    }
+
     public function getTitle(): string
     {
         return trans('filament-translation-manager::messages.title');
@@ -110,7 +113,6 @@ class TranslationManagerPage extends Page
 
         $this->locales = $this->getLocalesData();
         $this->selectedLocales = $this->locales;
-        static::$navigationIcon = config('filament-translation-manager.navigation_icon') ?? null;
 
         $this->filterTranslations();
     }
