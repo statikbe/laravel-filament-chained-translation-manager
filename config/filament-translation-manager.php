@@ -79,8 +79,7 @@ return [
      |--------------------------------------------------------------------------
      |
      | You can specify the navigation icon.
-     | Accepts string value according to Heroicons documentation.
-     | (visit: https://heroicons.com/)
+     | (visit: https://blade-ui-kit.com/blade-icons?set=1#search)
      | Default: 'heroicon-o-language'
      | For null value, the icon will be hidden.
      |
