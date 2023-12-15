@@ -72,4 +72,19 @@ return [
         'gate' => null,
         'sort' => null,
     ],
+
+    /*
+     |--------------------------------------------------------------------------
+     | Navigation Icon
+     |--------------------------------------------------------------------------
+     |
+     | You can specify the navigation icon.
+     | Accepts string value according to Heroicons documentation.
+     | (visit: https://heroicons.com/)
+     | Default: 'heroicon-o-language'
+     | For null value, the icon will be hidden.
+     |
+     */
+
+    'navigation_icon' => 'heroicon-o-language',
 ];
