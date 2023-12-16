@@ -89,7 +89,9 @@ class TranslationManagerPage extends Page
 
     public static function getNavigationIcon(): ?string
     {
-        return config('filament-translation-manager.navigation_icon');
+        return config()->has('filament-translation-manager.navigation_icon')
+            ? config('filament-translation-manager.navigation_icon')
+            : 'heroicon-o-language';
     }
 
     public function getTitle(): string
