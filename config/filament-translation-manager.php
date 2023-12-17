@@ -72,4 +72,18 @@ return [
         'gate' => null,
         'sort' => null,
     ],
+
+    /*
+     |--------------------------------------------------------------------------
+     | Navigation Icon
+     |--------------------------------------------------------------------------
+     |
+     | You can specify the navigation icon.
+     | (visit: https://blade-ui-kit.com/blade-icons?set=1#search)
+     | Default: 'heroicon-o-language'
+     | For null value, the icon will be hidden.
+     |
+     */
+
+    'navigation_icon' => 'heroicon-o-language',
 ];

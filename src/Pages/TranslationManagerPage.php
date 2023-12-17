@@ -21,8 +21,6 @@ class TranslationManagerPage extends Page
      */
     const PAGE_LIMIT = 20;
 
-    protected static ?string $navigationIcon = 'heroicon-o-language';
-
     private ChainedTranslationManager $chainedTranslationManager;
 
     public array $groups;
@@ -89,6 +87,13 @@ class TranslationManagerPage extends Page
         return trans('filament-translation-manager::messages.title');
     }
 
+    public static function getNavigationIcon(): ?string
+    {
+        return config()->has('filament-translation-manager.navigation_icon')
+            ? config('filament-translation-manager.navigation_icon')
+            : 'heroicon-o-language';
+    }
+
     public function getTitle(): string
     {
         return trans('filament-translation-manager::messages.title');
@@ -138,10 +143,10 @@ class TranslationManagerPage extends Page
 
         //transform to data structure necessary for frontend
         foreach ($translations as $key => $translation) {
-            $dataKey = $group.'.'.$key;
-            if (! array_key_exists($dataKey, $data)) {
+            $dataKey = $group . '.' . $key;
+            if (!array_key_exists($dataKey, $data)) {
                 $data[$dataKey] = [
-                    'title' => $group.' - '.$key,
+                    'title' => $group . ' - ' . $key,
                     'type' => 'group',
                     'group' => $group,
                     'translation_key' => $key,
@@ -222,7 +227,7 @@ class TranslationManagerPage extends Page
             });
         }
 
-        if (! empty($this->selectedGroups)) {
+        if (!empty($this->selectedGroups)) {
             $filteredTranslations = $filteredTranslations->filter(function ($translationItem, $key) {
                 return in_array($translationItem['group'], $this->selectedGroups, true);
             });
@@ -255,7 +260,7 @@ class TranslationManagerPage extends Page
 
     private function getChainedTranslationManager(): ChainedTranslationManager
     {
-        if (! isset($this->chainedTranslationManager)) {
+        if (!isset($this->chainedTranslationManager)) {
             $this->chainedTranslationManager = app(ChainedTranslationManager::class);
         }
 
@@ -304,9 +309,9 @@ class TranslationManagerPage extends Page
         $oldMissing = $this->checkIfTranslationMissing($initialTranslations, $this->getFilteredLocales());
         $newMissing = $this->checkIfTranslationMissing($newTranslation, $this->getFilteredLocales());
 
-        if ($oldMissing && ! $newMissing) {
+        if ($oldMissing && !$newMissing) {
             $this->totalMissingFilteredTranslations--;
-        } elseif (! $oldMissing && $newMissing) {
+        } elseif (!$oldMissing && $newMissing) {
             $this->totalMissingFilteredTranslations++;
         }
     }
@@ -332,7 +337,7 @@ class TranslationManagerPage extends Page
 
     private function getFilteredLocales(): array
     {
-        return ! empty($this->selectedLocales) ? $this->selectedLocales : $this->locales;
+        return !empty($this->selectedLocales) ? $this->selectedLocales : $this->locales;
     }
 
     public static function getNavigationSort(): ?int

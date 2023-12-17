@@ -128,6 +128,13 @@ You can choose to exclude specific groups of translations from appearing in Fila
 ],
 ```
 
+### Navigation Icon
+
+You can customize the navigation icon by configuring the `navigation-icon` variable
+```
+'navigation_icon' => 'heroicon-o-language',
+```
+
 ## Usage
 
 The library creates a new directory for the new translations, see [Laravel Chained Translator](https://github.com/statikbe/laravel-chained-translator).
