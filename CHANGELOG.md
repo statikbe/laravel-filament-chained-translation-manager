@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
+## V3.1.3 - 2023-12-17
+
+### What's Changed
+
+* Customizable icon by @ReubenSiama in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/31
+
+### New Contributors
+
+* @ReubenSiama made their first contribution in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/31
+
+**Full Changelog**: https://github.com/statikbe/laravel-filament-chained-translation-manager/compare/v3.1.2...V3.1.3
+
 ## v3.1.2 - 2023-11-21
 
 ### What's Changed
