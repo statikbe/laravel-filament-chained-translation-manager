@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
+## v3.2.0 - 2024-02-06
+
+- Upgrade chained translator lib
+
 ## V3.1.3 - 2023-12-17
 
 ### What's Changed
