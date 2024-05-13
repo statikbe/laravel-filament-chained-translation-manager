@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
+## v3.2.4 - 2024-05-13
+
+Fix Laravel 11 upgrade: increase brick/varexporter version to fix php-parser dependency incompatibility with phpunit/phpstan in laravel 11
+
 ## v3.2.3 - 2024-03-21
 
 Fix Laravel 11 support
