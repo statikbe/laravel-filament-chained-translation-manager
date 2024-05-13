@@ -25,7 +25,7 @@
         "filament/filament": "^3.0",
         "illuminate/contracts": "^10.0|^11.0",
         "spatie/laravel-package-tools": "^1.14.0",
-        "statikbe/laravel-chained-translator": "^2.3"
+        "statikbe/laravel-chained-translator": "^2.4"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
