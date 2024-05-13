@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
+## v3.2.3 - 2024-03-21
+
+Fix Laravel 11 support
+
+## v3.2.2 - 2024-03-14
+
+- Laravel 11 support
+
 ## v3.2.1 - 2024-03-14
 
 - Laravel 11 support
