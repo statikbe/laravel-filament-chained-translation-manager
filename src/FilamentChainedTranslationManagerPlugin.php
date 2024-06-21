@@ -9,9 +9,7 @@ use Statikbe\FilamentTranslationManager\Widgets\TranslationStatusWidget;
 
 class FilamentChainedTranslationManagerPlugin implements Plugin
 {
-    public function boot(Panel $panel): void
-    {
-    }
+    public function boot(Panel $panel): void {}
 
     public static function make(): static
     {
