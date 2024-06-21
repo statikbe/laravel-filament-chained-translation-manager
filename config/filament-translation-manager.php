@@ -68,7 +68,7 @@ return [
      |
      */
     'widget' => [
-        'enabled' => true,
+        'enabled' => false,
         'gate' => null,
         'sort' => null,
     ],
