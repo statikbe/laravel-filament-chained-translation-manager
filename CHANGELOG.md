@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
+## 3.2.6 - 2024-08-20
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 2.1.0 to 2.2.0 by @dependabot in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/42
+* add czech translations by @JarkaP in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/43
+
+### New Contributors
+
+* @JarkaP made their first contribution in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/43
+
+**Full Changelog**: https://github.com/statikbe/laravel-filament-chained-translation-manager/compare/v3.2.5...v3.2.6
+
 ## v3.2.5 - 2024-06-21
 
 - disable test widget by default.
