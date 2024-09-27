@@ -135,6 +135,9 @@ You can customize the navigation icon by configuring the `navigation-icon` varia
 'navigation_icon' => 'heroicon-o-language',
 ```
 
+Or you can replace the icon with your own custom icon set, by registering a different icon for this icon:
+`filament-chained-translation-manager::nav-icon`.
+
 ## Usage
 
 The library creates a new directory for the new translations, see [Laravel Chained Translator](https://github.com/statikbe/laravel-chained-translator).

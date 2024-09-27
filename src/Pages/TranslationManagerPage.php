@@ -7,6 +7,7 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Pages\Page;
+use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
@@ -89,9 +90,8 @@ class TranslationManagerPage extends Page
 
     public static function getNavigationIcon(): ?string
     {
-        return config()->has('filament-translation-manager.navigation_icon')
-            ? config('filament-translation-manager.navigation_icon')
-            : 'heroicon-o-language';
+        return FilamentIcon::resolve('filament-chained-translation-manager::nav-icon') ??
+            config('filament-translation-manager.navigation_icon', 'heroicon-o-language');
     }
 
     public function getTitle(): string
