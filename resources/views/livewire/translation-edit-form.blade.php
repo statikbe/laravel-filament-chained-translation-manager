@@ -73,7 +73,10 @@
                     </form>
                     <div class="flex items-center align-center">
                         <button @click="closeWithCancel">
-                            <x-heroicon-o-x-mark class="w-5 h-5 text-danger-500"/>
+                            <x-filament::icon
+                                alias="filament-chained-translation-manager::cancel-translation"
+                                icon="heroicon-o-x-mark"
+                                class="w-5 h-5 text-danger-500"/>
                         </button>
                     </div>
                 </div>
