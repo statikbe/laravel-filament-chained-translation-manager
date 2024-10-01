@@ -25,7 +25,7 @@ return [
     |
     | The page will use the provided gate to see if the user has access.
     | Note: you can define the gate in a service provider
-    | (visit: https://laravel.com/docs/10.x/authorization)
+    | (visit: https://laravel.com/docs/11.x/authorization)
     |
     */
     'gate' => null,
