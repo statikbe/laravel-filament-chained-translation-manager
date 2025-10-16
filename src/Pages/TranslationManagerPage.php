@@ -20,6 +20,7 @@ use Statikbe\LaravelChainedTranslator\ChainedTranslationManager;
 class TranslationManagerPage extends Page implements HasForms
 {
     use InteractsWithForms;
+
     /**
      * @const int
      */
@@ -144,7 +145,7 @@ class TranslationManagerPage extends Page implements HasForms
     {
         $translations = $this->getChainedTranslationManager()->getTranslationsForGroup($locale, $group);
 
-        //transform to data structure necessary for frontend
+        // transform to data structure necessary for frontend
         foreach ($translations as $key => $translation) {
             $dataKey = $group.'.'.$key;
             if (! array_key_exists($dataKey, $data)) {
@@ -167,24 +168,24 @@ class TranslationManagerPage extends Page implements HasForms
         return $schema
             ->components([
                 TextInput::make('searchTerm')
-                        ->hiddenLabel()
-                        ->placeholder(trans('filament-translation-manager::messages.search_term_placeholder'))
-                        ->prefixIcon('heroicon-o-magnifying-glass'),
+                    ->hiddenLabel()
+                    ->placeholder(trans('filament-translation-manager::messages.search_term_placeholder'))
+                    ->prefixIcon('heroicon-o-magnifying-glass'),
 
                 Select::make('selectedGroups')
-                      ->hiddenLabel()
-                      ->placeholder(trans('filament-translation-manager::messages.selected_groups_placeholder'))
-                      ->multiple()
-                      ->options(array_combine($this->groups, $this->groups)),
+                    ->hiddenLabel()
+                    ->placeholder(trans('filament-translation-manager::messages.selected_groups_placeholder'))
+                    ->multiple()
+                    ->options(array_combine($this->groups, $this->groups)),
                 Select::make('selectedLocales')
-                      ->hiddenLabel()
-                      ->placeholder(trans('filament-translation-manager::messages.selected_languages_placeholder'))
-                      ->multiple()
-                      ->options(array_combine($this->locales, $this->locales))
-                      ->columnSpan(1),
+                    ->hiddenLabel()
+                    ->placeholder(trans('filament-translation-manager::messages.selected_languages_placeholder'))
+                    ->multiple()
+                    ->options(array_combine($this->locales, $this->locales))
+                    ->columnSpan(1),
                 Toggle::make('onlyShowMissingTranslations')
-                      ->label(trans('filament-translation-manager::messages.only_show_missing_translations_lbl'))
-                      ->default(false),
+                    ->label(trans('filament-translation-manager::messages.only_show_missing_translations_lbl'))
+                    ->default(false),
             ])
             ->columns(2);
     }
