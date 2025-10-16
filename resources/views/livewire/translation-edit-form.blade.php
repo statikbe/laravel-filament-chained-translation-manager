@@ -1,5 +1,7 @@
-<x-filament::card>
-    <p class="font-bold">{{ $group . ' - '. $translationKey }}</p>
+<x-filament::section>
+    <x-filament::section.heading>
+        {{ $group . ' - '. $translationKey }}
+    </x-filament::section.heading>
     <div class="text-base grid">
         @foreach($locales as $locale)
             @php($id = $group.$translationKey.'translations'.$locale)
@@ -57,7 +59,7 @@
                     </div>
                 </x-filament::link>
                 <div
-                    class="block w-full flex items-center space-x-2"
+                    class="w-full flex items-center space-x-2"
                     x-show="editing"
                 >
                     <form @submit.prevent="closeWithSave" class="w-full">
@@ -83,4 +85,4 @@
             </div>
         @endforeach
     </div>
-</x-filament::card>
+</x-filament::section>
