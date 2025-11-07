@@ -2,11 +2,13 @@
 
 namespace Statikbe\FilamentTranslationManager\Pages;
 
-use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
 use Filament\Pages\Page;
+use Filament\Schemas\Schema;
 use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
@@ -15,12 +17,14 @@ use Statikbe\FilamentTranslationManager\FilamentTranslationManager;
 use Statikbe\FilamentTranslationManager\Http\Livewire\TranslationEditForm;
 use Statikbe\LaravelChainedTranslator\ChainedTranslationManager;
 
-class TranslationManagerPage extends Page
+class TranslationManagerPage extends Page implements HasForms
 {
+    use InteractsWithForms;
+
     /**
      * @const int
      */
-    const PAGE_LIMIT = 20;
+    const int PAGE_LIMIT = 20;
 
     private ChainedTranslationManager $chainedTranslationManager;
 
@@ -67,7 +71,7 @@ class TranslationManagerPage extends Page
 
     protected $listeners = [TranslationEditForm::EVENT_TRANSLATIONS_SAVED => 'translationsSaved'];
 
-    protected static string $view = 'filament-translation-manager::pages.translation-manager-page';
+    protected string $view = 'filament-translation-manager::pages.translation-manager-page';
 
     public static function shouldRegisterNavigation(): bool
     {
@@ -141,7 +145,7 @@ class TranslationManagerPage extends Page
     {
         $translations = $this->getChainedTranslationManager()->getTranslationsForGroup($locale, $group);
 
-        //transform to data structure necessary for frontend
+        // transform to data structure necessary for frontend
         foreach ($translations as $key => $translation) {
             $dataKey = $group.'.'.$key;
             if (! array_key_exists($dataKey, $data)) {
@@ -159,44 +163,31 @@ class TranslationManagerPage extends Page
         return $data;
     }
 
-    public function getFormSchema(): array
+    public function form(Schema $schema): Schema
     {
-        return [
-            Grid::make()
-                ->columns(2)
-                ->schema([
-                    Grid::make()
-                        ->columns(6)
-                        ->schema([
-                            TextInput::make('searchTerm')
-                                ->hiddenLabel()
-                                ->placeholder(trans('filament-translation-manager::messages.search_term_placeholder'))
-                                ->prefixIcon('heroicon-o-magnifying-glass')
-                                ->columnSpan(3),
-                            Grid::make()->schema([
-                                Checkbox::make('onlyShowMissingTranslations')
-                                    ->label(trans('filament-translation-manager::messages.only_show_missing_translations_lbl'))
-                                    ->default(false),
-                            ])->columnSpan(3)->columns(1)->extraAttributes(['class' => 'h-full flex items-center']),
-                        ]),
-                    Grid::make()
-                        ->columns(6)
-                        ->schema([
-                            Select::make('selectedLocales')
-                                ->hiddenLabel()
-                                ->placeholder(trans('filament-translation-manager::messages.selected_languages_placeholder'))
-                                ->multiple()
-                                ->options(array_combine($this->locales, $this->locales))
-                                ->columnSpan(3),
-                            Select::make('selectedGroups')
-                                ->hiddenLabel()
-                                ->placeholder(trans('filament-translation-manager::messages.selected_groups_placeholder'))
-                                ->multiple()
-                                ->options(array_combine($this->groups, $this->groups))
-                                ->columnSpan(3),
-                        ]),
-                ]),
-        ];
+        return $schema
+            ->components([
+                TextInput::make('searchTerm')
+                    ->hiddenLabel()
+                    ->placeholder(trans('filament-translation-manager::messages.search_term_placeholder'))
+                    ->prefixIcon('heroicon-o-magnifying-glass'),
+
+                Select::make('selectedGroups')
+                    ->hiddenLabel()
+                    ->placeholder(trans('filament-translation-manager::messages.selected_groups_placeholder'))
+                    ->multiple()
+                    ->options(array_combine($this->groups, $this->groups)),
+                Select::make('selectedLocales')
+                    ->hiddenLabel()
+                    ->placeholder(trans('filament-translation-manager::messages.selected_languages_placeholder'))
+                    ->multiple()
+                    ->options(array_combine($this->locales, $this->locales))
+                    ->columnSpan(1),
+                Toggle::make('onlyShowMissingTranslations')
+                    ->label(trans('filament-translation-manager::messages.only_show_missing_translations_lbl'))
+                    ->default(false),
+            ])
+            ->columns(2);
     }
 
     public function filterTranslations(): void
