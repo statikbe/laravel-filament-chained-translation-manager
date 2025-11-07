@@ -37,7 +37,8 @@ content managers, and we want to avoid that they add unnecessary translation key
 ## Installation
 
 > **Note**
-> For **Filament 2.x** use **[v1.x](https://github.com/statikbe/laravel-filament-chained-translation-manager/releases)** version
+> For **Filament v3.x** use **[v3.x](https://github.com/statikbe/laravel-filament-chained-translation-manager/releases)** version.
+> For **Filament v2.x** use **[v1.x](https://github.com/statikbe/laravel-filament-chained-translation-manager/releases)** version.
 
 1. You can install the package via Composer:
 
