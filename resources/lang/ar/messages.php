@@ -16,4 +16,6 @@ return [
     'filter_results' => 'تم تصفية :filtered من :total ترجمة.',
     'filter_results_missing_translations' => ':missing لا توجد لها ترجمة (:percent%).',
     'saved_translation' => 'تم حفظ الترجمة',
+    'cancel_translation_btn' => 'إلغاء الترجمة',
+    'toggle_multi_line_btn' => 'تبديل وضع الأسطر المتعددة',
 ];

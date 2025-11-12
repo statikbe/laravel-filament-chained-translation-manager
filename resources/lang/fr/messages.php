@@ -16,4 +16,6 @@ return [
     'filter_results' => ':filtered éléments filtrés sur :total traductions.',
     'filter_results_missing_translations' => ':missing éléments n\'ont pas de traduction (:percent%).',
     'saved_translation' => 'Traduction sauvegardée',
+    'cancel_translation_btn' => 'Annuler la traduction',
+    'toggle_multi_line_btn' => 'Basculer en mode multiligne',
 ];
