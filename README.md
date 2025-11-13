@@ -30,6 +30,7 @@ There is also a [Laravel Nova Chained Translation Manager](https://github.com/st
 -   Filter translations for specific groups and languages.
 -   Only show keys with missing translations.
 -   Shows statistics of how many fields are completely translated.
+-   :sparkles: Multi-line translation strings support: toggle between text input and text area.
 
 This tool does not provide features to add new translation keys, because our target users are translators and
 content managers, and we want to avoid that they add unnecessary translation keys.
