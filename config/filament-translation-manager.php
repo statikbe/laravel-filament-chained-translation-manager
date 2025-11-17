@@ -25,7 +25,7 @@ return [
     |
     | The page will use the provided gate to see if the user has access.
     | Note: you can define the gate in a service provider
-    | (visit: https://laravel.com/docs/11.x/authorization)
+    | (visit: https://laravel.com/docs/12.x/authorization)
     |
     */
     'gate' => null,
@@ -51,10 +51,22 @@ return [
      |
      | You can specify the order in which navigation items are listed.
      | Accepts integer value according to Filament documentation.
-     | (visit: https://filamentphp.com/docs/3.x/panels/navigation#sorting-navigation-items)
+     | (visit: https://filamentphp.com/docs/4.x/panels/navigation#sorting-navigation-items)
      |
      */
     'navigation_sort' => null,
+
+    /*
+     |--------------------------------------------------------------------------
+     | Navigation Group
+     |--------------------------------------------------------------------------
+     |
+     | You can specify the group in which navigation items are listed.
+     | Accepts string value according to Filament documentation.
+     | (visit: https://filamentphp.com/docs/4.x/panels/navigation#sorting-navigation-items)
+     |
+     */
+    'navigation_group' => 'filament-translation-manager::messages.navigation_group',
 
     /*
      |--------------------------------------------------------------------------
@@ -80,10 +92,11 @@ return [
      |
      | You can specify the navigation icon.
      | (visit: https://blade-ui-kit.com/blade-icons?set=1#search)
-     | Default: 'heroicon-o-language'
+     | You can set the custom navigation icon with the Filament class: Heroicon.
+     | Default is this the Outlined version of language
      | For null value, the icon will be hidden.
      |
      */
 
-    'navigation_icon' => 'heroicon-o-language',
+    'navigation_icon' => \Filament\Support\Icons\Heroicon::OutlinedLanguage,
 ];
