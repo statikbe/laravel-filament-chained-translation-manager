@@ -140,7 +140,7 @@ class TranslationManagerPage extends Page
     {
         $translations = $this->getChainedTranslationManager()->getTranslationsForGroup($locale, $group);
 
-        //transform to data structure necessary for frontend
+        // transform to data structure necessary for frontend
         foreach ($translations as $key => $translation) {
             $dataKey = $group.'.'.$key;
             if (! array_key_exists($dataKey, $data)) {
