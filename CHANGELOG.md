@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
+## v4.2.0 - 2025-11-19
+
+### What's Changed
+
+* Support for navigation group, sort and icon in the configuration.
+
+If you are upgrading, you have to update some new fields in your previously published config file.
+
+**Full Changelog**: https://github.com/statikbe/laravel-filament-chained-translation-manager/compare/v4.1.0...v4.2.0
+
 ## v4.1.0 - 2025-11-13
 
 - support multi-line translations with toggle between text input and textarea.
