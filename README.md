@@ -129,6 +129,19 @@ You can choose to exclude specific groups of translations from appearing in Fila
 ],
 ```
 
+### Navigation Group
+
+You can set the navigation group in different ways. Either edit the translation files, or change the translation key in 
+the config `navigation_group`.
+
+### Navigation sort
+
+You can tweak the position in the navigation group by configuring this setting:
+
+```php
+'navigation_sort' => 11,
+```
+
 ### Navigation Icon
 
 You can customize the navigation icon by configuring the `navigation-icon` variable
@@ -136,6 +149,7 @@ You can customize the navigation icon by configuring the `navigation-icon` varia
 'navigation_icon' => 'heroicon-o-language',
 ```
 
+Alternatively, you can use an icon enum, like `HeroIcon`.
 Or you can replace the icon with your own custom icon set, by registering a different icon for this icon:
 `filament-chained-translation-manager::nav-icon`.
 
@@ -173,8 +187,9 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
--   [Kobe Christiaensen](https://github.com/Kobo-one)
 -   [Sten Govaerts](https://github.com/sten)
+-   [Kobe Christiaensen](https://github.com/Kobo-one)
+-   [Kristof Serré](https://github.com/kristofser)
 -   [All Contributors](../../contributors)
 
 ## License

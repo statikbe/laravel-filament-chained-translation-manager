@@ -2,6 +2,7 @@
 
 namespace Statikbe\FilamentTranslationManager\Pages;
 
+use BackedEnum;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -9,7 +10,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
@@ -24,7 +25,7 @@ class TranslationManagerPage extends Page implements HasForms
     /**
      * @const int
      */
-    const int PAGE_LIMIT = 20;
+    const PAGE_LIMIT = 20;
 
     private ChainedTranslationManager $chainedTranslationManager;
 
@@ -92,7 +93,7 @@ class TranslationManagerPage extends Page implements HasForms
         return trans('filament-translation-manager::messages.title');
     }
 
-    public static function getNavigationIcon(): ?Heroicon
+    public static function getNavigationIcon(): string|BackedEnum|Htmlable|null
     {
         return config('filament-translation-manager.navigation_icon') ?? null;
     }
