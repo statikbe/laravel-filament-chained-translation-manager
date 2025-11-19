@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
+## v4.1.0 - 2025-11-13
+
+- support multi-line translations with toggle between text input and textarea.
+
+## v4.0.0 - 2025-11-07
+
+- Support for Filament v4
+- UI clean up: clearer filter button + pagination buttons
+
 ## v3.3.0 - 2025-03-04
 
 Laravel 12 support

@@ -1,5 +1,7 @@
-<x-filament::card>
-    <p class="font-bold">{{ $group . ' - '. $translationKey }}</p>
+<x-filament::section>
+    <x-filament::section.heading>
+        {{ $group . ' - '. $translationKey }}
+    </x-filament::section.heading>
     <div class="text-base grid">
         @foreach($locales as $locale)
             @php($id = $group.$translationKey.'translations'.$locale)
@@ -7,22 +9,27 @@
                 class="flex items-center"
                 x-data="{
                     editing: false,
-                    openForm(){
+                    multiLineMode: {{ substr_count($translations[$locale] ?? '', "\n") > 0 ? 'true' : 'false' }},
+                    openForm() {
                         $dispatch('close-forms');
                         this.editing = true;
                         $nextTick(() => {
                             setTimeout(() => {
-                                $refs.input.focus();
+                                if (this.multiLineMode) {
+                                    $refs.multilineInput.focus();
+                                } else {
+                                    $refs.input.focus();
+                                }
                             }, 50); //Adding a small delay makes this way more consistent
                         });
                     },
-                    closeWithSave(){
+                    closeWithSave() {
                         if (this.editing){
                             this.closeEdit();
                             $wire.save(this.locale);
                         }
                     },
-                    closeWithCancel(){
+                    closeWithCancel() {
                         if (this.editing){
                             this.closeEdit();
                             $wire.cancel();
@@ -31,7 +38,10 @@
                     closeEdit() {
                         this.editing = false;
                     },
-                    locale: '{{ $locale }}'
+                    toggleMultiLine() {
+                        this.multiLineMode = !this.multiLineMode;
+                    },
+                    locale: '{{ $locale }}',
                 }"
                 @click.outside="closeWithSave"
                 @close-forms.window="closeWithSave()"
@@ -57,22 +67,47 @@
                     </div>
                 </x-filament::link>
                 <div
-                    class="block w-full flex items-center space-x-2"
-                    x-show="editing"
-                >
+                    class="w-full flex items-center space-x-2"
+                    x-show="editing">
                     <form @submit.prevent="closeWithSave" class="w-full">
                         <input
                             wire:model.defer="translations.{{ $locale }}"
-                            class="{{
-                                'block w-full transition duration-75 rounded-lg shadow-sm focus:border-primary-500 focus:ring-1 focus:ring-inset focus:ring-primary-500 disabled:opacity-70 border-gray-300 dark:bg-gray-700 dark:text-white dark:focus:border-primary-500 '
-                            }}"
+                            class="block w-full p-2 transition duration-75 rounded-lg shadow-sm focus:border-primary-500 focus:ring-1 focus:ring-inset focus:ring-primary-500 disabled:opacity-70 border-gray-300 dark:bg-gray-700 dark:text-white dark:focus:border-primary-500"
                             id="{{ $id }}"
                             type="text"
                             x-ref="input"
+                            x-show="!multiLineMode"
+                            x-bind:disabled="multiLineMode"
                         >
+                        <textarea
+                            wire:model.defer="translations.{{ $locale }}"
+                            class="block w-full p-2 transition duration-75 rounded-lg shadow-sm focus:border-primary-500 focus:ring-1 focus:ring-inset focus:ring-primary-500 disabled:opacity-70 border-gray-300 dark:bg-gray-700 dark:text-white dark:focus:border-primary-500"
+                            id="{{ $id }}"
+                            rows="3"
+                            x-ref="multilineInput"
+                            x-show="multiLineMode"
+                            x-bind:disabled="!multiLineMode"></textarea>
                     </form>
                     <div class="flex items-center align-center">
-                        <button @click="closeWithCancel">
+                        <button @click="toggleMultiLine"
+                                title="@lang('filament-translation-manager::messages.toggle_multi_line_btn')"
+                                aria-label="@lang('filament-translation-manager::messages.toggle_multi_line_btn')">
+                            <x-filament::icon
+                                x-show="!multiLineMode"
+                                alias="filament-chained-translation-manager::enable-multi-line"
+                                icon="heroicon-o-bars-arrow-down"
+                                class="w-5 h-5 text-primary-500"/>
+                            <x-filament::icon
+                                x-show="multiLineMode"
+                                alias="filament-chained-translation-manager::disable-multi-line"
+                                icon="heroicon-o-bars-arrow-up"
+                                class="w-5 h-5 text-primary-500"/>
+                        </button>
+                    </div>
+                    <div class="flex items-center align-center">
+                        <button @click="closeWithCancel"
+                                title="@lang('filament-translation-manager::messages.cancel_translation_btn')"
+                                aria-label="@lang('filament-translation-manager::messages.cancel_translation_btn')">
                             <x-filament::icon
                                 alias="filament-chained-translation-manager::cancel-translation"
                                 icon="heroicon-o-x-mark"
@@ -83,4 +118,4 @@
             </div>
         @endforeach
     </div>
-</x-filament::card>
+</x-filament::section>

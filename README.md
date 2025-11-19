@@ -30,6 +30,7 @@ There is also a [Laravel Nova Chained Translation Manager](https://github.com/st
 -   Filter translations for specific groups and languages.
 -   Only show keys with missing translations.
 -   Shows statistics of how many fields are completely translated.
+-   :sparkles: Multi-line translation strings support: toggle between text input and text area.
 
 This tool does not provide features to add new translation keys, because our target users are translators and
 content managers, and we want to avoid that they add unnecessary translation keys.
@@ -37,7 +38,8 @@ content managers, and we want to avoid that they add unnecessary translation key
 ## Installation
 
 > **Note**
-> For **Filament 2.x** use **[v1.x](https://github.com/statikbe/laravel-filament-chained-translation-manager/releases)** version
+> For **Filament v3.x** use **[v3.x](https://github.com/statikbe/laravel-filament-chained-translation-manager/releases)** version.
+> For **Filament v2.x** use **[v1.x](https://github.com/statikbe/laravel-filament-chained-translation-manager/releases)** version.
 
 1. You can install the package via Composer:
 
@@ -57,10 +59,9 @@ public function panel(Panel $panel): Panel
 }
 ```
 
-2. Using this package requires a Filament custom theme. If you do not have one already, you can follow the instructions [on the Filament documentation site](https://filamentphp.com/docs/3.x/panels/themes#creating-a-custom-theme) to create one. Creating a new theme simply publishes the styling for the default Filament panel, so this will not change anything if you are happy with how Filament is styled out of the box. After creating a custom theme, you will need to add the following path to the `content` array of the generated `tailwind.config.js` file for the Filament theme:
-
-```javascript
-"./vendor/statikbe/laravel-filament-chained-translation-manager/**/*.blade.php",
+2. Be sure to add the following line to your theme.css of your Filament panel.
+```
+@source '../../../../vendor/statikbe/laravel-filament-chained-translation-manager/resources/**/*.blade.php';
 ```
 
 3. Now run the following command to compile the plugin styles into Filament's stylesheet:

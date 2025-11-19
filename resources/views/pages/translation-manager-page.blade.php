@@ -3,16 +3,17 @@
             "p-4 space-y-2 bg-white rounded-xl shadow dark:bg-gray-700",
         ])>
         <form wire:submit.prevent="submitFilters">
-            <div class="flex items-start">
-                <div class="grow">
+            <div class="flex flex-col lg:flex-row gap-4">
+                <div class="w-full">
                     {{ $this->form }}
                 </div>
-                <x-filament::icon-button type="submit"
-                                         alias="filament-chained-translation-manager::filter-translations"
-                                         icon="heroicon-o-funnel"
-                                         class="flex-0 ml-4">
-                    @lang('filament-translation-manager::messages.filter_action')
-                </x-filament::icon-button>
+                <div class="flex flex-col justify-end">
+                    <x-filament::button type="submit"
+                                             alias="filament-chained-translation-manager::filter-translations"
+                                             icon="heroicon-o-funnel">
+                        @lang('filament-translation-manager::messages.filter_action')
+                    </x-filament::button>
+                </div>
             </div>
         </form>
     </div>
@@ -61,7 +62,7 @@
         @endif
 
         @if($totalFilteredTranslations > $pagedTranslations)
-            <x-filament::icon-button
+            <x-filament::button
                 :label="__('filament-translation-manager::messages.next_page')"
                 alias="filament-chained-translation-manager::next-page"
                 icon="heroicon-o-chevron-right"

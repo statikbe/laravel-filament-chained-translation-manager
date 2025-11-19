@@ -16,4 +16,6 @@ return [
     'filter_results' => ':filtered gefilterd uit totaal :total vertalingen.',
     'filter_results_missing_translations' => ':missing hebben missende vertalingen (:percent%).',
     'saved_translation' => 'Vertaling opgeslagen',
+    'cancel_translation_btn' => 'Annuleer vertaling',
+    'toggle_multi_line_btn' => 'Verander meerregelige modus',
 ];
