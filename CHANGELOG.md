@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
+## v4.2.1 - 2026-02-15
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 2.4.0 to 2.5.0 by @dependabot[bot] in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/59
+* Support Filament v5 by @canyoningdb in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/60
+
+### New Contributors
+
+* @canyoningdb made their first contribution in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/60
+
+**Full Changelog**: https://github.com/statikbe/laravel-filament-chained-translation-manager/compare/4.2.1...v4.2.1
+
 ## Updated widget view - 2026-01-05
 
 ### What's Changed
