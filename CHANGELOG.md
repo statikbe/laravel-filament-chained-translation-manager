@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
+## v4.2.2 - 2026-03-19
+
+### What's Changed
+
+* Bump actions/checkout from 5 to 6 by @dependabot[bot] in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/57
+* Bump ramsey/composer-install from 3 to 4 by @dependabot[bot] in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/62
+* Fixing translationKey name mismatch by @lexplatt in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/63
+* fix(TranslationEditForm): add default values to typed properties by @vanneszias in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/64
+
+### New Contributors
+
+* @lexplatt made their first contribution in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/63
+* @vanneszias made their first contribution in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/64
+
+**Full Changelog**: https://github.com/statikbe/laravel-filament-chained-translation-manager/compare/v4.2.1...v4.2.2
+
 ## v4.2.1 - 2026-02-15
 
 ### What's Changed
