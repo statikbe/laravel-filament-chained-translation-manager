@@ -2,31 +2,83 @@
 
 namespace Statikbe\FilamentTranslationManager\Widgets;
 
-use Filament\Widgets\Widget;
+use Filament\Widgets\StatsOverviewWidget;
+use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Facades\Gate;
+use Statikbe\FilamentTranslationManager\FilamentChainedTranslationManagerPlugin;
+use Statikbe\LaravelChainedTranslator\ChainedTranslationManager;
 
-class TranslationStatusWidget extends Widget
+class TranslationStatusWidget extends StatsOverviewWidget
 {
-    protected string $view = 'filament-translation-manager::widgets.translation-status';
-
     public static function getSort(): int
     {
-        return config('filament-translation-manager.widget.sort') ?? -1;
+        return FilamentChainedTranslationManagerPlugin::get()->getWidgetSort() ?? -1;
     }
 
     public static function canView(): bool
     {
-        if (config('filament-translation-manager.widget.gate', config('filament-translation-manager.access.gate'))) {
-            return Gate::allows(config('filament-translation-manager.widget.gate', config('filament-translation-manager.access.gate')));
-        }
+        $gate = FilamentChainedTranslationManagerPlugin::get()->getWidgetGate();
 
-        return true;
+        return $gate ? Gate::allows($gate) : true;
     }
 
-    protected function getViewData(): array
+    protected function getStats(): array
     {
-        return [
-            'missingTranslations' => 10,
-        ];
+        $plugin = FilamentChainedTranslationManagerPlugin::get();
+        $locales = $plugin->getLocales();
+        $sourceLocale = $plugin->getSourceLocale();
+        $translatorLocales = array_values(array_filter($locales, fn ($l) => $l !== $sourceLocale));
+
+        $manager = app(ChainedTranslationManager::class);
+        $ignoreGroups = $plugin->getIgnoreGroups();
+        $groups = collect($manager->getTranslationGroups())
+            ->diff($ignoreGroups)
+            ->values()
+            ->all();
+
+        $stats = [];
+
+        foreach ($translatorLocales as $locale) {
+            $total = 0;
+            $missing = 0;
+
+            foreach ($groups as $group) {
+                $sourceTranslations = $manager->getTranslationsForGroup($sourceLocale, $group);
+                $localeTranslations = $manager->getTranslationsForGroup($locale, $group);
+
+                foreach ($sourceTranslations as $key => $sourceValue) {
+                    $total++;
+
+                    $localeValue = $localeTranslations[$key] ?? null;
+
+                    if (blank($localeValue)) {
+                        $missing++;
+                    }
+                }
+            }
+
+            $translated = $total - $missing;
+            $percentage = $total > 0 ? round(($translated / $total) * 100) : 100;
+
+            $color = match (true) {
+                $percentage === 100 => 'success',
+                $percentage >= 75 => 'warning',
+                default => 'danger',
+            };
+
+            $stats[] = Stat::make(
+                label: strtoupper($locale),
+                value: "{$percentage}%",
+            )
+                ->description(trans('filament-translation-manager::messages.widget_stat_description', [
+                    'translated' => $translated,
+                    'total' => $total,
+                    'missing' => $missing,
+                ]))
+                ->color($color)
+                ->chart([$missing, $translated]);
+        }
+
+        return $stats;
     }
 }
