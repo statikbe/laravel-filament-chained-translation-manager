@@ -8,8 +8,10 @@ return [
     // Table columns
     'key' => 'Key',
     'group' => 'Group',
+    'translations' => 'Translations',
     'source_locale_label' => 'source',
-    'key_copied' => 'Key copied',
+    'key_copied' => 'Copied!',
+    'copy_key'   => 'Copy key',
 
     // Filters
     'search_term_placeholder' => 'Search translation key or value…',
@@ -17,14 +19,19 @@ return [
     'selected_languages_placeholder' => 'Filter by language',
     'only_show_missing_translations_lbl' => 'Missing only',
 
+    // Status labels
+    'translated'       => 'Translated',
+    'missing_translation' => 'Not translated',
+    'copy_source'      => 'Copy source',
+
     // Empty states
     'error_no_translations_for_filters' => 'No translations match your filters.',
     'error_no_translations_for_filters_description' => 'Try adjusting your search term or removing some filters.',
     'error_no_translation_loaded' => 'No translations were found. Check your lang directory.',
-    'missing_translation' => 'Not translated',
 
     // Actions
     'edit_action' => 'Edit',
+    'save_btn' => 'Save',
     'saved_translation' => 'Translation saved',
     'cancel_translation_btn' => 'Cancel',
 
