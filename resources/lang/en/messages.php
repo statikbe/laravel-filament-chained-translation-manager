@@ -10,9 +10,9 @@ return [
     'group' => 'Group',
     'translations' => 'Translations',
     'source_locale_label' => 'source',
-    'set_as_source'       => 'Set as source locale',
+    'set_as_source' => 'Set as source locale',
     'key_copied' => 'Copied!',
-    'copy_key'   => 'Copy key',
+    'copy_key' => 'Copy key',
 
     // Filters
     'search_term_placeholder' => 'Search translation key or value…',
@@ -21,9 +21,9 @@ return [
     'only_show_missing_translations_lbl' => 'Missing only',
 
     // Status labels
-    'translated'       => 'Translated',
+    'translated' => 'Translated',
     'missing_translation' => 'Not translated',
-    'copy_source'      => 'Copy source',
+    'copy_source' => 'Copy source',
 
     // Empty states
     'error_no_translations_for_filters' => 'No translations match your filters.',

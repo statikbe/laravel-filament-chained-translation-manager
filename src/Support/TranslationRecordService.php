@@ -77,7 +77,7 @@ class TranslationRecordService
         $sourceText = $record['translations'][$sourceLocale] ?? '';
 
         foreach ($locales as $locale) {
-            if ($locale === $sourceLocale || !blank($record['translations'][$locale] ?? null)) {
+            if ($locale === $sourceLocale || ! blank($record['translations'][$locale] ?? null)) {
                 continue;
             }
 

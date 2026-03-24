@@ -11,17 +11,17 @@ class TranslationFilterService
 {
     public function filterBySearch(Collection $records, string $search): Collection
     {
-        return $records->filter(fn(array $record) => $this->recordMatchesSearch($record, $search));
+        return $records->filter(fn (array $record) => $this->recordMatchesSearch($record, $search));
     }
 
     public function filterByGroups(Collection $records, array $selectedGroups): Collection
     {
-        return $records->filter(static fn(array $record) => in_array($record['group'], $selectedGroups, true));
+        return $records->filter(static fn (array $record) => in_array($record['group'], $selectedGroups, true));
     }
 
     public function filterByMissing(Collection $records, array $locales): Collection
     {
-        return $records->filter(fn(array $record) => $this->hasMissingTranslations($record, $locales));
+        return $records->filter(fn (array $record) => $this->hasMissingTranslations($record, $locales));
     }
 
     private function recordMatchesSearch(array $record, string $search): bool

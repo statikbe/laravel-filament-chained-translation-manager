@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Statikbe\FilamentTranslationManager\Http\Livewire;
 
 use Filament\Notifications\Notification;
+use Illuminate\View\View;
 use Livewire\Attributes\Renderless;
 use Livewire\Component;
 use Statikbe\AiTranslation\AiTranslationService;
@@ -100,7 +101,7 @@ class TranslationCellEditor extends Component
         return $results;
     }
 
-    public function render(): \Illuminate\View\View
+    public function render(): View
     {
         return view('filament-translation-manager::livewire.translation-cell-editor');
     }

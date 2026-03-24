@@ -84,18 +84,18 @@ class TranslationManagerPage extends Page implements HasTable
         $plugin = FilamentChainedTranslationManagerPlugin::get();
         $locales = $plugin->getLocales();
         $sourceLocale = $plugin->getSourceLocale();
-        $translatorLocales = array_values(array_filter($locales, static fn($l) => $l !== $sourceLocale));
+        $translatorLocales = array_values(array_filter($locales, static fn ($l) => $l !== $sourceLocale));
         $service = new TranslationRecordService(
             $plugin,
-            new TranslationCollectorService(),
-            new TranslationFilterService(),
+            new TranslationCollectorService,
+            new TranslationFilterService,
         );
 
         $groups = $service->getTranslationGroups();
 
         return $table
             ->records(
-                static fn(
+                static fn (
                     ?array $filters,
                     ?string $search,
                     int|string $page,
@@ -115,7 +115,7 @@ class TranslationManagerPage extends Page implements HasTable
                 TranslationCellColumn::make('translations')
                     ->label('')
                     ->searchable()
-                    ->getStateUsing(static fn(array $record) => [
+                    ->getStateUsing(static fn (array $record) => [
                         'group' => $record['group'],
                         'translation_key' => $record['translation_key'],
                         'translations' => $record['translations'] ?? [],
@@ -165,7 +165,7 @@ class TranslationManagerPage extends Page implements HasTable
         array $locales,
         string $sourceLocale,
     ): array {
-        if (!$plugin->hasAiHeaderAction()) {
+        if (! $plugin->hasAiHeaderAction()) {
             return [];
         }
 
@@ -210,14 +210,14 @@ class TranslationManagerPage extends Page implements HasTable
         array $locales,
         string $sourceLocale,
     ): array {
-        if (!$plugin->hasAiBulkAction()) {
+        if (! $plugin->hasAiBulkAction()) {
             return [];
         }
 
         $service = new TranslationRecordService(
             $plugin,
-            new TranslationCollectorService(),
-            new TranslationFilterService(),
+            new TranslationCollectorService,
+            new TranslationFilterService,
         );
 
         return [
@@ -255,4 +255,3 @@ class TranslationManagerPage extends Page implements HasTable
         ];
     }
 }
-

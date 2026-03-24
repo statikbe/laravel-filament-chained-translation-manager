@@ -15,10 +15,10 @@ use Statikbe\FilamentTranslationManager\Widgets\TranslationStatusWidget;
 
 class FilamentChainedTranslationManagerPlugin implements Plugin
 {
+    use HasAiTranslation;
     use HasLocaleConfiguration;
     use HasNavigationConfiguration;
     use HasWidgetConfiguration;
-    use HasAiTranslation;
 
     protected ?string $gate = null;
 
