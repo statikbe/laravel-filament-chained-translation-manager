@@ -27,14 +27,11 @@ class TranslationStatusWidget extends StatsOverviewWidget
         $plugin = FilamentChainedTranslationManagerPlugin::get();
         $locales = $plugin->getLocales();
         $sourceLocale = $plugin->getSourceLocale();
-        $translatorLocales = array_values(array_filter($locales, fn ($l) => $l !== $sourceLocale));
+        $translatorLocales = array_values(array_filter($locales, fn($l) => $l !== $sourceLocale));
 
         $manager = app(ChainedTranslationManager::class);
         $ignoreGroups = $plugin->getIgnoreGroups();
-        $groups = collect($manager->getTranslationGroups())
-            ->diff($ignoreGroups)
-            ->values()
-            ->all();
+        $groups = collect($manager->getTranslationGroups())->diff($ignoreGroups)->values()->all();
 
         $stats = [];
 
@@ -46,7 +43,7 @@ class TranslationStatusWidget extends StatsOverviewWidget
                 $sourceTranslations = $manager->getTranslationsForGroup($sourceLocale, $group);
                 $localeTranslations = $manager->getTranslationsForGroup($locale, $group);
 
-                foreach ($sourceTranslations as $key => $sourceValue) {
+                foreach ($sourceTranslations as $key) {
                     $total++;
 
                     $localeValue = $localeTranslations[$key] ?? null;
@@ -66,10 +63,7 @@ class TranslationStatusWidget extends StatsOverviewWidget
                 default => 'danger',
             };
 
-            $stats[] = Stat::make(
-                label: strtoupper($locale),
-                value: "{$percentage}%",
-            )
+            $stats[] = Stat::make(label: strtoupper($locale), value: "{$percentage}%")
                 ->description(trans('filament-translation-manager::messages.widget_stat_description', [
                     'translated' => $translated,
                     'total' => $total,

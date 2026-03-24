@@ -3,33 +3,32 @@
 use Filament\Support\Icons\Heroicon;
 
 return [
-
     /*
-    |--------------------------------------------------------------------------
-    | Application Supported Locale Configuration
-    |--------------------------------------------------------------------------
-    |
-    | The application locale determines the possible locales that can be used.
-    | You are free to fill this array with any of the locales which will be
-    | supported by the application.
-    |
-    | Default: The available and fallback locale
-    |
-    */
+     |--------------------------------------------------------------------------
+     | Application Supported Locale Configuration
+     |--------------------------------------------------------------------------
+     |
+     | The application locale determines the possible locales that can be used.
+     | You are free to fill this array with any of the locales which will be
+     | supported by the application.
+     |
+     | Default: The available and fallback locale
+     |
+     */
     'locales' => [
         // 'en',
     ],
 
     /*
-    |--------------------------------------------------------------------------
-    | Gate
-    |--------------------------------------------------------------------------
-    |
-    | The page will use the provided gate to see if the user has access.
-    | Note: you can define the gate in a service provider
-    | (visit: https://laravel.com/docs/12.x/authorization)
-    |
-    */
+     |--------------------------------------------------------------------------
+     | Gate
+     |--------------------------------------------------------------------------
+     |
+     | The page will use the provided gate to see if the user has access.
+     | Note: you can define the gate in a service provider
+     | (visit: https://laravel.com/docs/12.x/authorization)
+     |
+     */
     'gate' => null,
 
     /*

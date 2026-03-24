@@ -10,6 +10,7 @@ return [
     'group' => 'Group',
     'translations' => 'Translations',
     'source_locale_label' => 'source',
+    'set_as_source'       => 'Set as source locale',
     'key_copied' => 'Copied!',
     'copy_key'   => 'Copy key',
 

@@ -73,61 +73,6 @@ class TranslationManagerPage extends Page implements HasTable
         }
     }
 
-    // ─── Public Livewire methods ──────────────────────────────────────────────
-
-    /**
-     * Called by the inline translation editor (Alpine.js → $wire) to persist
-     * all changed locale values for a single key in one round-trip.
-     *
-     * @param  array<string, string>  $translations  Locale → value map (changed locales only).
-     */
-    /**
-     * Fill translation fields with AI suggestions without saving.
-     * Returns a locale → translated-text map so Alpine can populate the form
-     * for user review before they commit with Save.
-     *
-     * @param  string[]  $locales  Translator locales to fill (missing ones only).
-     * @return array<string, string>
-     */
-    public function aiTranslateMissingInline(
-        string $sourceText,
-        string $sourceLocale,
-        array $locales,
-        ?string $driver,
-    ): array {
-        if (blank($sourceText)) {
-            $this->sendAiNoSourceWarning();
-
-            return [];
-        }
-
-        /** @var AiTranslationService $aiService */
-        $aiService = app(AiTranslationService::class);
-        $results = [];
-
-        foreach ($locales as $locale) {
-            $results[$locale] = $aiService->translate($sourceText, $sourceLocale, $locale, driver: $driver);
-        }
-
-        Notification::make()
-            ->success()
-            ->title(trans('filament-translation-manager::messages.ai_fill_modal_success'))
-            ->send();
-
-        return $results;
-    }
-
-    public function saveInlineTranslation(string $group, string $key, array $translations): void
-    {
-        $manager = app(ChainedTranslationManager::class);
-
-        foreach ($translations as $locale => $value) {
-            $manager->save($locale, $group, $key, $value);
-        }
-
-        $this->sendSavedNotification();
-    }
-
     // ─── Table ───────────────────────────────────────────────────────────────
 
     public function table(Table $table): Table
@@ -143,15 +88,7 @@ class TranslationManagerPage extends Page implements HasTable
                 $locales,
                 $sourceLocale,
             ): LengthAwarePaginator {
-                return $this->buildRecords(
-                    $plugin,
-                    $locales,
-                    $sourceLocale,
-                    $filters,
-                    $search,
-                    (int) $page,
-                    (int) $recordsPerPage,
-                );
+                return $this->buildRecords($plugin, $locales, $filters, $search, (int) $page, (int) $recordsPerPage);
             })
             ->columns($this->buildColumns($plugin, $sourceLocale, $translatorLocales))
             ->filters($this->buildFilters($plugin))
@@ -317,7 +254,6 @@ class TranslationManagerPage extends Page implements HasTable
     private function buildRecords(
         FilamentChainedTranslationManagerPlugin $plugin,
         array $locales,
-        string $sourceLocale,
         ?array $filters,
         ?string $search,
         int $page,
@@ -462,23 +398,4 @@ class TranslationManagerPage extends Page implements HasTable
 
         return $count;
     }
-
-    // ─── Notification helpers ─────────────────────────────────────────────────
-
-    private function sendSavedNotification(): void
-    {
-        Notification::make()
-            ->success()
-            ->title(trans('filament-translation-manager::messages.saved_translation'))
-            ->send();
-    }
-
-    private function sendAiNoSourceWarning(): void
-    {
-        Notification::make()
-            ->warning()
-            ->title(trans('filament-translation-manager::messages.ai_translate_no_source'))
-            ->send();
-    }
 }
-

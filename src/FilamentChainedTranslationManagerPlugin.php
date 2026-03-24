@@ -197,7 +197,7 @@ class FilamentChainedTranslationManagerPlugin implements Plugin
 
     public function getLocales(): array
     {
-        if (! empty($this->locales)) {
+        if (!empty($this->locales)) {
             return $this->locales;
         }
 

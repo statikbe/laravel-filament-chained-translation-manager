@@ -2,9 +2,11 @@
 
 namespace Statikbe\FilamentTranslationManager;
 
+use Illuminate\Support\Facades\Blade;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Statikbe\FilamentTranslationManager\Http\Livewire\TranslationCellEditor;
 use Statikbe\FilamentTranslationManager\Pages\TranslationManagerPage;
 use Statikbe\FilamentTranslationManager\Widgets\TranslationStatusWidget;
 
@@ -14,10 +16,7 @@ class FilamentTranslationManagerServiceProvider extends PackageServiceProvider
 
     public function configurePackage(Package $package): void
     {
-        $package
-            ->name(static::$name)
-            ->hasViews()
-            ->hasTranslations();
+        $package->name(static::$name)->hasViews()->hasTranslations();
     }
 
     public function packageBooted(): void
@@ -37,5 +36,8 @@ class FilamentTranslationManagerServiceProvider extends PackageServiceProvider
 
         Livewire::component('translation-manager-page', TranslationManagerPage::class);
         Livewire::component('translation-status', TranslationStatusWidget::class);
+        Livewire::component('filament-translation-cell-editor', TranslationCellEditor::class);
+
+        Blade::anonymousComponentNamespace('filament-translation-manager::components.translation-cell', 'tcm');
     }
 }

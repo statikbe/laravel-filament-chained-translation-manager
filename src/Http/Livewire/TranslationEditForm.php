@@ -37,14 +37,15 @@ class TranslationEditForm extends Component
             return;
         }
 
-        $chainedTranslationManager->save(
-            $locale,
+        $chainedTranslationManager->save($locale, $this->group, $this->translationKey, $this->translations[$locale]);
+
+        $this->dispatch(
+            self::EVENT_TRANSLATIONS_SAVED,
             $this->group,
             $this->translationKey,
-            $this->translations[$locale]
+            $this->translations,
+            $this->initialTranslations,
         );
-
-        $this->dispatch(self::EVENT_TRANSLATIONS_SAVED, $this->group, $this->translationKey, $this->translations, $this->initialTranslations);
 
         $this->initialTranslations = $this->translations;
 
