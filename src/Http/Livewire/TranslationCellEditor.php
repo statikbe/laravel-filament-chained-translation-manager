@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Statikbe\FilamentTranslationManager\Http\Livewire;
 
 use Filament\Notifications\Notification;
@@ -26,22 +28,19 @@ class TranslationCellEditor extends Component
 
     public ?string $aiDriver = null;
 
-    public function mount(
-        string $group,
-        string $translationKey,
-        array $translations,
-        string $sourceLocale,
-        array $locales,
-        bool $hasAi = false,
-        ?string $aiDriver = null,
-    ): void {
+    /**
+     * @param  array{translations: array<string, string>, locales: string[], source_locale: string}  $content
+     * @param  array{enabled?: bool, driver?: string|null}  $ai
+     */
+    public function mount(string $group, string $translationKey, array $content, array $ai = []): void
+    {
         $this->group = $group;
         $this->translationKey = $translationKey;
-        $this->translations = $translations;
-        $this->sourceLocale = $sourceLocale;
-        $this->locales = $locales;
-        $this->hasAi = $hasAi;
-        $this->aiDriver = $aiDriver;
+        $this->translations = $content['translations'] ?? [];
+        $this->sourceLocale = $content['source_locale'];
+        $this->locales = $content['locales'];
+        $this->hasAi = $ai['enabled'] ?? false;
+        $this->aiDriver = $ai['driver'] ?? null;
     }
 
     /**

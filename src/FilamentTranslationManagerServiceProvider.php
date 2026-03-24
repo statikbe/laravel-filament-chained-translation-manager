@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Statikbe\FilamentTranslationManager;
 
 use Illuminate\Support\Facades\Blade;
@@ -25,7 +27,7 @@ class FilamentTranslationManagerServiceProvider extends PackageServiceProvider
         // This is used as a fallback when locales are not set via the plugin's fluent API.
         $supportedLocales = config('filament-translation-manager.locales');
 
-        if (empty($supportedLocales)) {
+        if ($supportedLocales === null || $supportedLocales === []) {
             $supportedLocales = array_unique(array_filter([
                 config('app.locale'),
                 config('app.fallback_locale'),

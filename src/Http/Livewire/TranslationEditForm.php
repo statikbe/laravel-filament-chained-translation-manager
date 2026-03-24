@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Statikbe\FilamentTranslationManager\Http\Livewire;
 
 use Filament\Notifications\Notification;

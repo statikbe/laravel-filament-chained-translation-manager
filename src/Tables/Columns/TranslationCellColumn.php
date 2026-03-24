@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Statikbe\FilamentTranslationManager\Tables\Columns;
 
 use Filament\Tables\Columns\Column;
