@@ -10,6 +10,7 @@ use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Filters\Filter;
@@ -107,6 +108,10 @@ class TranslationManagerPage extends Page implements HasTable
                 ),
             )
             ->columns([
+                TextColumn::make('translation_key')
+                    ->label(trans('filament-translation-manager::messages.translation_key'))
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TranslationCellColumn::make('translations')
                     ->label('')
                     ->searchable()
@@ -250,3 +255,4 @@ class TranslationManagerPage extends Page implements HasTable
         ];
     }
 }
+
