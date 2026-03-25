@@ -41,7 +41,7 @@ class TranslationCollectorService
         array $data,
     ): array {
         foreach ($manager->getTranslationsForGroup($locale, $group) as $key => $value) {
-            $data = $this->addTranslation($data, $group, $key, $locale, $value);
+            $data = $this->addTranslation($data, $group, (string) $key, $locale, $value);
         }
 
         return $data;
