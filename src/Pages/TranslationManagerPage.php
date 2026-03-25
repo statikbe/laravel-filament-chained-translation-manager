@@ -10,7 +10,6 @@ use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Filters\Filter;
@@ -84,7 +83,6 @@ class TranslationManagerPage extends Page implements HasTable
         $plugin = FilamentChainedTranslationManagerPlugin::get();
         $locales = $plugin->getLocales();
         $sourceLocale = $plugin->getSourceLocale();
-        $translatorLocales = array_values(array_filter($locales, static fn ($l) => $l !== $sourceLocale));
         $service = new TranslationRecordService(
             $plugin,
             new TranslationCollectorService,
@@ -108,10 +106,6 @@ class TranslationManagerPage extends Page implements HasTable
                 ),
             )
             ->columns([
-                TextColumn::make('translation_key')
-                    ->label(trans('filament-translation-manager::messages.translation_key'))
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
                 TranslationCellColumn::make('translations')
                     ->label('')
                     ->searchable()
@@ -119,8 +113,8 @@ class TranslationManagerPage extends Page implements HasTable
                         'group' => $record['group'],
                         'translation_key' => $record['translation_key'],
                         'translations' => $record['translations'] ?? [],
-                        'locales' => array_merge([$sourceLocale], $translatorLocales),
-                        'source_locale' => $sourceLocale,
+                        'locales' => $record['display_locales'],
+                        'source_locale' => $record['source_locale'],
                         'has_ai' => $plugin->hasAiRowAction(),
                         'ai_driver' => $plugin->getAiDriver(),
                     ])
@@ -130,6 +124,12 @@ class TranslationManagerPage extends Page implements HasTable
                 SelectFilter::make('group')
                     ->label(trans('filament-translation-manager::messages.selected_groups_placeholder'))
                     ->options(array_combine($groups, $groups))
+                    ->multiple()
+                    ->searchable(),
+
+                SelectFilter::make('locales')
+                    ->label(trans('filament-translation-manager::messages.selected_languages_placeholder'))
+                    ->options(array_combine($locales, $locales))
                     ->multiple()
                     ->searchable(),
 
@@ -146,7 +146,7 @@ class TranslationManagerPage extends Page implements HasTable
                 Group::make('group')->label(trans('filament-translation-manager::messages.group'))->collapsible(),
             ])
             ->defaultGroup('group')
-            ->defaultSort('translation_key')
+            ->groupingDirectionSettingHidden()
             ->searchPlaceholder(trans('filament-translation-manager::messages.search_term_placeholder'))
             ->emptyStateHeading(trans('filament-translation-manager::messages.error_no_translations_for_filters'))
             ->emptyStateDescription(trans(

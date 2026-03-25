@@ -21,8 +21,17 @@ class TranslationRecordService
     public function buildRecords(?array $filters, ?string $search, int $page, int $recordsPerPage): LengthAwarePaginator
     {
         $locales = $this->plugin->getLocales();
+        $sourceLocale = $this->plugin->getSourceLocale();
         $selectedGroups = $filters['group']['values'] ?? [];
         $missingOnly = $filters['missing']['isActive'] ?? false;
+
+        $selectedLocales = $filters['locales']['values'] ?? [];
+        $displayLocales = $selectedLocales !== []
+            ? array_values(array_filter(
+                $locales,
+                fn($l) => in_array($l, $selectedLocales, true),
+            ))
+            : $locales;
 
         $records = $this->getAllTranslationRecords($locales);
 
@@ -35,7 +44,7 @@ class TranslationRecordService
         }
 
         if ($missingOnly) {
-            $records = $this->filter->filterByMissing($records, $locales);
+            $records = $this->filter->filterByMissing($records, $displayLocales);
         }
 
         $records = $records->sortBy([
@@ -44,7 +53,9 @@ class TranslationRecordService
         ])->values();
 
         return new LengthAwarePaginator(
-            $records->forPage($page, $recordsPerPage)->values()->all(),
+            $records->forPage($page, $recordsPerPage)->values()->map(
+                fn(array $r) => $r + ['display_locales' => $displayLocales, 'source_locale' => $sourceLocale],
+            )->all(),
             $records->count(),
             $recordsPerPage,
             $page,

@@ -13,6 +13,7 @@
         initial:      @js($initial),
         id:           @js($editorId),
         sourceLocale: @js($sourceLocale),
+        sourceText:   @js($sourceText),
 
         get translatedCount() {
             return Object.values(this.translations).filter(v => v && v.trim() !== '').length;
@@ -52,7 +53,7 @@
             try {
                 Object.assign(this.translations,
                     await $wire.aiTranslateMissing(
-                        this.translations[this.sourceLocale] || '',
+                        this.translations[this.sourceLocale] || this.sourceText || '',
                         this.sourceLocale,
                         missing
                     )
@@ -61,12 +62,12 @@
         },
 
         async aiTranslateLocale(locale) {
-            if (!this.translations[this.sourceLocale]) return;
+            if (!this.translations[this.sourceLocale] && !this.sourceText) return;
             this.aiLoading = true;
             try {
                 Object.assign(this.translations,
                     await $wire.aiTranslateMissing(
-                        this.translations[this.sourceLocale],
+                        this.translations[this.sourceLocale] || this.sourceText,
                         this.sourceLocale,
                         [locale]
                     )

@@ -86,8 +86,8 @@
                 x-show="sourceLocale !== '{{ $locale }}'"
                 x-cloak
                 @click.stop="aiTranslateLocale('{{ $locale }}')"
-                :disabled="aiLoading || !translations[sourceLocale]"
-                :class="!aiLoading && translations[sourceLocale]
+                :disabled="aiLoading || !(translations[sourceLocale] || sourceText)"
+                :class="!aiLoading && (translations[sourceLocale] || sourceText)
                     ? 'text-warning-500 dark:text-warning-400 opacity-0 group-hover/field:opacity-100 hover:bg-warning-50 dark:hover:bg-warning-900/20'
                     : 'text-gray-300 dark:text-gray-600 opacity-0 group-hover/field:opacity-60 cursor-not-allowed'"
                 class="absolute bottom-1.5 right-1.5 p-1 rounded transition-all"
