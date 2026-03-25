@@ -14,7 +14,6 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -142,11 +141,6 @@ class TranslationManagerPage extends Page implements HasTable
             ->bulkActions([
                 BulkActionGroup::make($this->buildBulkActions($plugin, $locales, $sourceLocale)),
             ])
-            ->groups([
-                Group::make('group')->label(trans('filament-translation-manager::messages.group'))->collapsible(),
-            ])
-            ->defaultGroup('group')
-            ->groupingDirectionSettingHidden()
             ->searchPlaceholder(trans('filament-translation-manager::messages.search_term_placeholder'))
             ->emptyStateHeading(trans('filament-translation-manager::messages.error_no_translations_for_filters'))
             ->emptyStateDescription(trans(
