@@ -27,10 +27,7 @@ class TranslationRecordService
 
         $selectedLocales = $filters['locales']['values'] ?? [];
         $displayLocales = $selectedLocales !== []
-            ? array_values(array_filter(
-                $locales,
-                fn($l) => in_array($l, $selectedLocales, true),
-            ))
+            ? array_values(array_filter($locales, static fn($l) => in_array($l, $selectedLocales, true)))
             : $locales;
 
         $records = $this->getAllTranslationRecords($locales);
@@ -53,9 +50,14 @@ class TranslationRecordService
         ])->values();
 
         return new LengthAwarePaginator(
-            $records->forPage($page, $recordsPerPage)->values()->map(
-                fn(array $r) => $r + ['display_locales' => $displayLocales, 'source_locale' => $sourceLocale],
-            )->all(),
+            $records
+                ->forPage($page, $recordsPerPage)
+                ->values()
+                ->map(
+                    static fn(array $r) => $r
+                    + ['display_locales' => $displayLocales, 'source_locale' => $sourceLocale],
+                )
+                ->all(),
             $records->count(),
             $recordsPerPage,
             $page,
@@ -88,7 +90,7 @@ class TranslationRecordService
         $sourceText = $record['translations'][$sourceLocale] ?? '';
 
         foreach ($locales as $locale) {
-            if ($locale === $sourceLocale || ! blank($record['translations'][$locale] ?? null)) {
+            if ($locale === $sourceLocale || !blank($record['translations'][$locale] ?? null)) {
                 continue;
             }
 
