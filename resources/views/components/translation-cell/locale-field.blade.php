@@ -69,7 +69,7 @@
             @if ($isFirst) @keydown.shift.tab.prevent="navigate('prev', 'last')" @endif
             @if ($isLast) @keydown.tab="if (!$event.shiftKey) { $event.preventDefault(); navigate('next', 'first'); }" @endif
             rows="2"
-            class="block w-full rounded-lg text-sm shadow-sm transition-colors resize-y
+            class="block w-full rounded-lg text-sm shadow-sm transition-colors resize-y pl-3
                    bg-white dark:bg-gray-900
                    focus:outline-none focus:ring-2 focus:ring-primary-500/25 focus:border-primary-400
                    dark:text-white dark:placeholder-gray-600 dark:focus:border-primary-500"
@@ -80,24 +80,25 @@
         ></textarea>
 
         @if ($hasAi)
-            <button
+            <x-filament::icon-button
                 type="button"
                 tabindex="-1"
-                x-show="sourceLocale !== '{{ $locale }}'"
+                x-show="sourceLocale !== '{{ $locale }}' && !aiLoading"
                 x-cloak
                 @click.stop="aiTranslateLocale('{{ $locale }}')"
-                :disabled="aiLoading || !(translations[sourceLocale] || sourceText)"
-                :class="!aiLoading && (translations[sourceLocale] || sourceText)
-                    ? 'text-warning-500 dark:text-warning-400 opacity-0 group-hover/field:opacity-100 hover:bg-warning-50 dark:hover:bg-warning-900/20'
-                    : 'text-gray-300 dark:text-gray-600 opacity-0 group-hover/field:opacity-60 cursor-not-allowed'"
-                class="absolute bottom-1.5 right-1.5 p-1 rounded transition-all"
-                title="{{ trans('filament-translation-manager::messages.ai_translate_row_action') }}"
-            >
-                <svg x-show="!aiLoading" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z" />
-                </svg>
-                <x-tcm::spinner x-show="aiLoading" x-cloak />
-            </button>
+                x-bind:disabled="aiLoading || !(translations[sourceLocale] || sourceText)"
+                color="warning"
+                size="xs"
+                icon="heroicon-m-sparkles"
+                label="{{ trans('filament-translation-manager::messages.ai_translate_row_action') }}"
+                tooltip="{{ trans('filament-translation-manager::messages.ai_translate_row_action') }}"
+                class="absolute top-1/2 -translate-y-1/2 right-1 opacity-0 group-hover/field:opacity-100 transition-all"
+            />
+            <x-filament::loading-indicator
+                x-show="sourceLocale !== '{{ $locale }}' && aiLoading"
+                x-cloak
+                class="absolute top-1/2 -translate-y-1/2 right-2 w-3.5 h-3.5 text-warning-500 dark:text-warning-400"
+            />
         @endif
     </div>
 </div>
