@@ -7,6 +7,7 @@ namespace Statikbe\FilamentTranslationManager\Http\Livewire;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
+use Livewire\Attributes\Locked;
 use Livewire\Attributes\Renderless;
 use Livewire\Component;
 use Statikbe\AiTranslation\AiTranslationService;
@@ -16,20 +17,26 @@ use Statikbe\LaravelChainedTranslator\ChainedTranslationManager;
 
 class TranslationCellEditor extends Component
 {
+    #[Locked]
     public string $group;
 
+    #[Locked]
     public string $translationKey;
 
     /** @var array<string, string> Locale → current value map */
     public array $translations = [];
 
+    #[Locked]
     public string $sourceLocale;
 
     /** @var string[] */
+    #[Locked]
     public array $locales = [];
 
+    #[Locked]
     public bool $hasAi = false;
 
+    #[Locked]
     public ?string $aiDriver = null;
 
     /**
