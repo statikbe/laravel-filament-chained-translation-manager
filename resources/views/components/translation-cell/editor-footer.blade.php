@@ -50,8 +50,8 @@
                 }}"
                 x-bind:disabled="saving || aiLoading || !canAi"
                 x-bind:title="!translations[sourceLocale]
-                    ? '{{ $aiNoSourceTitle }}'
-                    : '{{ $aiTooltip }}'"
+                    ? {{ json_encode($aiNoSourceTitle) }}
+                    : {{ json_encode($aiTooltip) }}"
             >
                 <span class="inline-flex items-center gap-1.5">
                     <x-filament::loading-indicator x-show="aiLoading" x-cloak class="w-3.5 h-3.5" />

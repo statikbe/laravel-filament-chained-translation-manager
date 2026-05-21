@@ -3,7 +3,7 @@
     role="button"
     tabindex="-1"
     @click.stop="copyKey()"
-    :title="copied ? '{{ $copiedLabel }}' : '{{ $copyLabel }}'"
+    :title="copied ? {{ json_encode($copiedLabel) }} : {{ json_encode($copyLabel) }}"
     class="shrink-0 pl-1 rounded text-gray-300 dark:text-gray-600
            opacity-0 group-hover:opacity-100 focus:opacity-100
            hover:text-gray-500 dark:hover:text-gray-400 transition-all cursor-pointer"
