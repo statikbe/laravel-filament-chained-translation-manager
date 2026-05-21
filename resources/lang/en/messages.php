@@ -56,7 +56,7 @@ return [
 
     // AI translation — bulk action
     'ai_translate_bulk_action' => 'AI Translate Selected',
-    'ai_translate_bulk_success' => 'AI translated :count missing value(s) across selected keys.',
+    'ai_translate_bulk_queued' => 'Queued AI translation for :count missing value(s) across selected keys.',
 
     // Dashboard widget
     'widget_stat_description' => ':translated of :total translated, :missing missing',

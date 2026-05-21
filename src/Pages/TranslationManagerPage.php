@@ -21,8 +21,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 use Statikbe\AiTranslation\AiTranslationService;
 use Statikbe\FilamentTranslationManager\FilamentChainedTranslationManagerPlugin;
-use Statikbe\FilamentTranslationManager\Support\TranslationCollectorService;
-use Statikbe\FilamentTranslationManager\Support\TranslationFilterService;
 use Statikbe\FilamentTranslationManager\Support\TranslationRecordService;
 use Statikbe\FilamentTranslationManager\Tables\Columns\TranslationCellColumn;
 
@@ -82,11 +80,7 @@ class TranslationManagerPage extends Page implements HasTable
         $plugin = FilamentChainedTranslationManagerPlugin::get();
         $locales = $plugin->getLocales();
         $sourceLocale = $plugin->getSourceLocale();
-        $service = new TranslationRecordService(
-            $plugin,
-            new TranslationCollectorService,
-            new TranslationFilterService,
-        );
+        $service = app(TranslationRecordService::class);
 
         $groups = $service->getTranslationGroups();
 
@@ -222,14 +216,14 @@ class TranslationManagerPage extends Page implements HasTable
                 ->action(static function (Collection $records) use ($locales, $sourceLocale, $service): void {
                     /** @var AiTranslationService $aiService */
                     $aiService = app(AiTranslationService::class);
-                    $translatedCount = 0;
+                    $queuedCount = 0;
 
                     foreach ($records as $record) {
                         if (blank($record['translations'][$sourceLocale] ?? '')) {
                             continue;
                         }
 
-                        $translatedCount += $service->aiTranslateMissingLocales(
+                        $queuedCount += $service->aiTranslateMissingLocales(
                             $record,
                             $locales,
                             $sourceLocale,
@@ -239,8 +233,8 @@ class TranslationManagerPage extends Page implements HasTable
 
                     Notification::make()
                         ->success()
-                        ->title(trans('filament-translation-manager::messages.ai_translate_bulk_success', [
-                            'count' => $translatedCount,
+                        ->title(trans('filament-translation-manager::messages.ai_translate_bulk_queued', [
+                            'count' => $queuedCount,
                         ]))
                         ->send();
                 })

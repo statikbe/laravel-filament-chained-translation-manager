@@ -13,15 +13,19 @@ use Statikbe\LaravelChainedTranslator\ChainedTranslationManager;
 class TranslationRecordService
 {
     public function __construct(
-        private readonly FilamentChainedTranslationManagerPlugin $plugin,
         private readonly TranslationCollectorService $collector,
         private readonly TranslationFilterService $filter,
     ) {}
 
+    private function plugin(): FilamentChainedTranslationManagerPlugin
+    {
+        return FilamentChainedTranslationManagerPlugin::get();
+    }
+
     public function buildRecords(?array $filters, ?string $search, int $page, int $recordsPerPage): LengthAwarePaginator
     {
-        $locales = $this->plugin->getLocales();
-        $sourceLocale = $this->plugin->getSourceLocale();
+        $locales = $this->plugin()->getLocales();
+        $sourceLocale = $this->plugin()->getSourceLocale();
         $selectedGroups = $filters['group']['values'] ?? [];
         $missingOnly = $filters['missing']['isActive'] ?? false;
 
@@ -75,7 +79,7 @@ class TranslationRecordService
     public function getTranslationGroups(): array
     {
         return collect(app(ChainedTranslationManager::class)->getTranslationGroups())
-            ->diff($this->plugin->getIgnoreGroups())
+            ->diff($this->plugin()->getIgnoreGroups())
             ->values()
             ->all();
     }
@@ -88,23 +92,18 @@ class TranslationRecordService
     ): int {
         $count = 0;
         $sourceText = $record['translations'][$sourceLocale] ?? '';
-
-        if (! method_exists($aiService, 'translateKey')) {
-            return 0;
-        }
+        $group = $record['group'];
+        $key = $record['translation_key'];
+        $driver = $this->plugin()->getAiDriver();
 
         foreach ($locales as $locale) {
             if ($locale === $sourceLocale || ! blank($record['translations'][$locale] ?? null)) {
                 continue;
             }
 
-            $aiService->translateKey(
-                $locale,
-                $record['group'],
-                $record['translation_key'],
-                $sourceText,
-                $this->plugin->getAiDriver(),
-            );
+            dispatch(static function () use ($aiService, $locale, $group, $key, $sourceText, $driver): void {
+                $aiService->translateKey($locale, $group, $key, $sourceText, $driver);
+            });
 
             $count++;
         }

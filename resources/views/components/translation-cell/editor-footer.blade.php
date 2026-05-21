@@ -44,10 +44,6 @@
                 type="button"
                 tabindex="-1"
                 @click.stop="aiTranslate()"
-                x-data="{ get canAi() {
-                    return !!translations[sourceLocale] &&
-                        Object.entries(translations).some(([l, v]) => l !== sourceLocale && !v);
-                }}"
                 x-bind:disabled="saving || aiLoading || !canAi"
                 x-bind:title="!translations[sourceLocale]
                     ? {{ json_encode($aiNoSourceTitle) }}

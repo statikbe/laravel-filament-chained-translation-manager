@@ -9,16 +9,32 @@ use Statikbe\LaravelChainedTranslator\ChainedTranslationManager;
 
 class TranslationCollectorService
 {
+    /** @var array<string, array<int, array<string, mixed>>> */
+    private static array $requestCache = [];
+
+    public static function flushCache(): void
+    {
+        static::$requestCache = [];
+    }
+
     public function collectAllTranslations(array $locales, array $groups): Collection
     {
-        $manager = app(ChainedTranslationManager::class);
-        $data = [];
+        // Memoize within the current PHP request so repeated calls from filter/paginate
+        // interactions only read disk once. Invalidate after saves via flushCache().
+        $key = md5(serialize([$locales, $groups]));
 
-        foreach ($locales as $locale) {
-            $data = $this->collectForLocale($manager, $locale, $groups, $data);
+        if (! array_key_exists($key, static::$requestCache)) {
+            $manager = app(ChainedTranslationManager::class);
+            $data = [];
+
+            foreach ($locales as $locale) {
+                $data = $this->collectForLocale($manager, $locale, $groups, $data);
+            }
+
+            static::$requestCache[$key] = array_values($data);
         }
 
-        return collect(array_values($data));
+        return collect(static::$requestCache[$key]);
     }
 
     private function collectForLocale(

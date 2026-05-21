@@ -23,6 +23,11 @@
             return JSON.stringify(this.translations) !== JSON.stringify(this.initial);
         },
 
+        get canAi() {
+            return !!this.translations[this.sourceLocale] &&
+                Object.entries(this.translations).some(([l, v]) => l !== this.sourceLocale && !v);
+        },
+
         toggle() {
             if (this.open) { this.cancel(); return; }
             this.open = true;

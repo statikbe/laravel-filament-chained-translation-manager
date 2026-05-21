@@ -11,6 +11,7 @@ use Livewire\Attributes\Renderless;
 use Livewire\Component;
 use Statikbe\AiTranslation\AiTranslationService;
 use Statikbe\FilamentTranslationManager\FilamentChainedTranslationManagerPlugin;
+use Statikbe\FilamentTranslationManager\Support\TranslationCollectorService;
 use Statikbe\LaravelChainedTranslator\ChainedTranslationManager;
 
 class TranslationCellEditor extends Component
@@ -37,11 +38,7 @@ class TranslationCellEditor extends Component
      */
     public function mount(string $group, string $translationKey, array $content, array $ai = []): void
     {
-        $gate = FilamentChainedTranslationManagerPlugin::get()->getGate();
-
-        if ($gate) {
-            Gate::authorize($gate);
-        }
+        $this->authorizeGate();
 
         $this->group = $group;
         $this->translationKey = $translationKey;
@@ -61,17 +58,17 @@ class TranslationCellEditor extends Component
     #[Renderless]
     public function save(array $changed): void
     {
-        $gate = FilamentChainedTranslationManagerPlugin::get()->getGate();
+        $this->authorizeGate();
 
-        if ($gate) {
-            Gate::authorize($gate);
-        }
+        $changed = array_intersect_key($changed, array_flip($this->locales));
 
         $manager = app(ChainedTranslationManager::class);
 
         foreach ($changed as $locale => $value) {
             $manager->save($locale, $this->group, $this->translationKey, $value);
         }
+
+        TranslationCollectorService::flushCache();
 
         Notification::make()
             ->success()
@@ -90,11 +87,7 @@ class TranslationCellEditor extends Component
     #[Renderless]
     public function aiTranslateMissing(string $sourceText, string $sourceLocale, array $locales): array
     {
-        $gate = FilamentChainedTranslationManagerPlugin::get()->getGate();
-
-        if ($gate) {
-            Gate::authorize($gate);
-        }
+        $this->authorizeGate();
 
         if (blank($sourceText)) {
             Notification::make()
@@ -105,12 +98,10 @@ class TranslationCellEditor extends Component
             return [];
         }
 
+        $locales = array_values(array_intersect($locales, $this->locales));
+
         /** @var AiTranslationService $aiService */
         $aiService = app(AiTranslationService::class);
-
-        if (! method_exists($aiService, 'translate')) {
-            return [];
-        }
 
         $results = [];
 
@@ -124,6 +115,15 @@ class TranslationCellEditor extends Component
             ->send();
 
         return $results;
+    }
+
+    private function authorizeGate(): void
+    {
+        $gate = FilamentChainedTranslationManagerPlugin::get()->getGate();
+
+        if ($gate) {
+            Gate::authorize($gate);
+        }
     }
 
     public function render(): View
