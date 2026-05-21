@@ -45,12 +45,10 @@ class TranslationStatusWidget extends StatsOverviewWidget
                 $sourceTranslations = $manager->getTranslationsForGroup($sourceLocale, $group);
                 $localeTranslations = $manager->getTranslationsForGroup($locale, $group);
 
-                foreach ($sourceTranslations as $key) {
+                foreach ($sourceTranslations as $key => $value) {
                     $total++;
 
-                    $localeValue = $localeTranslations[$key] ?? null;
-
-                    if (blank($localeValue)) {
+                    if (blank($localeTranslations[$key] ?? null)) {
                         $missing++;
                     }
                 }
