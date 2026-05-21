@@ -89,6 +89,10 @@ class TranslationRecordService
         $count = 0;
         $sourceText = $record['translations'][$sourceLocale] ?? '';
 
+        if (! method_exists($aiService, 'translateKey')) {
+            return 0;
+        }
+
         foreach ($locales as $locale) {
             if ($locale === $sourceLocale || ! blank($record['translations'][$locale] ?? null)) {
                 continue;

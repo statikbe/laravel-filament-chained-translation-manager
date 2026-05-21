@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Statikbe\FilamentTranslationManager\Http\Livewire;
 
 use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 use Livewire\Attributes\Renderless;
 use Livewire\Component;
 use Statikbe\AiTranslation\AiTranslationService;
+use Statikbe\FilamentTranslationManager\FilamentChainedTranslationManagerPlugin;
 use Statikbe\LaravelChainedTranslator\ChainedTranslationManager;
 
 class TranslationCellEditor extends Component
@@ -35,6 +37,12 @@ class TranslationCellEditor extends Component
      */
     public function mount(string $group, string $translationKey, array $content, array $ai = []): void
     {
+        $gate = FilamentChainedTranslationManagerPlugin::get()->getGate();
+
+        if ($gate) {
+            Gate::authorize($gate);
+        }
+
         $this->group = $group;
         $this->translationKey = $translationKey;
         $this->translations = $content['translations'] ?? [];
@@ -53,6 +61,12 @@ class TranslationCellEditor extends Component
     #[Renderless]
     public function save(array $changed): void
     {
+        $gate = FilamentChainedTranslationManagerPlugin::get()->getGate();
+
+        if ($gate) {
+            Gate::authorize($gate);
+        }
+
         $manager = app(ChainedTranslationManager::class);
 
         foreach ($changed as $locale => $value) {
@@ -76,6 +90,12 @@ class TranslationCellEditor extends Component
     #[Renderless]
     public function aiTranslateMissing(string $sourceText, string $sourceLocale, array $locales): array
     {
+        $gate = FilamentChainedTranslationManagerPlugin::get()->getGate();
+
+        if ($gate) {
+            Gate::authorize($gate);
+        }
+
         if (blank($sourceText)) {
             Notification::make()
                 ->warning()
@@ -87,6 +107,11 @@ class TranslationCellEditor extends Component
 
         /** @var AiTranslationService $aiService */
         $aiService = app(AiTranslationService::class);
+
+        if (! method_exists($aiService, 'translate')) {
+            return [];
+        }
+
         $results = [];
 
         foreach ($locales as $locale) {

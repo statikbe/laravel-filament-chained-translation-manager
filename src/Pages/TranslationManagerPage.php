@@ -137,9 +137,8 @@ class TranslationManagerPage extends Page implements HasTable
                     ->toggle(),
             ])
             ->headerActions($this->buildHeaderActions($plugin, $locales, $sourceLocale))
-            ->actions([])
             ->bulkActions([
-                BulkActionGroup::make($this->buildBulkActions($plugin, $locales, $sourceLocale)),
+                BulkActionGroup::make($this->buildBulkActions($plugin, $locales, $sourceLocale, $service)),
             ])
             ->searchPlaceholder(trans('filament-translation-manager::messages.search_term_placeholder'))
             ->emptyStateHeading(trans('filament-translation-manager::messages.error_no_translations_for_filters'))
@@ -177,6 +176,11 @@ class TranslationManagerPage extends Page implements HasTable
                 ->action(static function () use ($plugin, $locales, $sourceLocale): void {
                     /** @var AiTranslationService $aiService */
                     $aiService = app(AiTranslationService::class);
+
+                    if (! method_exists($aiService, 'queueMissingForLocale')) {
+                        return;
+                    }
+
                     $queuedLocales = 0;
 
                     foreach ($locales as $locale) {
@@ -203,16 +207,11 @@ class TranslationManagerPage extends Page implements HasTable
         FilamentChainedTranslationManagerPlugin $plugin,
         array $locales,
         string $sourceLocale,
+        TranslationRecordService $service,
     ): array {
         if (! $plugin->hasAiBulkAction()) {
             return [];
         }
-
-        $service = new TranslationRecordService(
-            $plugin,
-            new TranslationCollectorService,
-            new TranslationFilterService,
-        );
 
         return [
             BulkAction::make('ai_translate_selected')
