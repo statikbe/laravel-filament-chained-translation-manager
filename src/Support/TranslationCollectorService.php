@@ -49,7 +49,7 @@ class TranslationCollectorService
 
     private function addTranslation(array $data, string $group, string $key, string $locale, mixed $value): array
     {
-        $recordKey = $group . '.' . $key;
+        $recordKey = $group.'.'.$key;
 
         $data[$recordKey] ??= [
             '__key' => $recordKey,

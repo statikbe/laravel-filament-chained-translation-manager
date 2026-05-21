@@ -29,7 +29,7 @@ class TranslationStatusWidget extends StatsOverviewWidget
         $plugin = FilamentChainedTranslationManagerPlugin::get();
         $locales = $plugin->getLocales();
         $sourceLocale = $plugin->getSourceLocale();
-        $translatorLocales = array_values(array_filter($locales, static fn($l) => $l !== $sourceLocale));
+        $translatorLocales = array_values(array_filter($locales, static fn ($l) => $l !== $sourceLocale));
 
         $manager = app(ChainedTranslationManager::class);
         $ignoreGroups = $plugin->getIgnoreGroups();
