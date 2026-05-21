@@ -23,7 +23,7 @@ class TranslationCollectorService
         // interactions only read disk once. Invalidate after saves via flushCache().
         $key = md5(serialize([$locales, $groups]));
 
-        if (!array_key_exists($key, static::$requestCache)) {
+        if (! array_key_exists($key, static::$requestCache)) {
             $manager = app(ChainedTranslationManager::class);
             $data = [];
 
@@ -65,7 +65,7 @@ class TranslationCollectorService
 
     private function addTranslation(array $data, string $group, string $key, string $locale, mixed $value): array
     {
-        $recordKey = $group . '.' . $key;
+        $recordKey = $group.'.'.$key;
 
         $data[$recordKey] ??= [
             '__key' => $recordKey,
