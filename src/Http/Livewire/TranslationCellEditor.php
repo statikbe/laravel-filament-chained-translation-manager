@@ -108,7 +108,7 @@ class TranslationCellEditor extends Component
         /** @var AiTranslationService $aiService */
         $aiService = app(AiTranslationService::class);
 
-        if (! method_exists($aiService, 'translate')) {
+        if (!method_exists($aiService, 'translate')) {
             return [];
         }
 

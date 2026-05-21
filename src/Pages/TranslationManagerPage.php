@@ -84,15 +84,15 @@ class TranslationManagerPage extends Page implements HasTable
         $sourceLocale = $plugin->getSourceLocale();
         $service = new TranslationRecordService(
             $plugin,
-            new TranslationCollectorService,
-            new TranslationFilterService,
+            new TranslationCollectorService(),
+            new TranslationFilterService(),
         );
 
         $groups = $service->getTranslationGroups();
 
         return $table
             ->records(
-                static fn (
+                static fn(
                     ?array $filters,
                     ?string $search,
                     int|string $page,
@@ -108,7 +108,7 @@ class TranslationManagerPage extends Page implements HasTable
                 TranslationCellColumn::make('translations')
                     ->label('')
                     ->searchable()
-                    ->getStateUsing(static fn (array $record) => [
+                    ->getStateUsing(static fn(array $record) => [
                         'group' => $record['group'],
                         'translation_key' => $record['translation_key'],
                         'translations' => $record['translations'] ?? [],
@@ -158,7 +158,7 @@ class TranslationManagerPage extends Page implements HasTable
         array $locales,
         string $sourceLocale,
     ): array {
-        if (! $plugin->hasAiHeaderAction()) {
+        if (!$plugin->hasAiHeaderAction()) {
             return [];
         }
 
@@ -177,7 +177,7 @@ class TranslationManagerPage extends Page implements HasTable
                     /** @var AiTranslationService $aiService */
                     $aiService = app(AiTranslationService::class);
 
-                    if (! method_exists($aiService, 'queueMissingForLocale')) {
+                    if (!method_exists($aiService, 'queueMissingForLocale')) {
                         return;
                     }
 
@@ -209,7 +209,7 @@ class TranslationManagerPage extends Page implements HasTable
         string $sourceLocale,
         TranslationRecordService $service,
     ): array {
-        if (! $plugin->hasAiBulkAction()) {
+        if (!$plugin->hasAiBulkAction()) {
             return [];
         }
 

@@ -27,7 +27,7 @@ class TranslationRecordService
 
         $selectedLocales = $filters['locales']['values'] ?? [];
         $displayLocales = $selectedLocales !== []
-            ? array_values(array_filter($locales, static fn ($l) => in_array($l, $selectedLocales, true)))
+            ? array_values(array_filter($locales, static fn($l) => in_array($l, $selectedLocales, true)))
             : $locales;
 
         $records = $this->getAllTranslationRecords($locales);
@@ -54,7 +54,7 @@ class TranslationRecordService
                 ->forPage($page, $recordsPerPage)
                 ->values()
                 ->map(
-                    static fn (array $r) => $r
+                    static fn(array $r) => $r
                     + ['display_locales' => $displayLocales, 'source_locale' => $sourceLocale],
                 )
                 ->all(),
@@ -89,12 +89,12 @@ class TranslationRecordService
         $count = 0;
         $sourceText = $record['translations'][$sourceLocale] ?? '';
 
-        if (! method_exists($aiService, 'translateKey')) {
+        if (!method_exists($aiService, 'translateKey')) {
             return 0;
         }
 
         foreach ($locales as $locale) {
-            if ($locale === $sourceLocale || ! blank($record['translations'][$locale] ?? null)) {
+            if ($locale === $sourceLocale || !blank($record['translations'][$locale] ?? null)) {
                 continue;
             }
 
