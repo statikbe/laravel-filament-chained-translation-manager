@@ -8,7 +8,7 @@ return [
     'selected_languages_placeholder' => 'Tilni tanlang',
     'only_show_missing_translations_lbl' => "Faqat yetishmayotgan tarjimalarni ko'rsatish",
     'error_no_translations_for_filters' => "Filtrlarni o'zgartiring. So'rovingizga mos tarjimalar topilmadi!",
-    'error_no_translation_loaded' => "Hech qanday tarjima topilmadi. <pre>lang</pre> papkasini tekshiring.",
+    'error_no_translation_loaded' => 'Hech qanday tarjima topilmadi. <pre>lang</pre> papkasini tekshiring.',
     'previous_page' => 'Oldingi',
     'next_page' => 'Keyingi',
     'missing_translation' => "Tarjima to'ldirilmagan",
