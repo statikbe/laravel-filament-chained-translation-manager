@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
+## v4.3.1 - 2026-07-03
+
+### What's Changed
+
+* Add Russian, Tajik and Uzbek translations by @komyor09 in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/70
+* Bump dependabot/fetch-metadata from 2.5.0 to 3.1.0 by @dependabot[bot] in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/68
+* Bump actions/checkout from 6 to 7 by @dependabot[bot] in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/69
+
+### New Contributors
+
+* @komyor09 made their first contribution in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/70
+
+**Full Changelog**: https://github.com/statikbe/laravel-filament-chained-translation-manager/compare/v4.3.0...v4.3.1
+
 ## v4.3.0 - 2026-03-23
 
 ### What's Changed
