@@ -2,5 +2,6 @@
 /.editorconfig      export-ignore
 /.gitattributes     export-ignore
 /.gitignore         export-ignore
+/mago.toml          export-ignore
 /phpstan.neon.dist  export-ignore
 /phpunit.xml.dist   export-ignore

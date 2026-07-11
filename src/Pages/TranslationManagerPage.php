@@ -1,91 +1,42 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Statikbe\FilamentTranslationManager\Pages;
 
 use BackedEnum;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
+use Filament\Actions\Action;
+use Filament\Actions\BulkAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Notifications\Notification;
 use Filament\Pages\Page;
-use Filament\Schemas\Schema;
+use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Str;
-use Statikbe\FilamentTranslationManager\FilamentTranslationManager;
-use Statikbe\FilamentTranslationManager\Http\Livewire\TranslationEditForm;
-use Statikbe\LaravelChainedTranslator\ChainedTranslationManager;
+use Statikbe\AiTranslation\AiTranslationService;
+use Statikbe\FilamentTranslationManager\FilamentChainedTranslationManagerPlugin;
+use Statikbe\FilamentTranslationManager\Support\TranslationRecordService;
+use Statikbe\FilamentTranslationManager\Tables\Columns\TranslationCellColumn;
 
-class TranslationManagerPage extends Page implements HasForms
+class TranslationManagerPage extends Page implements HasTable
 {
-    use InteractsWithForms;
-
-    /**
-     * @const int
-     */
-    const PAGE_LIMIT = 20;
-
-    private ChainedTranslationManager $chainedTranslationManager;
-
-    public array $groups;
-
-    public array $locales;
-
-    public Collection $filteredTranslations;
-
-    public string $searchTerm = '';
-
-    public bool $onlyShowMissingTranslations = false;
-
-    public array $selectedGroups = [];
-
-    public array $selectedLocales = [];
-
-    public int $pageCounter = 1;
-
-    public int $pagedTranslations = 0;
-
-    public int $totalFilteredTranslations = 0;
-
-    public int $totalTranslations = 0;
-
-    public int $totalMissingFilteredTranslations = 0;
-
-    protected array $queryString = [
-        'pageCounter' => [
-            'except' => 1,
-            'as' => 'page',
-        ],
-        'searchTerm' => [
-            'as' => 'search',
-            'except' => '',
-        ],
-        'onlyShowMissingTranslations' => [
-            'except' => false,
-            'as' => 'showMissing',
-        ],
-        'selectedGroups',
-        'selectedLocales',
-    ];
-
-    protected $listeners = [TranslationEditForm::EVENT_TRANSLATIONS_SAVED => 'translationsSaved'];
+    use InteractsWithTable;
 
     protected string $view = 'filament-translation-manager::pages.translation-manager-page';
 
+    // ─── Navigation ──────────────────────────────────────────────────────────
+
     public static function shouldRegisterNavigation(): bool
     {
-        if (config('filament-translation-manager.gate', config('filament-translation-manager.access.gate'))) {
-            return Gate::allows(config('filament-translation-manager.gate', config('filament-translation-manager.access.gate')));
-        }
+        $gate = FilamentChainedTranslationManagerPlugin::get()->getGate();
 
-        return true;
-    }
-
-    public static function getNavigationGroup(): ?string
-    {
-        return trans(config('filament-translation-manager.navigation_group'));
+        return $gate ? Gate::allows($gate) : true;
     }
 
     public static function getNavigationLabel(): string
@@ -93,9 +44,19 @@ class TranslationManagerPage extends Page implements HasForms
         return trans('filament-translation-manager::messages.title');
     }
 
+    public static function getNavigationGroup(): ?string
+    {
+        return FilamentChainedTranslationManagerPlugin::get()->getNavigationGroup();
+    }
+
     public static function getNavigationIcon(): string|BackedEnum|Htmlable|null
     {
-        return config('filament-translation-manager.navigation_icon') ?? null;
+        return FilamentChainedTranslationManagerPlugin::get()->getNavigationIcon();
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return FilamentChainedTranslationManagerPlugin::get()->getNavigationSort();
     }
 
     public function getTitle(): string
@@ -105,234 +66,179 @@ class TranslationManagerPage extends Page implements HasForms
 
     public function mount(): void
     {
-        if (config('filament-translation-manager.gate', config('filament-translation-manager.access.gate'))) {
-            Gate::authorize(config('filament-translation-manager.gate', config('filament-translation-manager.access.gate')));
+        $gate = FilamentChainedTranslationManagerPlugin::get()->getGate();
+
+        if ($gate) {
+            Gate::authorize($gate);
         }
-
-        $this->loadInitialData();
     }
 
-    private function loadInitialData(): void
+    // ─── Table ───────────────────────────────────────────────────────────────
+
+    public function table(Table $table): Table
     {
-        $groups = $this->getChainedTranslationManager()->getTranslationGroups();
-        $this->groups = collect($groups)->diff(config('filament-translation-manager.ignore_groups', []))->values()->toArray();
+        $plugin = FilamentChainedTranslationManagerPlugin::get();
+        $locales = $plugin->getLocales();
+        $sourceLocale = $plugin->getSourceLocale();
+        $service = app(TranslationRecordService::class);
 
-        $this->locales = $this->getLocalesData();
-        $this->selectedLocales = $this->locales;
+        $groups = $service->getTranslationGroups();
 
-        $this->filterTranslations();
-    }
-
-    protected function getLocalesData(): array
-    {
-        return FilamentTranslationManager::getLocales();
-    }
-
-    private function getTranslations(): array
-    {
-        $data = [];
-
-        foreach ($this->locales as $locale) {
-            foreach ($this->groups as $group) {
-                $this->addTranslationsToData($data, $locale, $group);
-            }
-        }
-
-        return array_values($data);
-    }
-
-    private function addTranslationsToData(array &$data, string $locale, string $group): array
-    {
-        $translations = $this->getChainedTranslationManager()->getTranslationsForGroup($locale, $group);
-
-        // transform to data structure necessary for frontend
-        foreach ($translations as $key => $translation) {
-            $dataKey = $group.'.'.$key;
-            if (! array_key_exists($dataKey, $data)) {
-                $data[$dataKey] = [
-                    'title' => $group.' - '.$key,
-                    'type' => 'group',
-                    'group' => $group,
-                    'translation_key' => $key,
-                    'translations' => [],
-                ];
-            }
-            $data[$dataKey]['translations'][$locale] = $translation;
-        }
-
-        return $data;
-    }
-
-    public function form(Schema $schema): Schema
-    {
-        return $schema
-            ->components([
-                TextInput::make('searchTerm')
-                    ->hiddenLabel()
-                    ->placeholder(trans('filament-translation-manager::messages.search_term_placeholder'))
-                    ->prefixIcon('heroicon-o-magnifying-glass'),
-
-                Select::make('selectedGroups')
-                    ->hiddenLabel()
-                    ->placeholder(trans('filament-translation-manager::messages.selected_groups_placeholder'))
-                    ->multiple()
-                    ->options(array_combine($this->groups, $this->groups)),
-                Select::make('selectedLocales')
-                    ->hiddenLabel()
-                    ->placeholder(trans('filament-translation-manager::messages.selected_languages_placeholder'))
-                    ->multiple()
-                    ->options(array_combine($this->locales, $this->locales))
-                    ->columnSpan(1),
-                Toggle::make('onlyShowMissingTranslations')
-                    ->label(trans('filament-translation-manager::messages.only_show_missing_translations_lbl'))
-                    ->default(false),
+        return $table
+            ->records(
+                static fn (
+                    ?array $filters,
+                    ?string $search,
+                    int|string $page,
+                    int|string $recordsPerPage,
+                ): LengthAwarePaginator => $service->buildRecords(
+                    $filters,
+                    $search,
+                    (int) $page,
+                    (int) $recordsPerPage,
+                ),
+            )
+            ->columns([
+                TranslationCellColumn::make('translations')
+                    ->label('')
+                    ->searchable()
+                    ->getStateUsing(static fn (array $record) => [
+                        'group' => $record['group'],
+                        'translation_key' => $record['translation_key'],
+                        'translations' => $record['translations'] ?? [],
+                        'locales' => $record['display_locales'],
+                        'source_locale' => $record['source_locale'],
+                        'has_ai' => $plugin->hasAiRowAction(),
+                        'ai_driver' => $plugin->getAiDriver(),
+                    ])
+                    ->grow(),
             ])
-            ->columns(2);
+            ->filters([
+                SelectFilter::make('group')
+                    ->label(trans('filament-translation-manager::messages.selected_groups_placeholder'))
+                    ->options(array_combine($groups, $groups))
+                    ->multiple()
+                    ->searchable(),
+
+                SelectFilter::make('locales')
+                    ->label(trans('filament-translation-manager::messages.selected_languages_placeholder'))
+                    ->options(array_combine($locales, $locales))
+                    ->multiple()
+                    ->searchable(),
+
+                Filter::make('missing')
+                    ->label(trans('filament-translation-manager::messages.only_show_missing_translations_lbl'))
+                    ->toggle(),
+            ])
+            ->headerActions($this->buildHeaderActions($plugin, $locales, $sourceLocale))
+            ->bulkActions([
+                BulkActionGroup::make($this->buildBulkActions($plugin, $locales, $sourceLocale, $service)),
+            ])
+            ->searchPlaceholder(trans('filament-translation-manager::messages.search_term_placeholder'))
+            ->emptyStateHeading(trans('filament-translation-manager::messages.error_no_translations_for_filters'))
+            ->emptyStateDescription(trans(
+                'filament-translation-manager::messages.error_no_translations_for_filters_description',
+            ))
+            ->emptyStateIcon('heroicon-o-language')
+            ->persistFiltersInSession()
+            ->persistSearchInSession();
     }
 
-    public function filterTranslations(): void
-    {
-        $filteredTranslations = collect($this->getTranslations());
-        $this->totalTranslations = $filteredTranslations->count();
+    // ─── Actions ─────────────────────────────────────────────────────────────
 
-        if ($this->searchTerm) {
-            $filteredTranslations = $filteredTranslations->filter(function ($translationItem, $key) {
-                if (Str::contains($translationItem['title'], $this->searchTerm, true)) {
-                    return true;
-                }
+    /** @return Action[] */
+    private function buildHeaderActions(
+        FilamentChainedTranslationManagerPlugin $plugin,
+        array $locales,
+        string $sourceLocale,
+    ): array {
+        if (! $plugin->hasAiHeaderAction()) {
+            return [];
+        }
 
-                foreach ($translationItem['translations'] as $translation) {
-                    if (Str::contains($translation, $this->searchTerm, true)) {
-                        return true;
+        return [
+            Action::make('ai_translate_all_missing')
+                ->label(trans('filament-translation-manager::messages.ai_translate_all_missing_action'))
+                ->icon('heroicon-o-sparkles')
+                ->color('warning')
+                ->requiresConfirmation()
+                ->modalHeading(trans('filament-translation-manager::messages.ai_translate_all_missing_heading'))
+                ->modalDescription(trans('filament-translation-manager::messages.ai_translate_all_missing_description'))
+                ->modalSubmitActionLabel(trans(
+                    'filament-translation-manager::messages.ai_translate_all_missing_confirm',
+                ))
+                ->action(static function () use ($plugin, $locales, $sourceLocale): void {
+                    /** @var AiTranslationService $aiService */
+                    $aiService = app(AiTranslationService::class);
+
+                    if (! method_exists($aiService, 'queueMissingForLocale')) {
+                        return;
                     }
-                }
 
-                return false;
-            });
-        }
+                    $queuedLocales = 0;
 
-        if ($this->onlyShowMissingTranslations) {
-            $selectedLocales = $this->getFilteredLocales();
-            $filteredTranslations = $filteredTranslations->filter(function ($translationItem, $key) use ($selectedLocales) {
-                return $this->checkIfTranslationMissing($translationItem['translations'], $selectedLocales);
-            });
-        }
+                    foreach ($locales as $locale) {
+                        if ($locale === $sourceLocale) {
+                            continue;
+                        }
 
-        if (! empty($this->selectedGroups)) {
-            $filteredTranslations = $filteredTranslations->filter(function ($translationItem, $key) {
-                return in_array($translationItem['group'], $this->selectedGroups, true);
-            });
-        }
+                        $aiService->queueMissingForLocale($locale, driver: $plugin->getAiDriver());
+                        $queuedLocales++;
+                    }
 
-        $this->countMissingTranslations($filteredTranslations);
-
-        $filteredTranslations = $this->paginateTranslations($filteredTranslations);
-
-        $this->filteredTranslations = $filteredTranslations;
+                    Notification::make()
+                        ->success()
+                        ->title(trans('filament-translation-manager::messages.ai_translate_all_missing_queued', [
+                            'count' => $queuedLocales,
+                        ]))
+                        ->send();
+                }),
+        ];
     }
 
-    private function paginateTranslations(Collection $translations): Collection
-    {
-        $translations = $translations->sortBy([
-            ['group', 'asc'],
-            ['key', 'asc'],
-        ]);
-
-        $offset = 0;
-        if ($this->pageCounter > 1) {
-            $offset = ($this->pageCounter - 1) * self::PAGE_LIMIT;
+    /** @return BulkAction[] */
+    private function buildBulkActions(
+        FilamentChainedTranslationManagerPlugin $plugin,
+        array $locales,
+        string $sourceLocale,
+        TranslationRecordService $service,
+    ): array {
+        if (! $plugin->hasAiBulkAction()) {
+            return [];
         }
 
-        $this->pagedTranslations = $offset + self::PAGE_LIMIT;
-        $this->totalFilteredTranslations = count($translations);
+        return [
+            BulkAction::make('ai_translate_selected')
+                ->label(trans('filament-translation-manager::messages.ai_translate_bulk_action'))
+                ->icon('heroicon-o-sparkles')
+                ->color('warning')
+                ->requiresConfirmation()
+                ->action(static function (Collection $records) use ($locales, $sourceLocale, $service): void {
+                    /** @var AiTranslationService $aiService */
+                    $aiService = app(AiTranslationService::class);
+                    $queuedCount = 0;
 
-        return $translations->slice($offset, self::PAGE_LIMIT);
-    }
+                    foreach ($records as $record) {
+                        if (blank($record['translations'][$sourceLocale] ?? '')) {
+                            continue;
+                        }
 
-    private function getChainedTranslationManager(): ChainedTranslationManager
-    {
-        if (! isset($this->chainedTranslationManager)) {
-            $this->chainedTranslationManager = app(ChainedTranslationManager::class);
-        }
+                        $queuedCount += $service->aiTranslateMissingLocales(
+                            $record,
+                            $locales,
+                            $sourceLocale,
+                            $aiService,
+                        );
+                    }
 
-        return $this->chainedTranslationManager;
-    }
-
-    public function submitFilters(): void
-    {
-        $this->pageCounter = 1;
-        $this->filterTranslations();
-    }
-
-    public function previousPage(): void
-    {
-        if ($this->pageCounter > 1) {
-            $this->pageCounter--;
-            $this->filterTranslations();
-        }
-    }
-
-    public function nextPage(): void
-    {
-        if ($this->pageCounter * self::PAGE_LIMIT <= $this->totalFilteredTranslations) {
-            $this->pageCounter++;
-            $this->filterTranslations();
-        }
-    }
-
-    private function countMissingTranslations($translations): int
-    {
-        $selectedLocales = $this->getFilteredLocales();
-
-        $count = $translations->reduce(function ($carry, $translationItem) use ($selectedLocales) {
-            $missing = $this->checkIfTranslationMissing($translationItem['translations'], $selectedLocales);
-
-            return $carry + ($missing ? 1 : 0);
-        }, 0);
-
-        $this->totalMissingFilteredTranslations = $count;
-
-        return $count;
-    }
-
-    public function translationsSaved(string $group, string $translationKey, array $newTranslation, ?array $initialTranslations = null): void
-    {
-        $oldMissing = $this->checkIfTranslationMissing($initialTranslations, $this->getFilteredLocales());
-        $newMissing = $this->checkIfTranslationMissing($newTranslation, $this->getFilteredLocales());
-
-        if ($oldMissing && ! $newMissing) {
-            $this->totalMissingFilteredTranslations--;
-        } elseif (! $oldMissing && $newMissing) {
-            $this->totalMissingFilteredTranslations++;
-        }
-    }
-
-    private function checkIfTranslationMissing(array $translations, array $filteredLocales): bool
-    {
-        // Check if all selected locales are available in the translation item, by intersecting the locales of the
-        // translation item and the selected locales and seeing if the size matches with the selected locales.
-        if (count(array_intersect($filteredLocales, array_keys($translations))) !== count($filteredLocales)) {
-            return true;
-        }
-
-        foreach ($translations as $locale => $translation) {
-            if (in_array($locale, $filteredLocales, true)) {
-                if (empty($translation) || trim($translation) === '') {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    private function getFilteredLocales(): array
-    {
-        return ! empty($this->selectedLocales) ? $this->selectedLocales : $this->locales;
-    }
-
-    public static function getNavigationSort(): ?int
-    {
-        return config('filament-translation-manager.navigation_sort');
+                    Notification::make()
+                        ->success()
+                        ->title(trans('filament-translation-manager::messages.ai_translate_bulk_queued', [
+                            'count' => $queuedCount,
+                        ]))
+                        ->send();
+                })
+                ->deselectRecordsAfterCompletion(),
+        ];
     }
 }
