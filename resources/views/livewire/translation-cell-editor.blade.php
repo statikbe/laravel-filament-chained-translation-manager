@@ -109,19 +109,23 @@
     data-translation-id="{{ $editorId }}"
     x-on:open-translation-editor.window="if ($event.detail.id !== id) { translations = { ...initial }; open = false; }"
     x-on:keydown.escape.window="if (open) cancel()"
-    class="w-full -mx-2 px-2 rounded-lg transition-colors duration-150"
+    class="w-full -mx-2 px-2 rounded-lg whitespace-normal transition-colors duration-150"
     :class="open ? 'bg-gray-50 dark:bg-white/[0.03]' : 'hover:bg-gray-50/70 dark:hover:bg-white/[0.02]'"
 >
 
     {{-- ── Summary row (always visible, click to toggle) ─────────────── --}}
-    <button type="button" data-toggle @click="toggle()"
-        class="group w-full text-left focus:outline-none py-2"
+    <button type="button"
+            data-toggle
+            @click="toggle()"
+            class="group w-full text-left focus:outline-none py-3"
     >
         {{-- Row 1: key + copy + chevron --}}
-        <div class="flex items-start gap-2">
-            <span class="flex-1 inline-flex items-start gap-1 font-mono text-[0.7rem] leading-snug break-all min-w-0">
-                <span class="shrink-0 text-gray-400 dark:text-gray-600">{{ $group }}.</span><span
-                    class="font-semibold text-gray-600 dark:text-gray-400">{{ $translationKey }}</span>
+        <div class="flex items-start gap-3">
+            <span class="flex-1 inline-flex items-start gap-2 font-mono text-sm leading-snug break-all min-w-0">
+                <span class="shrink-0 text-gray-400 dark:text-gray-600">{{ $group }}.</span>
+
+                <span class="min-w-0 break-all font-semibold text-gray-600 dark:text-gray-400">{{ $translationKey }}</span>
+
                 <x-tcm::copy-button
                     :copy-label="trans('filament-translation-manager::messages.copy_key')"
                     :copied-label="trans('filament-translation-manager::messages.key_copied')"

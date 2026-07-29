@@ -80,8 +80,8 @@ class TranslationManagerPage extends Page implements HasTable
         $plugin = FilamentChainedTranslationManagerPlugin::get();
         $locales = $plugin->getLocales();
         $sourceLocale = $plugin->getSourceLocale();
-        $service = app(TranslationRecordService::class);
 
+        $service = app(TranslationRecordService::class);
         $groups = $service->getTranslationGroups();
 
         return $table
