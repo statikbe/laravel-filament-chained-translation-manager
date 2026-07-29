@@ -111,7 +111,8 @@ class TranslationManagerPage extends Page implements HasTable
                         'has_ai' => $plugin->hasAiRowAction(),
                         'ai_driver' => $plugin->getAiDriver(),
                     ])
-                    ->grow(),
+                    ->grow()
+                    ->extraCellAttributes(['style' => 'padding-inline: 0.5rem']),
             ])
             ->filters([
                 SelectFilter::make('group')

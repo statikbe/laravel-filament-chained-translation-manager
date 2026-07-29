@@ -109,8 +109,8 @@
     data-translation-id="{{ $editorId }}"
     x-on:open-translation-editor.window="if ($event.detail.id !== id) { translations = { ...initial }; open = false; }"
     x-on:keydown.escape.window="if (open) cancel()"
-    class="w-full -mx-2 px-2 rounded-lg whitespace-normal transition-colors duration-150"
-    :class="open ? 'bg-gray-200 dark:bg-white/[0.03]' : 'hover:bg-gray-200/70 dark:hover:bg-white/[0.02]'"
+    class="flex-1 -mx-2 px-2 whitespace-normal transition-colors duration-150"
+    :class="open ? 'bg-gray-200 dark:bg-white/[0.03]' : 'hover:bg-gray-100/70 dark:hover:bg-white/[0.02]'"
 >
 
     {{-- ── Summary row (always visible, click to toggle) ─────────────── --}}
