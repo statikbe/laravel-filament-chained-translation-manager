@@ -59,18 +59,18 @@ public function panel(Panel $panel): Panel
 }
 ```
 
-2. Be sure to add the following line to your theme.css of your Filament panel.
+3. Be sure to add the following line to your theme.css of your Filament panel.
 ```
 @source '../../../../vendor/statikbe/laravel-filament-chained-translation-manager/resources/**/*.blade.php';
 ```
 
-3. Now run the following command to compile the plugin styles into Filament's stylesheet:
+4. Now run the following command to compile the plugin styles into Filament's stylesheet:
 
 ```bash
 npm run build
 ```
 
-4. Publish the `config` file then setup your configuration:
+5. Publish the `config` file then setup your configuration:
 
 ```bash
 php artisan vendor:publish --tag="filament-translation-manager-config"
@@ -78,7 +78,10 @@ php artisan vendor:publish --tag="filament-translation-manager-config"
 
 ## Configuration
 
-You can configure the custom language directory name and extend or finetune the service provider of the
+P.S. In previous versions, you could configure the translation manager via the `config/filament-translation-manager.php` file.
+This has been changed in favor of configuring the package on the `FilamentChainedTranslationManagerPlugin` instead.
+
+Via the `FilamentChainedTranslationManagerPlugin`, you can, for example, configure the custom language directory name and extend or finetune the service provider of the
 [Laravel Chained Translator](https://github.com/statikbe/laravel-chained-translator). Have a look at the configuration
 options of the [Laravel Chained Translator library](https://github.com/statikbe/laravel-chained-translator).
 
@@ -88,13 +91,14 @@ There are two ways to change the supported locales.
 
 #### Option 1
 
-Set up the supported locales using the configuration. By default, it will fallback to the locale and fallback locale. However, you can customize the configuration to include additional locales as follows:
+Set up the supported locales on the `FilamentChainedTranslationManagerPlugin`. By default, it will fallback to the locale and fallback locale. However, you can customize this to include additional locales as follows:
 
 ```php
-'locales' => [
-    'en',
-    'fr',
-],
+FilamentChainedTranslationManagerPlugin::make()
+    ->locales([
+        'nl',
+        'fr',
+    ]),
 ```
 
 #### Option 2
@@ -113,10 +117,11 @@ public function boot()
 
 ### Gate
 
-You can restrict access to the Translation Manager by configuring the Gate variable.
+You can restrict access to the Translation Manager by configuring the Gate.
 
 ```php
-'gate' => 'view-filament-translation-manager',
+FilamentChainedTranslationManagerPlugin::make()
+    ->gate('view-filament-translation-manager'),
 ```
 
 ### Ignoring groups
@@ -124,34 +129,59 @@ You can restrict access to the Translation Manager by configuring the Gate varia
 You can choose to exclude specific groups of translations from appearing in Filament. Create an array with the keys that you wish to ignore:
 
 ```php
-'ignore_groups' => [
-    'auth',
-],
+FilamentChainedTranslationManagerPlugin::make()
+    ->ignoreGroups([
+        // 'auth',
+        'http-statuses',
+        'http-descriptions',
+        'routes',
+        'roles',
+        'validation',
+        'google-authenticate::messages',
+    ]),
 ```
 
 ### Navigation Group
 
-You can set the navigation group in different ways. Either edit the translation files, or change the translation key in 
-the config `navigation_group`.
+You can set the navigation group in different ways. Either edit the translation files, or configure the translation key like so:
+
+```php
+FilamentChainedTranslationManagerPlugin::make()
+    ->navigationGroup('Configurations'),
+```
 
 ### Navigation sort
 
-You can tweak the position in the navigation group by configuring this setting:
+You can tweak the position in the navigation group by configuring:
 
 ```php
-'navigation_sort' => 11,
+FilamentChainedTranslationManagerPlugin::make()
+    ->navigationSort(11),
 ```
 
 ### Navigation Icon
 
-You can customize the navigation icon by configuring the `navigation-icon` variable
-```
-'navigation_icon' => 'heroicon-o-language',
+You can customize the navigation icon by configuring:
+
+```php
+FilamentChainedTranslationManagerPlugin::make()
+    ->navigationIcon('heroicon-o-language'),
 ```
 
 Alternatively, you can use an icon enum, like `HeroIcon`.
 Or you can replace the icon with your own custom icon set, by registering a different icon for this icon:
 `filament-chained-translation-manager::nav-icon`.
+
+### Enabling AI-translation usage
+
+You can enable the usage of AI for translating labels from one local to another:
+
+```php
+FilamentChainedTranslationManagerPlugin::make()
+    ->enableAiTranslation(),
+```
+
+P.S. You can provide an array to the `enableAiTranslation` function to set some AI options. See `Statikbe\FilamentTranslationManager\Concerns\HasAiTranslation` for all options. 
 
 ## Usage
 
