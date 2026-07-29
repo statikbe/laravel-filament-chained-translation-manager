@@ -96,7 +96,7 @@ class TranslationManagerPage extends Page implements HasTable
                     $search,
                     (int) $page,
                     (int) $recordsPerPage,
-                ),
+                )->onEachSide(1),
             )
             ->columns([
                 TranslationCellColumn::make('translations')

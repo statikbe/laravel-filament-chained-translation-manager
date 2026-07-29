@@ -101,6 +101,9 @@ FilamentChainedTranslationManagerPlugin::make()
     ]),
 ```
 
+P.S. Via the `sourceLocale` plugin function, you can configure the "source" local = the default/main locale.
+If not specified, the locale of the app itself is used.
+
 #### Option 2
 
 If your application already has a config that declares your locales than you are able to set the supported locales in any service provider.

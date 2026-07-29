@@ -110,7 +110,7 @@
     x-on:open-translation-editor.window="if ($event.detail.id !== id) { translations = { ...initial }; open = false; }"
     x-on:keydown.escape.window="if (open) cancel()"
     class="w-full -mx-2 px-2 rounded-lg whitespace-normal transition-colors duration-150"
-    :class="open ? 'bg-gray-50 dark:bg-white/[0.03]' : 'hover:bg-gray-50/70 dark:hover:bg-white/[0.02]'"
+    :class="open ? 'bg-gray-200 dark:bg-white/[0.03]' : 'hover:bg-gray-200/70 dark:hover:bg-white/[0.02]'"
 >
 
     {{-- ── Summary row (always visible, click to toggle) ─────────────── --}}
@@ -142,8 +142,8 @@
         </div>
 
         {{-- Row 2: source preview + locale pills + progress badge --}}
-        <div class="flex items-center gap-2 mt-1">
-            <span class="flex-1 min-w-0 text-sm text-gray-600 dark:text-gray-300 truncate leading-tight">
+        <div class="flex items-center gap-2 mt-2">
+            <span class="flex-1 min-w-0 text-sm text-gray-600 dark:text-gray-300 truncate leading-tight italic">
                 @if (filled($sourceText))
                     {{ Str::limit($sourceText, 90) }}
                 @else
