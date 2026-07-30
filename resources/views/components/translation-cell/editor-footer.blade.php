@@ -1,10 +1,5 @@
 @props([
     'hasAi',
-    'saveBtnLabel',
-    'cancelBtnLabel',
-    'aiBtnLabel',
-    'aiNoSourceTitle',
-    'aiTooltip',
 ])
 <div class="flex items-center justify-between pt-2 border-t border-gray-100 dark:border-gray-800/80">
     <div class="flex items-center gap-2">
@@ -21,7 +16,7 @@
                 <svg x-show="!saving" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                 </svg>
-                <span x-text="saving ? '…' : '{{ $saveBtnLabel }}'"></span>
+                <span x-text="saving ? '…' : '{{ trans('filament-translation-manager::messages.save_btn') }}'"></span>
                 <span x-show="hasChanges && !saving" x-cloak class="w-1.5 h-1.5 rounded-full bg-white/60 shrink-0"></span>
             </span>
         </x-filament::button>
@@ -33,7 +28,7 @@
             type="button"
             @click.stop="cancel()"
             x-bind:disabled="saving || aiLoading"
-        >{{ $cancelBtnLabel }}</x-filament::button>
+        >{{ trans('filament-translation-manager::messages.cancel_translation_btn') }}</x-filament::button>
 
         {{-- AI Fill --}}
         @if ($hasAi)
@@ -46,15 +41,15 @@
                 @click.stop="aiTranslate()"
                 x-bind:disabled="saving || aiLoading || !canAi"
                 x-bind:title="!translations[sourceLocale]
-                    ? {{ json_encode($aiNoSourceTitle) }}
-                    : {{ json_encode($aiTooltip) }}"
+                    ? {{ json_encode(trans('filament-translation-manager::messages.ai_translate_no_source')) }}
+                    : {{ json_encode(trans('filament-translation-manager::messages.ai_translate_row_action_tooltip')) }}"
             >
                 <span class="inline-flex items-center gap-1.5">
                     <x-filament::loading-indicator x-show="aiLoading" x-cloak class="w-3.5 h-3.5" />
                     <svg x-show="!aiLoading" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z" />
                     </svg>
-                    <span x-text="aiLoading ? '…' : '{{ $aiBtnLabel }}'"></span>
+                    <span x-text="aiLoading ? '…' : '{{ trans('filament-translation-manager::messages.ai_translate_row_action') }}'"></span>
                 </span>
             </x-filament::button>
         @endif

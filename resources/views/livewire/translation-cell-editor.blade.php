@@ -190,11 +190,6 @@
 
             <x-tcm::editor-footer
                 :has-ai="$hasAi"
-                :save-btn-label="trans('filament-translation-manager::messages.save_btn')"
-                :cancel-btn-label="trans('filament-translation-manager::messages.cancel_translation_btn')"
-                :ai-btn-label="trans('filament-translation-manager::messages.ai_translate_row_action')"
-                :ai-no-source-title="trans('filament-translation-manager::messages.ai_translate_no_source')"
-                :ai-tooltip="trans('filament-translation-manager::messages.ai_translate_row_action_tooltip')"
             />
         </div>
     </div>
