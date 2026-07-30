@@ -110,7 +110,7 @@
     x-on:open-translation-editor.window="if ($event.detail.id !== id) { translations = { ...initial }; open = false; }"
     x-on:keydown.escape.window="if (open) cancel()"
     class="flex-1 -mx-2 px-2 whitespace-normal transition-colors duration-150"
-    :class="open ? 'bg-gray-200 dark:bg-white/[0.03]' : 'hover:bg-gray-100/70 dark:hover:bg-white/[0.02]'"
+    :class="open ? 'bg-gray-100 dark:bg-white/[0.03]' : 'hover:bg-gray-100/70 dark:hover:bg-white/[0.02]'"
 >
 
     {{-- ── Summary row (always visible, click to toggle) ─────────────── --}}
@@ -185,10 +185,6 @@
                     :is-first="$loop->first"
                     :is-last="$loop->last"
                     :has-ai="$hasAi"
-                    :set-as-source-label="trans('filament-translation-manager::messages.set_as_source')"
-                    :translated-label="trans('filament-translation-manager::messages.translated')"
-                    :missing-label="trans('filament-translation-manager::messages.missing_translation')"
-                    :missing-placeholder="trans('filament-translation-manager::messages.missing_translation')"
                 />
             @endforeach
 

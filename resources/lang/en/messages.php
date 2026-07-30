@@ -5,11 +5,11 @@ return [
     'title' => 'Translation manager',
     'navigation_group' => 'Settings',
 
-    // Table columns
+    // Table
     'key' => 'Key',
     'group' => 'Group',
     'translations' => 'Translations',
-    'source_locale_label' => 'source',
+    'source_locale_label' => 'Source',
     'set_as_source' => 'Set as source locale',
     'key_copied' => 'Copied!',
     'copy_key' => 'Copy key',
@@ -21,7 +21,7 @@ return [
     'only_show_missing_translations_lbl' => 'Missing only',
 
     // Status labels
-    'translated' => 'Translated',
+    'is_translated_for_locale' => 'Translated',
     'missing_translation' => 'Not translated',
     'copy_source' => 'Copy source',
 

@@ -3,13 +3,14 @@
     'isFirst'            => false,
     'isLast'             => false,
     'hasAi'              => false,
-    'setAsSourceLabel',
-    'translatedLabel',
-    'missingLabel',
-    'missingPlaceholder',
 ])
+
+@php
+    $setAsSourceLabel = trans('filament-translation-manager::messages.set_as_source');
+@endphp
+
 <div class="group/field pl-2">
-    <div class="flex items-center gap-2 mb-0.5">
+    <div class="group/btnWithLbl flex items-center gap-2 my-2">
 
         {{-- Locale badge — click to set as source locale --}}
         <button
@@ -18,14 +19,14 @@
             @click="sourceLocale = {{ json_encode($locale) }}"
             class="inline-flex items-center gap-1 rounded px-1.5 py-0.5 font-mono text-[0.65rem] font-bold uppercase tracking-wider transition-all"
             :class="sourceLocale === {{ json_encode($locale) }}
-                ? 'bg-primary-500 dark:bg-primary-600 text-white shadow-sm'
-                : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400 cursor-pointer hover:bg-primary-50 hover:text-primary-600 dark:hover:bg-primary-900/30 dark:hover:text-primary-400'"
+                ? 'bg-primary-500 dark:bg-primary-600 text-white shadow-sm cursor-default'
+                : 'bg-primary-100 text-gray-500 border border-bg-primary-500 dark:bg-gray-800 dark:text-gray-200 cursor-pointer hover:bg-primary-300 hover:text-primary-600 dark:hover:bg-primary-900/30 dark:hover:text-primary-400'"
             :title="sourceLocale === {{ json_encode($locale) }} ? '' : {{ json_encode($setAsSourceLabel) }}"
         >
             {{-- Arrow icon — nudges non-source locales to be obviously clickable --}}
             <svg
                 x-show="sourceLocale !== {{ json_encode($locale) }}"
-                class="w-2.5 h-2.5 opacity-0 group-hover/field:opacity-60 transition-opacity"
+                class="w-3 h-3 opacity-40 group-hover/btnWithLbl:opacity-80 transition-opacity"
                 fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"
             >
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5 7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 3L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
@@ -43,17 +44,19 @@
         >{{ trans('filament-translation-manager::messages.source_locale_label') }}</span>
 
         {{-- Translated/missing status swaps with "set as source" hint on hover --}}
-        <span x-show="sourceLocale !== {{ json_encode($locale) }}">
+        <span x-show="sourceLocale !== {{ json_encode($locale) }}"
+              class="flex items-center"
+        >
             <span
-                class="group-hover/field:hidden text-[0.65rem] font-medium transition-colors"
+                class="group-hover/btnWithLbl:hidden text-xs font-medium transition-colors"
                 :class="translations[{{ json_encode($locale) }}] && translations[{{ json_encode($locale) }}].trim()
                     ? 'text-success-600 dark:text-success-400'
                     : 'text-gray-400 dark:text-gray-500'"
                 x-text="translations[{{ json_encode($locale) }}] && translations[{{ json_encode($locale) }}].trim()
-                    ? {{ json_encode($translatedLabel) }}
-                    : {{ json_encode($missingLabel) }}"
+                    ? {{ json_encode(trans('filament-translation-manager::messages.is_translated_for_locale')) }}
+                    : {{ json_encode(trans('filament-translation-manager::messages.missing_translation')) }}"
             ></span>
-            <span class="hidden group-hover/field:inline text-[0.6rem] text-gray-400 dark:text-gray-500 select-none">
+            <span class="hidden group-hover/btnWithLbl:inline text-xs text-gray-400 dark:text-gray-500 select-none">
                 {{ $setAsSourceLabel }}
             </span>
         </span>
@@ -69,14 +72,14 @@
             @if ($isFirst) @keydown.shift.tab.prevent="navigate('prev', 'last')" @endif
             @if ($isLast) @keydown.tab="if (!$event.shiftKey) { $event.preventDefault(); navigate('next', 'first'); }" @endif
             rows="2"
-            class="block w-full rounded-lg text-sm shadow-sm transition-colors resize-y pl-3
+            class="block w-full rounded-lg text-base shadow-sm transition-colors resize-y p-2
                    bg-white dark:bg-gray-900
                    focus:outline-none focus:ring-2 focus:ring-primary-500/25 focus:border-primary-400
                    dark:text-white dark:placeholder-gray-600 dark:focus:border-primary-500"
             :class="translations[{{ json_encode($locale) }}] && translations[{{ json_encode($locale) }}].trim()
                 ? 'border border-gray-200 dark:border-gray-700'
                 : 'border border-dashed border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50'"
-            placeholder="{{ $missingPlaceholder }}"
+            placeholder="{{ trans('filament-translation-manager::messages.missing_translation') }}"
         ></textarea>
 
         @if ($hasAi)
