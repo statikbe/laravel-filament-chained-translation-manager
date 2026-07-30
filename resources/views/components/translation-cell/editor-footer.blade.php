@@ -1,7 +1,7 @@
 @props([
     'hasAi',
 ])
-<div class="flex items-center justify-between pt-2 border-t border-gray-100 dark:border-gray-800/80">
+<div class="flex items-center pt-2 border-t border-gray-100 dark:border-gray-800/80">
     <div class="flex items-center gap-2">
 
         {{-- Save --}}
@@ -37,7 +37,6 @@
                 size="sm"
                 color="warning"
                 type="button"
-                tabindex="-1"
                 @click.stop="aiTranslate()"
                 x-bind:disabled="saving || aiLoading || !canAi"
                 x-bind:title="!translations[sourceLocale]
@@ -54,14 +53,4 @@
             </x-filament::button>
         @endif
     </div>
-
-    {{-- Keyboard hints --}}
-    <span class="hidden sm:flex items-center gap-1 text-[0.62rem] text-gray-300 dark:text-gray-600 select-none">
-        <x-tcm::kbd key="⌘↵" label="save" />
-        <x-tcm::kbd key="Esc" label="cancel" :separator="true" />
-        @if ($hasAi)
-            <x-tcm::kbd key="⌘⇧A" label="AI fill" :separator="true" />
-        @endif
-        <x-tcm::kbd key="Tab" label="next" :separator="true" />
-    </span>
 </div>

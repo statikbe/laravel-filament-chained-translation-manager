@@ -1,8 +1,6 @@
 @props([
     'locale',
-    'isFirst'            => false,
-    'isLast'             => false,
-    'hasAi'              => false,
+    'hasAi' => false,
 ])
 
 @php
@@ -15,7 +13,6 @@
         {{-- Locale badge — click to set as source locale --}}
         <button
             type="button"
-            tabindex="-1"
             @click="sourceLocale = {{ json_encode($locale) }}"
             class="inline-flex items-center gap-1 rounded px-1.5 py-0.5 font-mono text-[0.65rem] font-bold uppercase tracking-wider transition-all"
             :class="sourceLocale === {{ json_encode($locale) }}
@@ -69,8 +66,6 @@
             @keydown.ctrl.enter.prevent="save()"
             @keydown.meta.shift.a.prevent="aiTranslate()"
             @keydown.ctrl.shift.a.prevent="aiTranslate()"
-            @if ($isFirst) @keydown.shift.tab.prevent="navigate('prev', 'last')" @endif
-            @if ($isLast) @keydown.tab="if (!$event.shiftKey) { $event.preventDefault(); navigate('next', 'first'); }" @endif
             rows="2"
             class="block w-full rounded-lg text-base shadow-sm transition-colors resize-y p-2
                    bg-white dark:bg-gray-900
@@ -85,7 +80,6 @@
         @if ($hasAi)
             <x-filament::icon-button
                 type="button"
-                tabindex="-1"
                 x-show="sourceLocale !== {{ json_encode($locale) }} && !aiLoading"
                 x-cloak
                 @click.stop="aiTranslateLocale({{ json_encode($locale) }})"

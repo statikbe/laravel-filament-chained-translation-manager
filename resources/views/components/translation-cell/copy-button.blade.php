@@ -2,8 +2,10 @@
 
 <span
     role="button"
-    tabindex="-1"
+    tabindex="0"
     @click.stop="copyKey()"
+    @keydown.enter.stop.prevent="copyKey()"
+    @keydown.space.stop.prevent="copyKey()"
     :title="copied ? {{ json_encode($copiedLabel) }} : {{ json_encode($copyLabel) }}"
     class="shrink-0 pl-1 rounded text-gray-300 dark:text-gray-600
            sm:opacity-0 group-hover:opacity-100 focus:opacity-100
