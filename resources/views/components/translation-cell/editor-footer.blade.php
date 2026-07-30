@@ -26,6 +26,7 @@
             size="sm"
             color="gray"
             type="button"
+            class="focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400"
             @click.stop="cancel()"
             x-bind:disabled="saving || aiLoading"
         >{{ trans('filament-translation-manager::messages.cancel_translation_btn') }}</x-filament::button>

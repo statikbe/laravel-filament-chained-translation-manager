@@ -88,38 +88,41 @@
             } catch {}
         },
 
+        // Returns whether it actually jumped, so callers only suppress default Tab
+        // behaviour (e.g. moving to the paginator) when there was somewhere to jump to.
         navigate(dir, focusTarget = 'first') {
             const all = [...document.querySelectorAll('[data-translation-id]')];
             const i   = all.findIndex(el => el.dataset.translationId === this.id);
-            if (i === -1) return;
+            if (i === -1) return false;
             const next = dir === 'next' ? Math.min(i + 1, all.length - 1) : Math.max(i - 1, 0);
-            if (next === i) return;
+            if (next === i) return false;
             this.cancel();
             $nextTick(() => {
                 const target = all[next];
                 target?.querySelector('[data-toggle]')?.click();
-                target?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+                target?.scrollIntoView({ block: 'center', behavior: 'instant' });
                 setTimeout(() => {
                     const tas = target?.querySelectorAll('textarea');
                     (focusTarget === 'last' ? tas?.[tas.length - 1] : tas?.[0])?.focus();
                 }, 75);
             });
+            return true;
         },
 
         // Jumps to the next/previous translation only once Tab/Shift+Tab moves past the
         // last/first still-focusable control in this row (toggle, copy button, and — while
         // open — the locale fields and footer buttons), so every one of them stays reachable.
+        // On the very first/last row there's nowhere to jump to, so default Tab behaviour is
+        // left alone and focus continues past the table as normal (e.g. to the paginator).
         onEditorTab(event, row) {
             const focusable = [...row.querySelectorAll('button, [tabindex=\'0\'], textarea')]
                 .filter(el => !el.disabled && el.offsetParent !== null);
             if (!focusable.length) return;
 
             if (!event.shiftKey && event.target === focusable[focusable.length - 1]) {
-                event.preventDefault();
-                this.navigate('next', 'first');
+                if (this.navigate('next', 'first')) event.preventDefault();
             } else if (event.shiftKey && event.target === focusable[0]) {
-                event.preventDefault();
-                this.navigate('prev', 'last');
+                if (this.navigate('prev', 'last')) event.preventDefault();
             }
         },
     }"
