@@ -110,8 +110,10 @@
         },
 
         // Jumps to the next/previous translation only once Tab/Shift+Tab moves past the
-        // last/first still-focusable control in this row (toggle, copy button, and — while
-        // open — the locale fields and footer buttons), so every one of them stays reachable.
+        // last/first still-relevant control in this row, so every one of them stays reachable.
+        // The row's own toggle button is skipped as a backward boundary: since the row is
+        // already open, landing back on it does nothing useful, so Shift+Tab from the copy
+        // button jumps straight to the previous row instead of stopping there first.
         // On the very first/last row there's nowhere to jump to, so default Tab behaviour is
         // left alone and focus continues past the table as normal (e.g. to the paginator).
         onEditorTab(event, row) {
@@ -119,9 +121,11 @@
                 .filter(el => !el.disabled && el.offsetParent !== null);
             if (!focusable.length) return;
 
+            const firstJumpBoundary = focusable.find(el => !el.hasAttribute('data-toggle')) ?? focusable[0];
+
             if (!event.shiftKey && event.target === focusable[focusable.length - 1]) {
                 if (this.navigate('next', 'first')) event.preventDefault();
-            } else if (event.shiftKey && event.target === focusable[0]) {
+            } else if (event.shiftKey && event.target === firstJumpBoundary) {
                 if (this.navigate('prev', 'last')) event.preventDefault();
             }
         },
