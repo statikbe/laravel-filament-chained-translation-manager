@@ -107,9 +107,10 @@
         },
 
         // Jumps to the next/previous translation only once Tab/Shift+Tab moves past the
-        // last/first still-focusable control in this editor, so every button stays reachable.
-        onEditorTab(event, panel) {
-            const focusable = [...panel.querySelectorAll('button, textarea')]
+        // last/first still-focusable control in this row (toggle, copy button, and — while
+        // open — the locale fields and footer buttons), so every one of them stays reachable.
+        onEditorTab(event, row) {
+            const focusable = [...row.querySelectorAll('button, [tabindex=\'0\'], textarea')]
                 .filter(el => !el.disabled && el.offsetParent !== null);
             if (!focusable.length) return;
 
@@ -125,6 +126,7 @@
     data-translation-id="{{ $editorId }}"
     x-on:open-translation-editor.window="if ($event.detail.id !== id) { translations = { ...initial }; open = false; }"
     x-on:keydown.escape.window="if (open) cancel()"
+    x-on:keydown.tab="onEditorTab($event, $el)"
     class="flex-1 -mx-2 px-2 whitespace-normal transition-colors duration-150"
     :class="open ? 'bg-gray-100 dark:bg-white/[0.03]' : 'hover:bg-gray-100/70 dark:hover:bg-white/[0.02]'"
 >
@@ -184,7 +186,6 @@
     {{-- ── Expandable editor ──────────────────────────────────────────── --}}
     <div
         x-show="open"
-        x-on:keydown.tab="onEditorTab($event, $el)"
         x-transition:enter="transition ease-out duration-150"
         x-transition:enter-start="opacity-0 -translate-y-1"
         x-transition:enter-end="opacity-100 translate-y-0"
