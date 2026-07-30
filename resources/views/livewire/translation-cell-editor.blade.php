@@ -102,7 +102,7 @@
                 setTimeout(() => {
                     const tas = target?.querySelectorAll('textarea');
                     (focusTarget === 'last' ? tas?.[tas.length - 1] : tas?.[0])?.focus();
-                }, 200);
+                }, 75);
             });
         },
 
@@ -127,7 +127,7 @@
     x-on:open-translation-editor.window="if ($event.detail.id !== id) { translations = { ...initial }; open = false; }"
     x-on:keydown.escape.window="if (open) cancel()"
     x-on:keydown.tab="onEditorTab($event, $el)"
-    class="flex-1 -mx-2 px-2 whitespace-normal transition-colors duration-150"
+    class="flex-1 -mx-2 px-2 whitespace-normal transition-colors duration-75"
     :class="open ? 'bg-gray-100 dark:bg-white/[0.03]' : 'hover:bg-gray-100/70 dark:hover:bg-white/[0.02]'"
 >
 
@@ -186,10 +186,10 @@
     {{-- ── Expandable editor ──────────────────────────────────────────── --}}
     <div
         x-show="open"
-        x-transition:enter="transition ease-out duration-150"
+        x-transition:enter="transition ease-out duration-100"
         x-transition:enter-start="opacity-0 -translate-y-1"
         x-transition:enter-end="opacity-100 translate-y-0"
-        x-transition:leave="transition ease-in duration-100"
+        x-transition:leave="transition ease-in duration-75"
         x-transition:leave-start="opacity-100 translate-y-0"
         x-transition:leave-end="opacity-0 -translate-y-1"
         class="overflow-hidden"
