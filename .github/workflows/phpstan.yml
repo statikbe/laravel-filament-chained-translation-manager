@@ -4,23 +4,52 @@ on:
   push:
     paths:
       - '**.php'
+      - 'composer.json'
       - 'phpstan.neon.dist'
+      - '.github/workflows/phpstan.yml'
 
 jobs:
   phpstan:
-    name: phpstan
+    name: P${{ matrix.php }} - L${{ matrix.laravel }} - F${{ matrix.filament }}
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.2', '8.3', '8.4']
+        laravel: ['11.*', '12.*', '13.*']
+        filament: ['4.*', '5.*']
+        include:
+          - laravel: '11.*'
+            testbench: '9.*'
+          - laravel: '12.*'
+            testbench: '10.*'
+          - laravel: '13.*'
+            testbench: '11.*'
+        exclude:
+          # Laravel 13 requires PHP 8.3+.
+          - laravel: '13.*'
+            php: '8.2'
+
     steps:
       - uses: actions/checkout@v7
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: ${{ matrix.php }}
           coverage: none
+
+      - name: Constrain dependencies to the matrix versions
+        run: |
+          composer require --no-interaction --no-update \
+            "illuminate/contracts:${{ matrix.laravel }}" \
+            "filament/filament:${{ matrix.filament }}"
+          composer require --dev --no-interaction --no-update \
+            "orchestra/testbench:${{ matrix.testbench }}"
 
       - name: Install composer dependencies
         uses: ramsey/composer-install@v4
 
       - name: Run PHPStan
-        run: ./vendor/bin/phpstan --error-format=github
+        run: ./vendor/bin/phpstan --error-format=github --memory-limit=1G

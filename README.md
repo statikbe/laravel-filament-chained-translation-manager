@@ -37,9 +37,20 @@ content managers, and we want to avoid that they add unnecessary translation key
 
 ## Installation
 
-> **Note**
-> For **Filament v3.x** use **[v3.x](https://github.com/statikbe/laravel-filament-chained-translation-manager/releases)** version.
-> For **Filament v2.x** use **[v1.x](https://github.com/statikbe/laravel-filament-chained-translation-manager/releases)** version.
+### Compatibility
+
+| Package | Filament   | Laravel            | PHP           |
+|---------|------------|--------------------|---------------|
+| v4.x    | v4.x, v5.x | 11.28+, 12.x, 13.x | 8.2, 8.3, 8.4 |
+| v3.x    | v3.x       | 10.x, 11.x, 12.x   | 8.1 - 8.4     |
+| v1.x    | v2.x       | 10.x               | 8.1, 8.2      |
+
+All versions are available on the
+[releases page](https://github.com/statikbe/laravel-filament-chained-translation-manager/releases).
+
+Filament v4 and v5 are both supported by the same package version. Note that Filament v5 additionally requires
+Livewire v4, and that both Filament v4 and v5 use Tailwind CSS v4, so the panel styling step below is identical
+for either version.
 
 1. You can install the package via Composer:
 
