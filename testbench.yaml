@@ -1,0 +1,2 @@
+providers:
+    - Statikbe\FilamentTranslationManager\FilamentTranslationManagerServiceProvider
