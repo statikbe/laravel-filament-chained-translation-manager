@@ -9,15 +9,15 @@ use Statikbe\LaravelChainedTranslator\ChainedTranslationManager;
 
 class TranslationEditForm extends Component
 {
-    public string $group;
+    public string $group = '';
 
-    public string $translationKey;
+    public string $translationKey = '';
 
-    public array $translations;
+    public array $translations = [];
 
-    public array $initialTranslations;
+    public array $initialTranslations = [];
 
-    public array $locales;
+    public array $locales = [];
 
     /**
      * @const string

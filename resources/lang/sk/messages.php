@@ -16,4 +16,6 @@ return [
     'filter_results' => 'Vyfiltrované :filtered z :total prekladov.',
     'filter_results_missing_translations' => ':missing má chýbajúce preklady (:percent%).',
     'saved_translation' => 'Preklad uložený',
+    'cancel_translation_btn' => 'Zrušiť preklad',
+    'toggle_multi_line_btn' => 'Prepnúť viacriadkový režim',
 ];

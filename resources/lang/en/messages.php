@@ -16,4 +16,6 @@ return [
     'filter_results' => 'Filtered out :filtered of :total translations.',
     'filter_results_missing_translations' => ':missing have missing translations (:percent%).',
     'saved_translation' => 'Translation saved',
+    'cancel_translation_btn' => 'Cancel translation',
+    'toggle_multi_line_btn' => 'Toggle multi-line mode',
 ];

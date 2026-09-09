@@ -2,6 +2,88 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
+## v4.3.1 - 2026-07-03
+
+### What's Changed
+
+* Add Russian, Tajik and Uzbek translations by @komyor09 in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/70
+* Bump dependabot/fetch-metadata from 2.5.0 to 3.1.0 by @dependabot[bot] in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/68
+* Bump actions/checkout from 6 to 7 by @dependabot[bot] in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/69
+
+### New Contributors
+
+* @komyor09 made their first contribution in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/70
+
+**Full Changelog**: https://github.com/statikbe/laravel-filament-chained-translation-manager/compare/v4.3.0...v4.3.1
+
+## v4.3.0 - 2026-03-23
+
+### What's Changed
+
+* Laravel 13.x Compatibility by @laravel-shift in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/61
+
+**Full Changelog**: https://github.com/statikbe/laravel-filament-chained-translation-manager/compare/v4.2.2...v4.3.0
+
+## v4.2.2 - 2026-03-19
+
+### What's Changed
+
+* Bump actions/checkout from 5 to 6 by @dependabot[bot] in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/57
+* Bump ramsey/composer-install from 3 to 4 by @dependabot[bot] in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/62
+* Fixing translationKey name mismatch by @lexplatt in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/63
+* fix(TranslationEditForm): add default values to typed properties by @vanneszias in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/64
+
+### New Contributors
+
+* @lexplatt made their first contribution in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/63
+* @vanneszias made their first contribution in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/64
+
+**Full Changelog**: https://github.com/statikbe/laravel-filament-chained-translation-manager/compare/v4.2.1...v4.2.2
+
+## v4.2.1 - 2026-02-15
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 2.4.0 to 2.5.0 by @dependabot[bot] in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/59
+* Support Filament v5 by @canyoningdb in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/60
+
+### New Contributors
+
+* @canyoningdb made their first contribution in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/60
+
+**Full Changelog**: https://github.com/statikbe/laravel-filament-chained-translation-manager/compare/4.2.1...v4.2.1
+
+## Updated widget view - 2026-01-05
+
+### What's Changed
+
+* Remove static from $view in the widget by @drifteaur in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/58
+
+### New Contributors
+
+* @drifteaur made their first contribution in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/58
+
+**Full Changelog**: https://github.com/statikbe/laravel-filament-chained-translation-manager/compare/v4.2.0...4.2.1
+
+## v4.2.0 - 2025-11-19
+
+### What's Changed
+
+* Support for navigation group, sort and icon in the configuration.
+
+If you are upgrading, you have to update some new fields in your previously published config file.
+
+**Full Changelog**: https://github.com/statikbe/laravel-filament-chained-translation-manager/compare/v4.1.0...v4.2.0
+
+## v4.1.0 - 2025-11-13
+
+- support multi-line translations with toggle between text input and textarea.
+
+## v4.0.0 - 2025-11-07
+
+- Support for Filament v4
+- UI clean up: clearer filter button + pagination buttons
+
 ## v3.3.0 - 2025-03-04
 
 Laravel 12 support

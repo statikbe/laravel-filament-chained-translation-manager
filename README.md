@@ -30,6 +30,7 @@ There is also a [Laravel Nova Chained Translation Manager](https://github.com/st
 -   Filter translations for specific groups and languages.
 -   Only show keys with missing translations.
 -   Shows statistics of how many fields are completely translated.
+-   :sparkles: Multi-line translation strings support: toggle between text input and text area.
 
 This tool does not provide features to add new translation keys, because our target users are translators and
 content managers, and we want to avoid that they add unnecessary translation keys.
@@ -37,7 +38,8 @@ content managers, and we want to avoid that they add unnecessary translation key
 ## Installation
 
 > **Note**
-> For **Filament 2.x** use **[v1.x](https://github.com/statikbe/laravel-filament-chained-translation-manager/releases)** version
+> For **Filament v3.x** use **[v3.x](https://github.com/statikbe/laravel-filament-chained-translation-manager/releases)** version.
+> For **Filament v2.x** use **[v1.x](https://github.com/statikbe/laravel-filament-chained-translation-manager/releases)** version.
 
 1. You can install the package via Composer:
 
@@ -127,6 +129,19 @@ You can choose to exclude specific groups of translations from appearing in Fila
 ],
 ```
 
+### Navigation Group
+
+You can set the navigation group in different ways. Either edit the translation files, or change the translation key in 
+the config `navigation_group`.
+
+### Navigation sort
+
+You can tweak the position in the navigation group by configuring this setting:
+
+```php
+'navigation_sort' => 11,
+```
+
 ### Navigation Icon
 
 You can customize the navigation icon by configuring the `navigation-icon` variable
@@ -134,6 +149,7 @@ You can customize the navigation icon by configuring the `navigation-icon` varia
 'navigation_icon' => 'heroicon-o-language',
 ```
 
+Alternatively, you can use an icon enum, like `HeroIcon`.
 Or you can replace the icon with your own custom icon set, by registering a different icon for this icon:
 `filament-chained-translation-manager::nav-icon`.
 
@@ -171,8 +187,9 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
--   [Kobe Christiaensen](https://github.com/Kobo-one)
 -   [Sten Govaerts](https://github.com/sten)
+-   [Kobe Christiaensen](https://github.com/Kobo-one)
+-   [Kristof Serré](https://github.com/kristofser)
 -   [All Contributors](../../contributors)
 
 ## License

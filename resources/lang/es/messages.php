@@ -16,4 +16,6 @@ return [
     'filter_results' => 'Se filtraron :filtered de :total traducciones.',
     'filter_results_missing_translations' => ':missing tienen traducciones faltantes (:percent%).',
     'saved_translation' => 'Traducción guardada',
+    'cancel_translation_btn' => 'Cancelar traducción',
+    'toggle_multi_line_btn' => 'Alternar modo multilínea',
 ];
