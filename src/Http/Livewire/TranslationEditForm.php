@@ -4,20 +4,27 @@ namespace Statikbe\FilamentTranslationManager\Http\Livewire;
 
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\View\View;
+use Livewire\Attributes\Locked;
 use Livewire\Component;
+use Statikbe\FilamentTranslationManager\FilamentTranslationManager;
 use Statikbe\LaravelChainedTranslator\ChainedTranslationManager;
+use Statikbe\LaravelChainedTranslator\Exceptions\InvalidTranslationPathException;
 
 class TranslationEditForm extends Component
 {
-    public string $group;
+    #[Locked]
+    public string $group = '';
 
-    public string $translationKey;
+    #[Locked]
+    public string $translationKey = '';
 
-    public array $translations;
+    public array $translations = [];
 
-    public array $initialTranslations;
+    #[Locked]
+    public array $initialTranslations = [];
 
-    public array $locales;
+    #[Locked]
+    public array $locales = [];
 
     /**
      * @const string
@@ -26,23 +33,52 @@ class TranslationEditForm extends Component
 
     public function mount(): void
     {
+        $this->locales = FilamentTranslationManager::filterAllowedValues($this->locales, FilamentTranslationManager::getLocales());
         $this->initialTranslations = $this->translations;
+    }
+
+    /**
+     * Only accept strings (or null for missing translations) from the client, otherwise restore the initial value.
+     */
+    public function updatedTranslations(): void
+    {
+        foreach ($this->translations as $locale => $translation) {
+            if ($translation !== null && ! is_string($translation)) {
+                $this->translations[$locale] = $this->initialTranslations[$locale] ?? null;
+            }
+        }
     }
 
     public function save(string $locale): void
     {
-        $chainedTranslationManager = app(ChainedTranslationManager::class);
+        FilamentTranslationManager::authorize();
 
-        if (($this->translations[$locale] ?? null) === ($this->initialTranslations[$locale] ?? null)) {
+        if (! in_array($locale, $this->locales, true)
+            || ! FilamentTranslationManager::isAllowedLocale($locale)
+            || ! FilamentTranslationManager::isAllowedGroup($this->group)) {
+            abort(422);
+        }
+
+        $translation = $this->translations[$locale] ?? null;
+
+        if ($translation === ($this->initialTranslations[$locale] ?? null)) {
             return;
         }
 
-        $chainedTranslationManager->save(
-            $locale,
-            $this->group,
-            $this->translationKey,
-            $this->translations[$locale]
-        );
+        if (! is_string($translation)) {
+            abort(422);
+        }
+
+        try {
+            app(ChainedTranslationManager::class)->save(
+                $locale,
+                $this->group,
+                $this->translationKey,
+                $translation
+            );
+        } catch (InvalidTranslationPathException) {
+            abort(422);
+        }
 
         $this->dispatch(self::EVENT_TRANSLATIONS_SAVED, $this->group, $this->translationKey, $this->translations, $this->initialTranslations);
 

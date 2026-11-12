@@ -31,7 +31,7 @@
                     closeEdit() {
                         this.editing = false;
                     },
-                    locale: '{{ $locale }}'
+                    locale: @js($locale),
                 }"
                 @click.outside="closeWithSave"
                 @close-forms.window="closeWithSave()"
