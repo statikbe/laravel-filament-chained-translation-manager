@@ -119,6 +119,15 @@ You can restrict access to the Translation Manager by configuring the Gate varia
 'gate' => 'view-filament-translation-manager',
 ```
 
+We strongly recommend configuring a gate. Without one, every user that can access your Filament panel can view and
+edit the translations. The gate is checked when the page is opened and every time a translation is saved.
+
+Define the gate in a service provider, for example:
+
+```php
+Gate::define('view-filament-translation-manager', fn (User $user) => $user->isAdmin());
+```
+
 ### Ignoring groups
 
 You can choose to exclude specific groups of translations from appearing in Filament. Create an array with the keys that you wish to ignore:

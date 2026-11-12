@@ -25,7 +25,7 @@
         "filament/filament": "^4.0|^5.0",
         "illuminate/contracts": "^11.0|^12.0|^13.0",
         "spatie/laravel-package-tools": "^1.14.0",
-        "statikbe/laravel-chained-translator": "^2.5"
+        "statikbe/laravel-chained-translator": "^2.7"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
@@ -43,9 +43,15 @@
             "Statikbe\\FilamentTranslationManager\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Statikbe\\FilamentTranslationManager\\Tests\\": "tests"
+        }
+    },
     "scripts": {
         "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
-        "analyse": "vendor/bin/phpstan analyse",
+        "analyse": "vendor/bin/phpstan analyse --memory-limit=1G",
+        "test": "vendor/bin/pest",
         "format": "vendor/bin/pint"
     },
     "config": {

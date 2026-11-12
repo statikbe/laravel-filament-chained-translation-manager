@@ -12,8 +12,8 @@ use Filament\Pages\Page;
 use Filament\Schemas\Schema;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Locked;
 use Statikbe\FilamentTranslationManager\FilamentTranslationManager;
 use Statikbe\FilamentTranslationManager\Http\Livewire\TranslationEditForm;
 use Statikbe\LaravelChainedTranslator\ChainedTranslationManager;
@@ -29,8 +29,10 @@ class TranslationManagerPage extends Page implements HasForms
 
     private ChainedTranslationManager $chainedTranslationManager;
 
+    #[Locked]
     public array $groups;
 
+    #[Locked]
     public array $locales;
 
     public Collection $filteredTranslations;
@@ -76,11 +78,7 @@ class TranslationManagerPage extends Page implements HasForms
 
     public static function shouldRegisterNavigation(): bool
     {
-        if (config('filament-translation-manager.gate', config('filament-translation-manager.access.gate'))) {
-            return Gate::allows(config('filament-translation-manager.gate', config('filament-translation-manager.access.gate')));
-        }
-
-        return true;
+        return FilamentTranslationManager::canAccess();
     }
 
     public static function getNavigationGroup(): ?string
@@ -105,17 +103,37 @@ class TranslationManagerPage extends Page implements HasForms
 
     public function mount(): void
     {
-        if (config('filament-translation-manager.gate', config('filament-translation-manager.access.gate'))) {
-            Gate::authorize(config('filament-translation-manager.gate', config('filament-translation-manager.access.gate')));
-        }
+        FilamentTranslationManager::authorize();
 
         $this->loadInitialData();
     }
 
+    /**
+     * Sanitize the client-controlled filters as soon as the client changes them, so the view and the edit forms never
+     * use locales or groups that are not in the server-side lists.
+     */
+    public function updatedSelectedLocales(): void
+    {
+        $this->sanitizeFilters();
+    }
+
+    public function updatedSelectedGroups(): void
+    {
+        $this->sanitizeFilters();
+    }
+
+    /**
+     * Drops selected locales and groups that are not in the server-side lists (e.g. tampered query string values).
+     */
+    private function sanitizeFilters(): void
+    {
+        $this->selectedLocales = FilamentTranslationManager::filterAllowedValues($this->selectedLocales, $this->locales);
+        $this->selectedGroups = FilamentTranslationManager::filterAllowedValues($this->selectedGroups, $this->groups);
+    }
+
     private function loadInitialData(): void
     {
-        $groups = $this->getChainedTranslationManager()->getTranslationGroups();
-        $this->groups = collect($groups)->diff(config('filament-translation-manager.ignore_groups', []))->values()->toArray();
+        $this->groups = FilamentTranslationManager::getAllowedGroups();
 
         $this->locales = $this->getLocalesData();
         $this->selectedLocales = $this->locales;
@@ -192,6 +210,8 @@ class TranslationManagerPage extends Page implements HasForms
 
     public function filterTranslations(): void
     {
+        $this->sanitizeFilters();
+
         $filteredTranslations = collect($this->getTranslations());
         $this->totalTranslations = $filteredTranslations->count();
 

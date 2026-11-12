@@ -41,7 +41,7 @@
                     toggleMultiLine() {
                         this.multiLineMode = !this.multiLineMode;
                     },
-                    locale: '{{ $locale }}',
+                    locale: @js($locale),
                 }"
                 @click.outside="closeWithSave"
                 @close-forms.window="closeWithSave()"
