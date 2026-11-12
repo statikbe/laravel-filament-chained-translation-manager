@@ -6,8 +6,3 @@ parameters:
     tmpDir: build/phpstan
     checkOctaneCompatibility: true
     checkModelProperties: true
-    ignoreErrors:
-        # Larastan cannot resolve the package's view namespace during analysis, so it cannot verify this view name.
-        -
-            identifier: property.defaultValue
-            path: src/Widgets/TranslationStatusWidget.php

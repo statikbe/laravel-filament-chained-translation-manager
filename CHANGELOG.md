@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
-## v4.4.0 - Unreleased
+## v4.4.0 - 2026-11-12
 
 ### Security
 
