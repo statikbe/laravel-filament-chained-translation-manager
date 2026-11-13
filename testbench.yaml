@@ -1,0 +1,4 @@
+providers:
+  - Livewire\LivewireServiceProvider
+  - Statikbe\LaravelChainedTranslator\TranslationServiceProvider
+  - Statikbe\FilamentTranslationManager\FilamentTranslationManagerServiceProvider
