@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
+## v3.4.0 - 2026-11-13
+
+* Security fix: validate translation input and require authentication for the API
+
+**Full Changelog**: https://github.com/statikbe/laravel-filament-chained-translation-manager/compare/v4.4.0...v3.4.0
+
 ## v4.4.0 - 2026-11-12
 
 ### Security
