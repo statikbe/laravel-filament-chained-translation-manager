@@ -2,11 +2,11 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
-## v3.3.1 - Unreleased
+## v3.4.1 - 2026-11-13
 
 ### Security
 
-* Validate locales and translation groups received from the browser and enforce the gate when saving translations (GHSA-xxxx-xxxx-xxxx).
+* Validate locales and translation groups received from the browser and enforce the gate when saving translations ([GHSA-jhxc-c3mg-3v6p](https://github.com/statikbe/laravel-filament-chained-translation-manager/security/advisories/GHSA-jhxc-c3mg-3v6p)).
 
 ### What's Changed
 
