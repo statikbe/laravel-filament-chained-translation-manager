@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
+## v3.4.1 - 2026-11-13
+
+### What's Changed
+
+* Security fix: validate translation input and enforce the gate when saving.
+* Bump dependabot/fetch-metadata from 2.3.0 to 2.4.0 by @dependabot[bot] in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/48
+* Bump aglipanci/laravel-pint-action from 2.5 to 2.6 by @dependabot[bot] in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/50
+* Bump stefanzweifel/git-auto-commit-action from 5 to 6 by @dependabot[bot] in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/49
+* Bump actions/checkout from 4 to 5 by @dependabot[bot] in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/51
+* Bump stefanzweifel/git-auto-commit-action from 6 to 7 by @dependabot[bot] in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/52
+
+**Full Changelog**: https://github.com/statikbe/laravel-filament-chained-translation-manager/compare/v3.3.0...v3.4.1
+
 ## v3.4.0 - 2026-11-13
 
 * Security fix: validate translation input and require authentication for the API
