@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
+## v4.5.0 - 2026-11-16
+
+### What's Changed
+
+* Upgrade to statikbe/laravel-chained-translator v3.0.0 by @sten in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/72
+
+**Full Changelog**: https://github.com/statikbe/laravel-filament-chained-translation-manager/compare/v4.4.0...v4.5.0
+
 ## v3.5.0 - 2026-11-16
 
 ### What's Changed
