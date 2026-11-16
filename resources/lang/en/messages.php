@@ -18,4 +18,5 @@ return [
     'saved_translation' => 'Translation saved',
     'cancel_translation_btn' => 'Cancel translation',
     'toggle_multi_line_btn' => 'Toggle multi-line mode',
+    'saving_translation_failed' => 'The translation could not be saved. Please contact the administrator.',
 ];

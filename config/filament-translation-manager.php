@@ -40,10 +40,15 @@ return [
      | You can list the translation groups that you do not want users to translate.
      | Note: the JSON files are grouped in 'json-file' by default.
      | (see: config/laravel-chained-translator.php)
+     | Laravel's own groups (auth, pagination, passwords and validation) are
+     | always listed, even without files in your lang directory.
      |
      */
     'ignore_groups' => [
         // 'auth',
+        // 'pagination',
+        // 'passwords',
+        // 'validation',
     ],
 
     /*

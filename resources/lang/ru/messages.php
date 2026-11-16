@@ -18,4 +18,5 @@ return [
     'saved_translation' => 'Перевод сохранён',
     'cancel_translation_btn' => 'Отменить перевод',
     'toggle_multi_line_btn' => 'Переключить многострочный режим',
+    'saving_translation_failed' => 'Не удалось сохранить перевод. Пожалуйста, обратитесь к администратору.',
 ];

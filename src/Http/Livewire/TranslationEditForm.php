@@ -9,6 +9,7 @@ use Livewire\Component;
 use Statikbe\FilamentTranslationManager\FilamentTranslationManager;
 use Statikbe\LaravelChainedTranslator\ChainedTranslationManager;
 use Statikbe\LaravelChainedTranslator\Exceptions\InvalidTranslationPathException;
+use Statikbe\LaravelChainedTranslator\Exceptions\SaveTranslationFileException;
 
 class TranslationEditForm extends Component
 {
@@ -78,6 +79,17 @@ class TranslationEditForm extends Component
             );
         } catch (InvalidTranslationPathException) {
             abort(422);
+        } catch (SaveTranslationFileException $e) {
+            // The custom file could not be parsed or written. Keep the input in the form so the user can retry,
+            // and don't show the exception message, because it contains the path of the file on the server.
+            report($e);
+
+            Notification::make()
+                ->danger()
+                ->title(trans('filament-translation-manager::messages.saving_translation_failed'))
+                ->send();
+
+            return;
         }
 
         $this->dispatch(self::EVENT_TRANSLATIONS_SAVED, $this->group, $this->translationKey, $this->translations, $this->initialTranslations);

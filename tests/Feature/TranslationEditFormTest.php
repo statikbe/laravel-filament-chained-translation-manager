@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Validator;
 use Livewire\Features\SupportLockedProperties\CannotUpdateLockedPropertyException;
 use Livewire\Livewire;
 use Statikbe\FilamentTranslationManager\Http\Livewire\TranslationEditForm;
@@ -132,4 +133,45 @@ it('never renders a locale containing a quote', function () {
 
     editForm(locales: ['en', "x'-alert(1)-'"])
         ->assertDontSeeHtml('alert(1)');
+});
+
+it('shows a notification instead of an error page when the custom file cannot be read', function (string $group, string $file, string $contents) {
+    $this->actingAsTranslator();
+
+    file_put_contents($this->langPath.'/nl.json', '{"hello": "Hallo"}');
+    $customFile = $this->customLangPath.'/'.$file;
+    file_put_contents($customFile, $contents);
+
+    editForm(group: $group)
+        ->set('translations.nl', 'Hallo daar')
+        ->call('save', 'nl')
+        ->assertOk()
+        ->assertNotified(trans('filament-translation-manager::messages.saving_translation_failed'))
+        ->assertNotDispatched(TranslationEditForm::EVENT_TRANSLATIONS_SAVED)
+        ->assertSet('translations.nl', 'Hallo daar')
+        ->assertSet('initialTranslations.nl', 'Hallo');
+
+    expect(file_get_contents($customFile))->toBe($contents);
+})->with([
+    'invalid JSON file' => ['json-file', 'nl.json', '{"a": "b",}'],
+    'PHP file that returns a string' => ['test', 'nl/test.php', "<?php return 'not an array';"],
+]);
+
+it('applies a saved validation attribute name straight away', function () {
+    $this->actingAsTranslator();
+
+    Livewire::test(TranslationEditForm::class, [
+        'group' => 'validation',
+        'translationKey' => 'attributes.email',
+        'translations' => ['en' => null, 'nl' => null],
+        'locales' => ['en', 'nl'],
+    ])
+        ->set('translations.en', 'e-mail address')
+        ->call('save', 'en')
+        ->assertOk()
+        ->assertDispatched(TranslationEditForm::EVENT_TRANSLATIONS_SAVED);
+
+    $validator = Validator::make(['email' => ''], ['email' => 'required']);
+
+    expect($validator->errors()->first('email'))->toContain('e-mail address');
 });
