@@ -18,4 +18,5 @@ return [
     'saved_translation' => 'Vertaling opgeslagen',
     'cancel_translation_btn' => 'Annuleer vertaling',
     'toggle_multi_line_btn' => 'Verander meerregelige modus',
+    'saving_translation_failed' => 'De vertaling kon niet worden opgeslagen. Neem contact op met de beheerder.',
 ];

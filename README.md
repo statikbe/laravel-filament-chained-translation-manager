@@ -138,6 +138,19 @@ You can choose to exclude specific groups of translations from appearing in Fila
 ],
 ```
 
+The translation groups that Laravel ships (`auth`, `pagination`, `passwords` and `validation`) are always listed and
+can be edited, even when your `lang` directory has no files for them. For a locale without published files, these
+lines show Laravel's English text or are empty. Add them to `ignore_groups` to hide them:
+
+```php
+'ignore_groups' => [
+    'auth',
+    'pagination',
+    'passwords',
+    'validation',
+],
+```
+
 ### Navigation Group
 
 You can set the navigation group in different ways. Either edit the translation files, or change the translation key in 
@@ -168,6 +181,10 @@ The library creates a new directory for the new translations, see [Laravel Chain
 Check the configuration options of the [Laravel Chained Translator](https://github.com/statikbe/laravel-chained-translator) package to change this.
 
 Additionally, please note that the Translation Manager is automatically included in the Filament menu.
+
+Saved translations are used straight away, including validation attribute names (`validation.attributes.*`) and
+custom validation messages (`validation.custom.*`). If a custom translation file can't be read or written, the
+translation is not saved and an error notification is shown; the error is reported to your application's log.
 
 ### Merging translations
 

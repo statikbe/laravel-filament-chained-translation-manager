@@ -18,4 +18,5 @@ return [
     'saved_translation' => 'Traducción guardada',
     'cancel_translation_btn' => 'Cancelar traducción',
     'toggle_multi_line_btn' => 'Alternar modo multilínea',
+    'saving_translation_failed' => 'No se pudo guardar la traducción. Póngase en contacto con el administrador.',
 ];

@@ -18,4 +18,5 @@ return [
     'saved_translation' => 'Тарҷума бо муваффақият нигоҳ дошта шуд',
     'cancel_translation_btn' => 'Бекор кардан',
     'toggle_multi_line_btn' => 'Гузариш ба ҳолати чандсатрӣ',
+    'saving_translation_failed' => 'Тарҷумаро нигоҳ доштан имконнопазир шуд. Лутфан ба маъмур муроҷиат кунед.',
 ];

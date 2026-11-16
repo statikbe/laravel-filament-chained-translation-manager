@@ -18,4 +18,5 @@ return [
     'saved_translation' => 'Tarjima muvaffaqiyatli saqlandi',
     'cancel_translation_btn' => 'Bekor qilish',
     'toggle_multi_line_btn' => "Ko'p qatorli rejimni almashtirish",
+    'saving_translation_failed' => "Tarjimani saqlab bo'lmadi. Iltimos, administrator bilan bog'laning.",
 ];

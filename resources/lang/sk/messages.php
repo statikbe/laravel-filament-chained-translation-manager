@@ -18,4 +18,5 @@ return [
     'saved_translation' => 'Preklad uložený',
     'cancel_translation_btn' => 'Zrušiť preklad',
     'toggle_multi_line_btn' => 'Prepnúť viacriadkový režim',
+    'saving_translation_failed' => 'Preklad sa nepodarilo uložiť. Kontaktujte, prosím, administrátora.',
 ];

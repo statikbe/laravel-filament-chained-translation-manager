@@ -21,11 +21,11 @@
         }
     ],
     "require": {
-        "php": "^8.1|^8.2|^8.3|^8.4",
+        "php": "^8.2",
         "filament/filament": "^4.0|^5.0",
         "illuminate/contracts": "^11.0|^12.0|^13.0",
         "spatie/laravel-package-tools": "^1.14.0",
-        "statikbe/laravel-chained-translator": "^2.7"
+        "statikbe/laravel-chained-translator": "^3.0"
     },
     "require-dev": {
         "laravel/pint": "^1.0",

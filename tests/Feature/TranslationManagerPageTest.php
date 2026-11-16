@@ -10,9 +10,18 @@ it('only loads the configured locales and the groups that are not ignored', func
     Livewire::test(TranslationManagerPage::class)
         ->assertOk()
         ->assertSet('locales', ['en', 'nl'])
-        ->assertSet('groups', ['test'])
+        ->assertSet('groups', ['auth', 'pagination', 'passwords', 'validation', 'test'])
         ->assertSet('selectedLocales', ['en', 'nl'])
         ->assertSee('Hallo');
+});
+
+it('hides Laravel\'s own translation groups when they are ignored', function () {
+    $this->actingAsTranslator();
+    config()->set('filament-translation-manager.ignore_groups', ['secret', 'auth', 'pagination', 'passwords', 'validation']);
+
+    Livewire::test(TranslationManagerPage::class)
+        ->assertOk()
+        ->assertSet('groups', ['test']);
 });
 
 it('drops unknown groups from the query string', function () {

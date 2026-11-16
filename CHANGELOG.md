@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
+## v3.5.0 - 2026-11-16
+
+### What's Changed
+
+* Require `statikbe/laravel-chained-translator` `^3.0` and PHP 8.2. See the [changelog of the Laravel Chained Translator 3.0](https://github.com/statikbe/laravel-chained-translator/blob/3.0.0/CHANGELOG.md) for the changes to loading, saving and merging translations.
+* Show a notification instead of an error page when a translation can't be saved, e.g. because the custom translation file is invalid.
+* List Laravel's own translation groups (`auth`, `pagination`, `passwords` and `validation`). Add them to `ignore_groups` to hide them.
+
 ## v3.4.1 - 2026-11-13
 
 ### What's Changed
