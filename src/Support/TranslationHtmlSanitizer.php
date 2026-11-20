@@ -65,7 +65,24 @@ class TranslationHtmlSanitizer
             return $value;
         }
 
-        return $this->sanitizer->sanitize($value);
+        // A link can start with a placeholder, e.g. href=":url", that the application replaces with a URL when the
+        // translation is used. The sanitizer would remove it, because ":url" has no allowed scheme. So the
+        // placeholder is replaced with a unique https URL while sanitizing, and put back afterwards.
+        $placeholders = [];
+        $prefix = 'ftm'.bin2hex(random_bytes(8));
+
+        $value = (string) preg_replace_callback(
+            '/(\shref\s*=\s*["\']?):(\w+)/i',
+            static function (array $match) use (&$placeholders, $prefix): string {
+                $url = 'https://'.$prefix.count($placeholders).'.invalid';
+                $placeholders[$url] = ':'.$match[2];
+
+                return $match[1].$url;
+            },
+            $value,
+        );
+
+        return strtr($this->sanitizer->sanitize($value), $placeholders);
     }
 
     /**
@@ -86,7 +103,7 @@ class TranslationHtmlSanitizer
         $value = (string) preg_replace('#</[^>]*>#', '', $value);
         $value = mb_strtolower(html_entity_decode($value, ENT_QUOTES | ENT_HTML5, 'UTF-8'));
 
-        return (string) preg_replace_callback('#<[a-z][^>]*>#', static function (array $match): string {
+        return (string) preg_replace_callback('#<[a-z](?:"[^"]*"|\'[^\']*\'|[^"\'>])*>#', static function (array $match): string {
             $tag = $match[0];
             // The sanitizer always sets rel on links.
             $tag = (string) preg_replace('#\s+rel\s*=\s*("[^"]*"|\'[^\']*\'|[^\s>]+)#', '', $tag);
@@ -101,9 +118,11 @@ class TranslationHtmlSanitizer
 
     /**
      * A browser only starts a tag, comment or other markup when "<" is followed by a letter, "/", "!" or "?".
+     * "<" followed by a placeholder (":name") also counts, because the replacement can start a tag when the
+     * translation is used, e.g. "<:name" with "img src=x onerror=..." as name.
      */
     public static function containsMarkup(string $value): bool
     {
-        return preg_match('/<[a-zA-Z\/!?]/', $value) === 1;
+        return preg_match('/<[a-zA-Z\/!?:]/', $value) === 1;
     }
 }

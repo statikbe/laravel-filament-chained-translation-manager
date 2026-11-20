@@ -159,6 +159,13 @@ iframes, and `javascript:` or `data:` links. Formatting and links are kept, and 
 every link. Translations without HTML tags, like `Hello :name`, are saved unchanged.
 When HTML was removed, the user sees a warning notification instead of the usual one.
 
+Links can start with a placeholder, e.g. `<a href=":url">`. The sanitizer can't check the URL that replaces the
+placeholder, so make sure your application only passes safe URLs (e.g. no `javascript:` URLs from user input):
+
+```php
+{!! __('messages.terms', ['url' => route('terms')]) !!}
+```
+
 You can change the allowed elements, their attributes and the allowed link schemes:
 
 ```php
