@@ -151,6 +151,48 @@ lines show Laravel's English text or are empty. Add them to `ignore_groups` to h
 ],
 ```
 
+### Sanitizing HTML
+
+Translations are often printed unescaped (e.g. `{!! __('messages.terms') !!}`), so the translation manager removes
+unsafe HTML when a translation is saved: scripts, event handlers (`onclick`, `onerror`, ...), `style` attributes,
+iframes, and `javascript:` or `data:` links. Formatting and links are kept, and `rel="noopener noreferrer"` is added to
+every link. Translations without HTML tags, like `Hello :name`, are saved unchanged.
+When HTML was removed, the user sees a warning notification instead of the usual one.
+
+You can change the allowed elements, their attributes and the allowed link schemes:
+
+```php
+'sanitize_html' => [
+    'enabled' => true,
+    'allowed_elements' => [
+        'a' => ['href', 'title', 'target', 'rel'],
+        'strong' => [],
+        'em' => [],
+        'b' => [],
+        'i' => [],
+        'u' => [],
+        'p' => [],
+        'br' => [],
+        'span' => [],
+        'ul' => [],
+        'ol' => [],
+        'li' => [],
+    ],
+    'allowed_link_schemes' => ['https', 'http', 'mailto'],
+    'allow_relative_links' => true,
+],
+```
+
+Set `enabled` to `false` to save translations unchanged. Only do this if every user who can edit translations may also
+run scripts in the browsers of all your users.
+
+To sanitize the translations that were saved before, run:
+
+```bash
+php artisan filament-translation-manager:sanitize --dry-run   # list the translations that would change
+php artisan filament-translation-manager:sanitize
+```
+
 ### Navigation Group
 
 You can set the navigation group in different ways. Either edit the translation files, or change the translation key in 

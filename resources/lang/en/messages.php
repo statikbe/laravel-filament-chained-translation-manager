@@ -16,6 +16,7 @@ return [
     'filter_results' => 'Filtered out :filtered of :total translations.',
     'filter_results_missing_translations' => ':missing have missing translations (:percent%).',
     'saved_translation' => 'Translation saved',
+    'saved_translation_html_removed' => 'The translation was saved, but some HTML was removed because it is not allowed.',
     'cancel_translation_btn' => 'Cancel translation',
     'toggle_multi_line_btn' => 'Toggle multi-line mode',
     'saving_translation_failed' => 'The translation could not be saved. Please contact the administrator.',

@@ -5,8 +5,10 @@ namespace Statikbe\FilamentTranslationManager;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Statikbe\FilamentTranslationManager\Commands\SanitizeTranslationsCommand;
 use Statikbe\FilamentTranslationManager\Http\Livewire\TranslationEditForm;
 use Statikbe\FilamentTranslationManager\Pages\TranslationManagerPage;
+use Statikbe\FilamentTranslationManager\Support\TranslationHtmlSanitizer;
 use Statikbe\FilamentTranslationManager\Widgets\TranslationStatusWidget;
 
 class FilamentTranslationManagerServiceProvider extends PackageServiceProvider
@@ -19,7 +21,13 @@ class FilamentTranslationManagerServiceProvider extends PackageServiceProvider
             ->name(static::$name)
             ->hasViews()
             ->hasTranslations()
-            ->hasConfigFile();
+            ->hasConfigFile()
+            ->hasCommand(SanitizeTranslationsCommand::class);
+    }
+
+    public function packageRegistered(): void
+    {
+        $this->app->bind(TranslationHtmlSanitizer::class, fn () => TranslationHtmlSanitizer::fromConfig());
     }
 
     public function packageBooted(): void

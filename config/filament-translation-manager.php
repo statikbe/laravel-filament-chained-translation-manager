@@ -106,4 +106,44 @@ return [
      |
      */
     'navigation_icon' => Heroicon::OutlinedLanguage,
+
+    /*
+     |--------------------------------------------------------------------------
+     | Sanitize HTML
+     |--------------------------------------------------------------------------
+     |
+     | Unsafe HTML (scripts, event handlers, styles, iframes, javascript: and
+     | data: URLs, ...) is removed from translations when they are saved, because
+     | translations are often printed unescaped (e.g. {!! __('...') !!}).
+     | Only the elements and attributes listed below are kept. Translations
+     | without HTML tags are saved unchanged.
+     | To clean translations saved before, run:
+     | php artisan filament-translation-manager:sanitize --dry-run
+     |
+     */
+    'sanitize_html' => [
+        'enabled' => true,
+
+        // Allowed elements with their allowed attributes. rel="noopener noreferrer" is always added to links.
+        'allowed_elements' => [
+            'a' => ['href', 'title', 'target', 'rel'],
+            'strong' => [],
+            'em' => [],
+            'b' => [],
+            'i' => [],
+            'u' => [],
+            'p' => [],
+            'br' => [],
+            'span' => [],
+            'ul' => [],
+            'ol' => [],
+            'li' => [],
+        ],
+
+        // Allowed URL schemes for links.
+        'allowed_link_schemes' => ['https', 'http', 'mailto'],
+
+        // Allow relative links, e.g. href="/privacy".
+        'allow_relative_links' => true,
+    ],
 ];

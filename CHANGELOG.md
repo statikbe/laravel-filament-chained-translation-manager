@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
+## v4.6.0 - Unreleased
+
+### Security
+
+* Remove unsafe HTML (scripts, event handlers, `style` attributes, `javascript:` and `data:` links, ...) from translations when they are saved. Formatting and links are kept and can be configured in `sanitize_html`. Set `sanitize_html.enabled` to `false` to opt out.
+
+### What's Changed
+
+* Add the `filament-translation-manager:sanitize` command to sanitize the translations that were saved before. Run it once after upgrading.
+* Show a warning notification when HTML was removed from a saved translation.
+* Require `symfony/html-sanitizer`.
+
 ## v4.5.0 - 2026-11-16
 
 ### What's Changed

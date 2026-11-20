@@ -16,6 +16,7 @@ return [
     'filter_results' => 'Vyfiltrováno :filtered z :total překladů.',
     'filter_results_missing_translations' => ':missing chybějících překladů (:percent%).',
     'saved_translation' => 'Překlad uložen',
+    'saved_translation_html_removed' => 'Překlad byl uložen, ale část HTML byla odstraněna, protože není povolena.',
     'cancel_translation_btn' => 'Zrušit překlad',
     'toggle_multi_line_btn' => 'Přepnout víceřádkový režim',
     'saving_translation_failed' => 'Překlad se nepodařilo uložit. Kontaktujte prosím administrátora.',

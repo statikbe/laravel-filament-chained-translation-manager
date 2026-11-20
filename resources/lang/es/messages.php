@@ -16,6 +16,7 @@ return [
     'filter_results' => 'Se filtraron :filtered de :total traducciones.',
     'filter_results_missing_translations' => ':missing tienen traducciones faltantes (:percent%).',
     'saved_translation' => 'Traducción guardada',
+    'saved_translation_html_removed' => 'La traducción se ha guardado, pero se ha eliminado parte del HTML porque no está permitido.',
     'cancel_translation_btn' => 'Cancelar traducción',
     'toggle_multi_line_btn' => 'Alternar modo multilínea',
     'saving_translation_failed' => 'No se pudo guardar la traducción. Póngase en contacto con el administrador.',

@@ -16,6 +16,7 @@ return [
     'filter_results' => 'Отфильтровано :filtered из :total переводов.',
     'filter_results_missing_translations' => ':missing содержат отсутствующие переводы (:percent%).',
     'saved_translation' => 'Перевод сохранён',
+    'saved_translation_html_removed' => 'Перевод сохранён, но часть HTML была удалена, так как она не разрешена.',
     'cancel_translation_btn' => 'Отменить перевод',
     'toggle_multi_line_btn' => 'Переключить многострочный режим',
     'saving_translation_failed' => 'Не удалось сохранить перевод. Пожалуйста, обратитесь к администратору.',

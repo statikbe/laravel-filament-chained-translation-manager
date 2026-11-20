@@ -16,6 +16,7 @@ return [
     'filter_results' => 'Аз :total тарҷума, :filtered адад филтр карда шуд.',
     'filter_results_missing_translations' => ':missing тарҷума мавҷуд нест (:percent%).',
     'saved_translation' => 'Тарҷума бо муваффақият нигоҳ дошта шуд',
+    'saved_translation_html_removed' => 'Тарҷума нигоҳ дошта шуд, аммо қисме аз HTML нест карда шуд, зеро он иҷозат дода нашудааст.',
     'cancel_translation_btn' => 'Бекор кардан',
     'toggle_multi_line_btn' => 'Гузариш ба ҳолати чандсатрӣ',
     'saving_translation_failed' => 'Тарҷумаро нигоҳ доштан имконнопазир шуд. Лутфан ба маъмур муроҷиат кунед.',

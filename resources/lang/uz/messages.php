@@ -16,6 +16,7 @@ return [
     'filter_results' => ':total ta tarjimadan :filtered tasi filtrlandi.',
     'filter_results_missing_translations' => ':missing ta tarjima yetishmayapti (:percent%).',
     'saved_translation' => 'Tarjima muvaffaqiyatli saqlandi',
+    'saved_translation_html_removed' => 'Tarjima saqlandi, lekin HTMLning bir qismi ruxsat etilmagani uchun olib tashlandi.',
     'cancel_translation_btn' => 'Bekor qilish',
     'toggle_multi_line_btn' => "Ko'p qatorli rejimni almashtirish",
     'saving_translation_failed' => "Tarjimani saqlab bo'lmadi. Iltimos, administrator bilan bog'laning.",

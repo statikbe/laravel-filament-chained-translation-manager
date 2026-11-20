@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 use Statikbe\FilamentTranslationManager\FilamentTranslationManager;
+use Statikbe\FilamentTranslationManager\Support\TranslationHtmlSanitizer;
 use Statikbe\LaravelChainedTranslator\ChainedTranslationManager;
 use Statikbe\LaravelChainedTranslator\Exceptions\InvalidTranslationPathException;
 use Statikbe\LaravelChainedTranslator\Exceptions\SaveTranslationFileException;
@@ -70,6 +71,16 @@ class TranslationEditForm extends Component
             abort(422);
         }
 
+        $removedHtml = false;
+
+        if (config('filament-translation-manager.sanitize_html.enabled', true)) {
+            $sanitized = app(TranslationHtmlSanitizer::class)->sanitize($translation);
+            $removedHtml = TranslationHtmlSanitizer::removedContent($translation, $sanitized);
+            $translation = $sanitized;
+            // Keep the form in sync with the stored value, so the dirty check compares against what is saved.
+            $this->translations[$locale] = $translation;
+        }
+
         try {
             app(ChainedTranslationManager::class)->save(
                 $locale,
@@ -95,6 +106,15 @@ class TranslationEditForm extends Component
         $this->dispatch(self::EVENT_TRANSLATIONS_SAVED, $this->group, $this->translationKey, $this->translations, $this->initialTranslations);
 
         $this->initialTranslations = $this->translations;
+
+        if ($removedHtml) {
+            Notification::make()
+                ->warning()
+                ->title(trans('filament-translation-manager::messages.saved_translation_html_removed'))
+                ->send();
+
+            return;
+        }
 
         Notification::make()
             ->success()

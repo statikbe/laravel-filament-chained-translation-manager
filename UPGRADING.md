@@ -2,6 +2,19 @@
 
 Because there are sometimes breaking changes, an upgrade may not always be easy. There might be edge cases that this guide does not cover. Feel free to help improve this guide.
 
+## From 4.5 to 4.6
+
+- Unsafe HTML is now removed from translations when they are saved (see "Sanitizing HTML" in the README). Formatting
+  and links are kept, and translations without HTML tags are saved unchanged. If your translations need other
+  elements or attributes, add them to `sanitize_html.allowed_elements` in the config. If you published the config,
+  you can copy the `sanitize_html` block from the package config; without it, the defaults are used.
+- Translations that were saved before are not changed automatically. Run this once after upgrading:
+
+  ```bash
+  php artisan filament-translation-manager:sanitize --dry-run
+  php artisan filament-translation-manager:sanitize
+  ```
+
 ## From 4.4 to 4.5
 
 - The package now requires `statikbe/laravel-chained-translator` `^3.0` and PHP 8.2 or higher. Check the

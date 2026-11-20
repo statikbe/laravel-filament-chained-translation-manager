@@ -16,6 +16,7 @@ return [
     'filter_results' => ':filtered éléments filtrés sur :total traductions.',
     'filter_results_missing_translations' => ':missing éléments n\'ont pas de traduction (:percent%).',
     'saved_translation' => 'Traduction sauvegardée',
+    'saved_translation_html_removed' => "La traduction a été enregistrée, mais une partie du HTML a été supprimée car elle n'est pas autorisée.",
     'cancel_translation_btn' => 'Annuler la traduction',
     'toggle_multi_line_btn' => 'Basculer en mode multiligne',
     'saving_translation_failed' => 'La traduction n\'a pas pu être enregistrée. Veuillez contacter l\'administrateur.',
