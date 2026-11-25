@@ -261,6 +261,16 @@ it('keeps safe HTML, only normalizing it', function (string $value, string $expe
     'script in a link query' => ['<a href="https://statik.be/?q=<script>">x</a>', '<a href="https://statik.be/?q&#61;&lt;script&gt;" rel="noopener noreferrer">x</a>'],
     'unicode' => ['<b>😀 émoji العربية</b>', '<b>😀 émoji العربية</b>'],
     'new lines' => ["<p>a</p>\n<p>b</p>", "<p>a</p>\n<p>b</p>"],
+    'superscript' => ['Register your samples for <sup>14</sup>C dating', 'Register your samples for <sup>14</sup>C dating'],
+    'subscript' => ['H<sub>2</sub>O', 'H<sub>2</sub>O'],
+    'small' => ['Price <small>excl. VAT</small>', 'Price <small>excl. VAT</small>'],
+    'strikethrough' => ['<s>€49</s> €39', '<s>€49</s> €39'],
+    'deleted' => ['<del>old</del> new', '<del>old</del> new'],
+    'mark' => ['a <mark>highlighted</mark> word', 'a <mark>highlighted</mark> word'],
+    'abbreviation' => ['<abbr title="Value Added Tax">VAT</abbr>', '<abbr title="Value Added Tax">VAT</abbr>'],
+    'code' => ['Run <code>php artisan migrate</code>', 'Run <code>php artisan migrate</code>'],
+    'blockquote' => ['<blockquote>:quote</blockquote>', '<blockquote>:quote</blockquote>'],
+    'headings' => ['<h1>a</h1><h2>b</h2><h3>c</h3><h4>d</h4><h5>e</h5><h6>f</h6>', '<h1>a</h1><h2>b</h2><h3>c</h3><h4>d</h4><h5>e</h5><h6>f</h6>'],
 ]);
 
 it('leaves text without tags unchanged', function (string $value) {

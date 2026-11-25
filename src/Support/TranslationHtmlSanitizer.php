@@ -14,7 +14,9 @@ class TranslationHtmlSanitizer
     public const DEFAULT_ALLOWED_ELEMENTS = [
         'a' => ['href', 'title', 'target', 'rel'],
         'strong' => [], 'em' => [], 'b' => [], 'i' => [], 'u' => [],
-        'p' => [], 'br' => [], 'span' => [],
+        'p' => [], 'br' => [], 'span' => [], 'sup' => [], 'sub' => [],
+        'small' => [], 's' => [], 'del' => [], 'mark' => [], 'abbr' => ['title'], 'code' => [],
+        'blockquote' => [], 'h1' => [], 'h2' => [], 'h3' => [], 'h4' => [], 'h5' => [], 'h6' => [],
         'ul' => [], 'ol' => [], 'li' => [],
     ];
 
