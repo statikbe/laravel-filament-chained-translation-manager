@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-filament-chained-translation-manager` will be documented in this file.
 
+## v4.6.1 - 2026-11-25
+
+### What's Changed
+
+* Allow more formatting tags in sanitized translations by @sten in https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/73
+
+**Full Changelog**: https://github.com/statikbe/laravel-filament-chained-translation-manager/compare/v4.6.0...v4.6.1
+
 ## v4.6.0 - 2026-11-17
 
 ### Security
